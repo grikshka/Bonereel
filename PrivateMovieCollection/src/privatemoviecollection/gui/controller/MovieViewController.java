@@ -8,6 +8,7 @@ package privatemoviecollection.gui.controller;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.Initializable;
+import privatemoviecollection.be.Movie;
 
 /**
  * FXML Controller class
@@ -22,6 +23,11 @@ public class MovieViewController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-    }    
+    }   
+    
+    public void setEditingMode(Movie editingMovie)
+    {
+        //TO DO
+    }
     
 }
