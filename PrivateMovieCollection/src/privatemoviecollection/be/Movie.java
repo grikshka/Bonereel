@@ -20,12 +20,12 @@ public class Movie {
     private String path;
     private int time;
     
-    public Movie(String title, String path, int time)
+    public Movie(String title, List<String> categories, String path, int time)
     {
         this.title = title;
+        this.categories = categories;
         this.path = path;
         this.time = time;
-        categories = new ArrayList();
     }
 
     public String getTitle() 
