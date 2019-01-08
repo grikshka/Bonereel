@@ -14,22 +14,25 @@ import java.util.List;
  */
 public class Movie {
     
+    private int id;
     private String title;
-    private List<String> categories;
+    private List<Category> categories;
     private Double rating;
     private String path;
     private int time;
     
-    public Movie(String title, List<String> categories, String path, int time)
+    public Movie(int id, String title, List<Category> categories, String path, int time)
     {
+        this.id = id;
         this.title = title;
         this.categories = categories;
         this.path = path;
         this.time = time;
     }
     
-    public Movie(String title, List<String> categories, String path, int time, Double rating)
+    public Movie(int id, String title, List<Category> categories, String path, int time, Double rating)
     {
+        this.id = id;
         this.title = title;
         this.categories = categories;
         this.path = path;
@@ -37,6 +40,11 @@ public class Movie {
         this.rating = rating;
     }
 
+    public int getId()
+    {
+        return id;
+    }
+    
     public String getTitle() 
     {
         return title;
@@ -47,7 +55,7 @@ public class Movie {
         this.title = title;
     }
     
-    public void addCategory(String category)
+    public void addCategory(Category category)
     {
         categories.add(category);
     }
@@ -57,7 +65,7 @@ public class Movie {
         categories.remove(category);
     }
     
-    public List<String> getCategories()
+    public List<Category> getCategories()
     {
         return categories;
     }
@@ -65,9 +73,9 @@ public class Movie {
     public String getCategoriesInString()
     {
         String categoriesInString = "";
-        for(String category: categories)
+        for(Category category: categories)
         {
-            categoriesInString += category + ", ";
+            categoriesInString += category.getName() + ", ";
         }
         categoriesInString = categoriesInString.substring(0,categoriesInString.length()-2);
         return categoriesInString;
