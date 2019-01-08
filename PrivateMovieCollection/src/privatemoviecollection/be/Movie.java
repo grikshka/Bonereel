@@ -16,7 +16,7 @@ public class Movie {
     
     private String title;
     private List<String> categories;
-    private double rating;
+    private String rating;
     private String path;
     private int time;
     
@@ -26,6 +26,16 @@ public class Movie {
         this.categories = categories;
         this.path = path;
         this.time = time;
+        this.rating = "-";
+    }
+    
+    public Movie(String title, List<String> categories, String path, int time, String rating)
+    {
+        this.title = title;
+        this.categories = categories;
+        this.path = path;
+        this.time = time;
+        this.rating = rating;
     }
 
     public String getTitle() 
@@ -47,13 +57,29 @@ public class Movie {
     {
         categories.remove(category);
     }
+    
+    public List<String> getCategories()
+    {
+        return categories;
+    }
+    
+    public String getCategoriesInString()
+    {
+        String categoriesInString = "";
+        for(String category: categories)
+        {
+            categoriesInString += category + ", ";
+        }
+        categoriesInString = categoriesInString.substring(0,categoriesInString.length()-2);
+        return categoriesInString;
+    }
 
-    public double getRating() 
+    public String getRating() 
     {
         return rating;
     }
 
-    public void setRating(double rating) 
+    public void setRating(String rating) 
     {
         this.rating = rating;
     }
