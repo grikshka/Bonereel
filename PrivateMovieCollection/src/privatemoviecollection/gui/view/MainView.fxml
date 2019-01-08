@@ -7,22 +7,21 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 
-
 <AnchorPane id="AnchorPane" prefHeight="608.0" prefWidth="1046.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="privatemoviecollection.gui.controller.MainViewController">
    <children>
-      <TableView fx:id="tblMovies" layoutX="137.0" layoutY="76.0" prefHeight="465.0" prefWidth="797.0">
+      <TableView fx:id="tblMovies" layoutX="137.0" layoutY="76.0" onMousePressed="#clickOnMovies" prefHeight="465.0" prefWidth="797.0">
         <columns>
-          <TableColumn prefWidth="424.0" text="Title" />
-          <TableColumn prefWidth="187.0" text="Categories" />
-            <TableColumn prefWidth="118.0" text="Time" />
-            <TableColumn prefWidth="67.0" text="Rating" />
+          <TableColumn fx:id="colTitle" prefWidth="424.0" text="Title" />
+          <TableColumn fx:id="colCategories" prefWidth="187.0" text="Categories" />
+            <TableColumn fx:id="colTime" prefWidth="118.0" text="Time" />
+            <TableColumn fx:id="colRating" prefWidth="67.0" text="Rating" />
         </columns>
       </TableView>
       <TextField layoutX="137.0" layoutY="28.0" prefHeight="35.0" prefWidth="506.0" promptText="Search" />
       <ComboBox layoutX="668.0" layoutY="28.0" prefHeight="35.0" prefWidth="126.0" promptText="Categories" />
       <Button layoutX="137.0" layoutY="552.0" mnemonicParsing="false" onAction="#clickAddMovie" prefHeight="45.0" prefWidth="233.0" text="Add Movie" />
-      <Button layoutX="701.0" layoutY="552.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="233.0" text="Remove Movie" />
-      <Button layoutX="419.0" layoutY="552.0" mnemonicParsing="false" onAction="#clickEditMovie" prefHeight="45.0" prefWidth="233.0" text="Edit Movie" />
+      <Button fx:id="btnRemoveMovie" layoutX="701.0" layoutY="552.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="233.0" text="Remove Movie" />
+      <Button fx:id="btnEditMovie" layoutX="419.0" layoutY="552.0" mnemonicParsing="false" onAction="#clickEditMovie" prefHeight="45.0" prefWidth="233.0" text="Edit Movie" />
       <Button layoutX="808.0" layoutY="28.0" mnemonicParsing="false" onAction="#clickEditCategories" prefHeight="35.0" prefWidth="126.0" text="Edit Categories..." />
    </children>
 </AnchorPane>
