@@ -33,6 +33,10 @@ public class MainModel {
     {
         return movies;
     }
+
+    public void deleteMovie(Movie selectedMovie) {
+        movies.remove(selectedMovie);
+    }
     
     
 }

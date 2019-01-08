@@ -8,6 +8,7 @@ package privatemoviecollection.gui.controller;
 import java.io.IOException;
 import java.net.URL;
 import java.util.List;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -15,7 +16,9 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -70,7 +73,7 @@ public class MainViewController implements Initializable {
         colTitle.setCellValueFactory(new PropertyValueFactory("title"));
         colCategories.setCellValueFactory(new PropertyValueFactory("categoriesInString"));
         colTime.setCellValueFactory(new PropertyValueFactory("time"));
-        colRating.setCellValueFactory(new PropertyValueFactory("rating"));
+        colRating.setCellValueFactory(new PropertyValueFactory("ratingInString"));
         tblMovies.setItems(model.getMovies());
     }
 
@@ -116,6 +119,20 @@ public class MainViewController implements Initializable {
         {
             btnEditMovie.setDisable(false);
             btnRemoveMovie.setDisable(false);
+        }
+    }
+
+    @FXML
+    private void clickRemoveMovie(ActionEvent event) {
+        Movie selectedMovie = tblMovies.getSelectionModel().getSelectedItem();
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Confirmation");
+        alert.setHeaderText(null);
+        alert.setContentText("Are you sure you want to delete \"" + selectedMovie.getTitle() + " from your movies?");
+        Optional<ButtonType> action = alert.showAndWait();
+        if(action.get() == ButtonType.OK)
+        {
+            model.deleteMovie(selectedMovie);
         }
     }
     
