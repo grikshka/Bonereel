@@ -16,7 +16,7 @@ public class Movie {
     
     private String title;
     private List<String> categories;
-    private String rating;
+    private Double rating;
     private String path;
     private int time;
     
@@ -26,10 +26,9 @@ public class Movie {
         this.categories = categories;
         this.path = path;
         this.time = time;
-        this.rating = "-";
     }
     
-    public Movie(String title, List<String> categories, String path, int time, String rating)
+    public Movie(String title, List<String> categories, String path, int time, Double rating)
     {
         this.title = title;
         this.categories = categories;
@@ -74,14 +73,26 @@ public class Movie {
         return categoriesInString;
     }
 
-    public String getRating() 
+    public Double getRating() 
     {
         return rating;
     }
 
-    public void setRating(String rating) 
+    public void setRating(Double rating) 
     {
         this.rating = rating;
+    }
+    
+    public String getRatingInString()
+    {
+        if(rating == null)
+        {
+            return "-";
+        }
+        else
+        {
+            return rating.toString();
+        }
     }
 
     public String getPath() 
