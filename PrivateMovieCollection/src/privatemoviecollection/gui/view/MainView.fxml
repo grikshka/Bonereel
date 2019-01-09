@@ -18,7 +18,7 @@
         </columns>
       </TableView>
       <TextField layoutX="137.0" layoutY="28.0" prefHeight="35.0" prefWidth="506.0" promptText="Search" />
-      <ComboBox layoutX="668.0" layoutY="28.0" prefHeight="35.0" prefWidth="126.0" promptText="Categories" />
+      <ComboBox fx:id="cmbCategories" layoutX="668.0" layoutY="28.0" prefHeight="35.0" prefWidth="126.0" promptText="Categories" />
       <Button layoutX="137.0" layoutY="552.0" mnemonicParsing="false" onAction="#clickAddMovie" prefHeight="45.0" prefWidth="233.0" text="Add Movie" />
       <Button fx:id="btnRemoveMovie" layoutX="701.0" layoutY="552.0" mnemonicParsing="false" onAction="#clickRemoveMovie" prefHeight="45.0" prefWidth="233.0" text="Remove Movie" />
       <Button fx:id="btnEditMovie" layoutX="419.0" layoutY="552.0" mnemonicParsing="false" onAction="#clickEditMovie" prefHeight="45.0" prefWidth="233.0" text="Edit Movie" />
