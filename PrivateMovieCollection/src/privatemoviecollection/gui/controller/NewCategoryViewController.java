@@ -7,13 +7,17 @@ package privatemoviecollection.gui.controller;
 
 import java.net.URL;
 import java.util.EventObject;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import privatemoviecollection.be.Movie;
 import privatemoviecollection.gui.model.CategoriesModel;
 
 /**
@@ -43,7 +47,24 @@ public class NewCategoryViewController implements Initializable {
     @FXML
     private void clickSave(ActionEvent event) 
     {
-        model.createCategory(txtName.getText());
+        boolean isCategoryCreated = model.createCategory(txtName.getText());
+        if(isCategoryCreated)
+        {
+            Stage stage = (Stage)((Node)((EventObject) event).getSource()).getScene().getWindow();
+            stage.close();
+        }
+        else
+        {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText(null);
+            alert.setContentText(txtName.getText() + " is already in your categories");
+            alert.show();
+        }
+    }
+
+    @FXML
+    private void clickCancel(ActionEvent event) {
         Stage stage = (Stage)((Node)((EventObject) event).getSource()).getScene().getWindow();
         stage.close();
     }

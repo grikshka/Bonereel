@@ -41,10 +41,27 @@ public class CategoriesModel {
         return categories;
     }
     
-    public void createCategory(String name)
+    public boolean createCategory(String name)
     {
+        if(isCategoryExisting(name))
+        {
+            return false;
+        }
         Category createdCategory = bllManager.createCategory(name);
         categories.add(createdCategory);
+        return true;
+    }
+    
+    private boolean isCategoryExisting(String name)
+    {
+        for(Category category : categories)
+        {
+            if(category.getName().equals(name))
+            {
+                return true;
+            }
+        }
+        return false;
     }
     
     public void deleteCategory(Category category)
