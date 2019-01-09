@@ -10,6 +10,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 import privatemoviecollection.be.Category;
 import privatemoviecollection.dal.DbConnectionProvider;
 
@@ -43,6 +45,25 @@ public class CategoriesDAO {
             return new Category(id, name);
             
         }
+    }
+    
+    public List<Category> getAllCategories() throws SQLException
+    {
+        String sqlStatement = "SELECT * FROM Categories";
+        List<Category> allCategories = new ArrayList();
+        try(Connection con = connector.getConnection();
+                PreparedStatement statement = con.prepareStatement(sqlStatement))
+        {
+            ResultSet rs = statement.executeQuery();
+            while(rs.next())
+            {
+                int id = rs.getInt("id");
+                String name = rs.getString("name");
+                allCategories.add(new Category(id, name));
+            }
+            return allCategories;
+        }
+        
     }
     
 }
