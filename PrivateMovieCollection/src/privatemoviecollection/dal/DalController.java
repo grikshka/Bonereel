@@ -73,4 +73,17 @@ public class DalController implements IDalFacade{
         return allCategories;
     }
     
+    @Override
+    public void deleteCategory(Category categoryToDelete)
+    {
+        try
+        {
+            cDao.deleteCategory(categoryToDelete);
+        }
+        catch(SQLException e)
+        {
+            //TO DO
+        }
+    }
+    
 }

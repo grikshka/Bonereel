@@ -21,4 +21,6 @@ public interface IDalFacade {
     Category createCategory(String name);
     
     List<Category> getAllCategories();
+    
+    void deleteCategory(Category categoryToDelete);
 }

@@ -42,4 +42,10 @@ public class BllManager implements IBllFacade{
         return dalController.getAllCategories();
     }
     
+    @Override
+    public void deleteCategory(Category categoryToDelete)
+    {
+        dalController.deleteCategory(categoryToDelete);
+    }
+    
 }
