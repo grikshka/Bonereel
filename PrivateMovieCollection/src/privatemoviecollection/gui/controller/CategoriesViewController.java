@@ -7,6 +7,7 @@ package privatemoviecollection.gui.controller;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -14,10 +15,15 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ListView;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import privatemoviecollection.be.Category;
+import privatemoviecollection.be.Movie;
 import privatemoviecollection.gui.model.CategoriesModel;
 
 /**
@@ -28,6 +34,8 @@ import privatemoviecollection.gui.model.CategoriesModel;
 public class CategoriesViewController implements Initializable {
 
     private CategoriesModel model;
+    @FXML
+    private Button btnDelete;
     
     public CategoriesViewController()
     {
@@ -43,6 +51,7 @@ public class CategoriesViewController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         lstCategories.setItems(model.getCategories());
+        btnDelete.setDisable(true);
     }    
 
     @FXML
@@ -54,6 +63,31 @@ public class CategoriesViewController implements Initializable {
         stage.setTitle("New Category");
         stage.setScene(new Scene(root));
         stage.show();
+    }
+
+    @FXML
+    private void clickOnCategories(MouseEvent event) {
+        if(lstCategories.getSelectionModel().getSelectedItem() != null)
+        {
+            btnDelete.setDisable(false);
+        }
+    }
+
+    @FXML
+    private void clickDelete(ActionEvent event) 
+    {
+        Category selectedCategory = lstCategories.getSelectionModel().getSelectedItem();
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Confirmation");
+        alert.setHeaderText(null);
+        alert.setContentText("Are you sure you want to delete \"" + selectedCategory.getName() + " from your categories?");
+        Optional<ButtonType> action = alert.showAndWait();
+        if(action.get() == ButtonType.OK)
+        {
+            model.deleteCategory(selectedCategory);
+        }
+        lstCategories.getSelectionModel().clearSelection();
+        btnDelete.setDisable(true);
     }
     
 }
