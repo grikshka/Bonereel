@@ -19,13 +19,16 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import privatemoviecollection.be.Category;
 import privatemoviecollection.be.Movie;
+import privatemoviecollection.gui.model.CategoriesModel;
 import privatemoviecollection.gui.model.MainModel;
 
 /**
@@ -34,7 +37,8 @@ import privatemoviecollection.gui.model.MainModel;
  */
 public class MainViewController implements Initializable {
     
-    private MainModel model;
+    private MainModel mainModel;
+    private CategoriesModel categoriesModel;
 
     @FXML
     private TableView<Movie> tblMovies;
@@ -50,10 +54,13 @@ public class MainViewController implements Initializable {
     private Button btnRemoveMovie;
     @FXML
     private Button btnEditMovie;
+    @FXML
+    private ComboBox<Category> cmbCategories;
     
     public MainViewController()
     {
-        model = new MainModel();
+        mainModel = MainModel.createInstance();
+        categoriesModel = CategoriesModel.createInstance();
     }
 
     @Override
@@ -74,7 +81,9 @@ public class MainViewController implements Initializable {
         colCategories.setCellValueFactory(new PropertyValueFactory("categoriesInString"));
         colTime.setCellValueFactory(new PropertyValueFactory("time"));
         colRating.setCellValueFactory(new PropertyValueFactory("ratingInString"));
-        tblMovies.setItems(model.getMovies());
+        tblMovies.setItems(mainModel.getMovies());
+        
+        cmbCategories.setItems(categoriesModel.getCategories());
     }
 
     @FXML
@@ -132,7 +141,7 @@ public class MainViewController implements Initializable {
         Optional<ButtonType> action = alert.showAndWait();
         if(action.get() == ButtonType.OK)
         {
-            model.deleteMovie(selectedMovie);
+            mainModel.deleteMovie(selectedMovie);
         }
     }
     
