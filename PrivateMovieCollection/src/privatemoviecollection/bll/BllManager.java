@@ -29,5 +29,11 @@ public class BllManager implements IBllFacade{
     {
         return dalController.createMovie(title, categories, path, time, rating);
     }
+
+    @Override
+    public Category createCategory(String name) 
+    {
+        return dalController.createCategory(name);
+    }
     
 }

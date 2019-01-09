@@ -9,6 +9,7 @@ import java.sql.SQLException;
 import java.util.List;
 import privatemoviecollection.be.Category;
 import privatemoviecollection.be.Movie;
+import privatemoviecollection.dal.daos.CategoriesDAO;
 import privatemoviecollection.dal.daos.MovieDAO;
 
 /**
@@ -18,10 +19,12 @@ import privatemoviecollection.dal.daos.MovieDAO;
 public class DalController implements IDalFacade{
     
     private MovieDAO mDao;
+    private CategoriesDAO cDao;
     
     public DalController()
     {
         mDao = new MovieDAO();
+        cDao = new CategoriesDAO();
     }
 
     @Override
@@ -38,6 +41,21 @@ public class DalController implements IDalFacade{
         }
         return createdMovie;
         
+    }
+
+    @Override
+    public Category createCategory(String name) 
+    {
+        Category category = null;
+        try
+        {
+            category = cDao.createCategory(name);
+        }
+        catch(SQLException e)
+        {
+            //TO DO
+        }
+        return category;
     }
     
 }

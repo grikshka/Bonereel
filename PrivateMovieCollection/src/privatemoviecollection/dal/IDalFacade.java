@@ -18,4 +18,6 @@ public interface IDalFacade {
     
     Movie createMovie(String title, List<Category> categories, String path, int time, Double rating);
     
+    Category createCategory(String name);
+    
 }
