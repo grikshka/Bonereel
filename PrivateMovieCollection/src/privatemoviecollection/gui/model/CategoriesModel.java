@@ -46,4 +46,10 @@ public class CategoriesModel {
         Category createdCategory = bllManager.createCategory(name);
         categories.add(createdCategory);
     }
+    
+    public void deleteCategory(Category category)
+    {
+        bllManager.deleteCategory(category);
+        categories.remove(category);
+    }
 }
