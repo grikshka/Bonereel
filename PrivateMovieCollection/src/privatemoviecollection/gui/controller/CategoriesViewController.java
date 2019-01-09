@@ -14,8 +14,11 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.ListView;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import privatemoviecollection.be.Category;
+import privatemoviecollection.gui.model.CategoriesModel;
 
 /**
  * FXML Controller class
@@ -24,12 +27,22 @@ import javafx.stage.Stage;
  */
 public class CategoriesViewController implements Initializable {
 
+    private CategoriesModel model;
+    
+    public CategoriesViewController()
+    {
+        model = CategoriesModel.createInstance();
+    }
+    
+    @FXML
+    private ListView<Category> lstCategories;
+
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+        lstCategories.setItems(model.getCategories());
     }    
 
     @FXML
