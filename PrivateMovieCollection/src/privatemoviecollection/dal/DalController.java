@@ -58,4 +58,19 @@ public class DalController implements IDalFacade{
         return category;
     }
     
+    @Override
+    public List<Category> getAllCategories()
+    {
+        List<Category> allCategories = null;
+        try
+        {
+            allCategories = cDao.getAllCategories();
+        }
+        catch(SQLException e)
+        {
+            //TO DO
+        }
+        return allCategories;
+    }
+    
 }

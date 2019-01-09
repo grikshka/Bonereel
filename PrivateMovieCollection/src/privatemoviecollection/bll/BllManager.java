@@ -36,4 +36,10 @@ public class BllManager implements IBllFacade{
         return dalController.createCategory(name);
     }
     
+    @Override
+    public List<Category> getAllCategories()
+    {
+        return dalController.getAllCategories();
+    }
+    
 }

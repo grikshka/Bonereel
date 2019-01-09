@@ -20,4 +20,5 @@ public interface IDalFacade {
     
     Category createCategory(String name);
     
+    List<Category> getAllCategories();
 }

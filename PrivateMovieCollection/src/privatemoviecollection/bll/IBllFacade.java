@@ -19,4 +19,6 @@ public interface IBllFacade {
     
     Category createCategory(String name);
     
+    List<Category> getAllCategories();
+    
 }
