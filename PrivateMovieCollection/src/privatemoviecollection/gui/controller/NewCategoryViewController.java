@@ -6,8 +6,15 @@
 package privatemoviecollection.gui.controller;
 
 import java.net.URL;
+import java.util.EventObject;
 import java.util.ResourceBundle;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.control.TextField;
+import javafx.stage.Stage;
+import privatemoviecollection.gui.model.CategoriesModel;
 
 /**
  * FXML Controller class
@@ -16,6 +23,15 @@ import javafx.fxml.Initializable;
  */
 public class NewCategoryViewController implements Initializable {
 
+    private CategoriesModel model;
+    @FXML
+    private TextField txtName;
+    
+    public NewCategoryViewController()
+    {
+        model = CategoriesModel.createInstance();
+    }
+    
     /**
      * Initializes the controller class.
      */
@@ -23,5 +39,13 @@ public class NewCategoryViewController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
     }    
+
+    @FXML
+    private void clickSave(ActionEvent event) 
+    {
+        model.createCategory(txtName.getText());
+        Stage stage = (Stage)((Node)((EventObject) event).getSource()).getScene().getWindow();
+        stage.close();
+    }
     
 }
