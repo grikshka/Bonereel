@@ -13,6 +13,7 @@ import privatemoviecollection.be.Category;
 import privatemoviecollection.be.Movie;
 import privatemoviecollection.bll.BllManager;
 import privatemoviecollection.bll.IBllFacade;
+import privatemoviecollection.bll.util.MovieSearcher;
 
 /**
  *
@@ -31,8 +32,16 @@ public class MainModel {
         
         //temporary - later we will fetch data from database
         List<Category> categories = new ArrayList();
-        categories.add(new Category(1, "Biography"));
+        categories.add(new Category(9, "Biography"));
         movies.add(new Movie(1, "Ray", categories, "path to file", 999999));
+        categories = new ArrayList();
+        categories.add(new Category(7, "Horror"));
+        movies.add(new Movie(2, "Shining", categories, "path to file", 88888));
+        categories = new ArrayList();
+        categories.add(new Category(7, "Horror"));
+        categories.add(new Category(9, "Biography"));
+        movies.add(new Movie(3, "The Room", categories, "path to file", 777777));
+        
     }
     
     public static MainModel createInstance()
@@ -57,6 +66,12 @@ public class MainModel {
     
     public void deleteMovie(Movie movie) {
         movies.remove(movie);
+    }
+    
+    public ObservableList<Movie> getMoviesFilteredByCategory(List<Category> categories)
+    {
+        ObservableList<Movie> filteredMovies = FXCollections.observableArrayList(MovieSearcher.searchMoviesByCategory(movies, categories));
+        return filteredMovies;
     }
     
     
