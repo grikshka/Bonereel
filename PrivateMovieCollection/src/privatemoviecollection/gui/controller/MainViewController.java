@@ -10,6 +10,7 @@ import java.net.URL;
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -19,10 +20,13 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.ListView;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.ContextMenuEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -56,6 +60,8 @@ public class MainViewController implements Initializable {
     private Button btnEditMovie;
     @FXML
     private ComboBox<Category> cmbCategories;
+    @FXML
+    private ListView<Category> lstSelectedCategories;
     
     public MainViewController()
     {
@@ -67,6 +73,7 @@ public class MainViewController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         disableElements();
         loadData();
+        createCategoriesElements();
     }    
     
     private void disableElements()
@@ -83,6 +90,10 @@ public class MainViewController implements Initializable {
         colRating.setCellValueFactory(new PropertyValueFactory("ratingInString"));
         tblMovies.setItems(mainModel.getMovies());
         
+    }
+    
+    public void createCategoriesElements()
+    {
         cmbCategories.setItems(categoriesModel.getCategories());
     }
 
@@ -144,5 +155,17 @@ public class MainViewController implements Initializable {
             mainModel.deleteMovie(selectedMovie);
         }
     }
-    
+
+    @FXML
+    private void clickSelectCategory(ActionEvent event) 
+    {
+        Category selectedCategory = cmbCategories.getSelectionModel().getSelectedItem();
+        if(!lstSelectedCategories.getItems().contains(selectedCategory))
+        {
+            lstSelectedCategories.getItems().add(selectedCategory);
+            List<Category> selectedCategories = lstSelectedCategories.getItems();
+            tblMovies.setItems(mainModel.getMoviesFilteredByCategory(selectedCategories));
+        }
+    }
+
 }
