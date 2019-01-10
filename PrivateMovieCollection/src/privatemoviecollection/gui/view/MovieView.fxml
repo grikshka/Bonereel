@@ -9,7 +9,7 @@
 <AnchorPane id="AnchorPane" prefHeight="343.0" prefWidth="550.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="privatemoviecollection.gui.controller.MovieViewController">
    <children>
       <TextField fx:id="txtTitle" layoutX="91.0" layoutY="35.0" prefHeight="25.0" prefWidth="414.0" />
-      <TextField layoutX="91.0" layoutY="83.0" prefHeight="25.0" prefWidth="276.0" />
+      <TextField fx:id="txtCategories" layoutX="91.0" layoutY="83.0" prefHeight="25.0" prefWidth="276.0" />
       <TextField fx:id="txtFile" layoutX="91.0" layoutY="175.0" prefHeight="25.0" prefWidth="249.0" />
       <TextField fx:id="txtTime" layoutX="91.0" layoutY="222.0" prefHeight="25.0" prefWidth="82.0" />
       <Label layoutX="21.0" layoutY="39.0" text="Title" />
@@ -17,7 +17,7 @@
       <Label layoutX="15.0" layoutY="132.0" text="Rating" />
       <Label layoutX="14.0" layoutY="179.0" text="File" />
       <Label layoutX="17.0" layoutY="226.0" text="Time" />
-      <Button layoutX="354.0" layoutY="175.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="82.0" text="Choose..." />
+      <Button layoutX="354.0" layoutY="175.0" mnemonicParsing="false" onAction="#clickChooseFilePath" prefHeight="25.0" prefWidth="82.0" text="Choose..." />
       <Button layoutX="112.0" layoutY="276.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="123.0" text="Cancel" />
       <Button layoutX="327.0" layoutY="276.0" mnemonicParsing="false" onAction="#clickSave" prefHeight="35.0" prefWidth="123.0" text="Save" />
       <ComboBox fx:id="cmbRating" layoutX="91.0" layoutY="128.0" prefHeight="25.0" prefWidth="72.0" promptText="-" />
