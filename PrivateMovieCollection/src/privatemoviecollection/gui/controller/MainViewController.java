@@ -7,10 +7,12 @@ package privatemoviecollection.gui.controller;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -25,8 +27,10 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.ContextMenuEvent;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -62,6 +66,10 @@ public class MainViewController implements Initializable {
     private ComboBox<Category> cmbCategories;
     @FXML
     private ListView<Category> lstSelectedCategories;
+    @FXML
+    private ComboBox<String> cmbRating;
+    @FXML
+    private TextField txtSearchMovies;
     
     public MainViewController()
     {
@@ -73,8 +81,22 @@ public class MainViewController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         disableElements();
         loadData();
-        createCategoriesElements();
+        cmbCategories.setItems(categoriesModel.getCategories());
+        createRatingCombo();        
     }    
+    
+    private void createRatingCombo()
+    {
+        ObservableList<String> ratings = FXCollections.observableArrayList();
+        ratings.add("-");
+        for(int i = 1; i < 10; i++) 
+        {
+            ratings.add("≥ " + i + ".0");          
+        }
+        cmbRating.setItems(ratings);
+        
+    }
+        
     
     private void disableElements()
     {
@@ -92,11 +114,6 @@ public class MainViewController implements Initializable {
         
     }
     
-    public void createCategoriesElements()
-    {
-        cmbCategories.setItems(categoriesModel.getCategories());
-    }
-
     @FXML
     private void clickEditCategories(ActionEvent event) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/privatemoviecollection/gui/view/CategoriesView.fxml"));
@@ -164,8 +181,40 @@ public class MainViewController implements Initializable {
         {
             lstSelectedCategories.getItems().add(selectedCategory);
             List<Category> selectedCategories = lstSelectedCategories.getItems();
-            tblMovies.setItems(mainModel.getMoviesFilteredByCategory(selectedCategories));
+            tblMovies.setItems(getFilteredMovies());
         }
+    }
+
+    @FXML
+    private void inputSearchMovies(KeyEvent event) 
+    {
+        tblMovies.setItems(getFilteredMovies());
+    }
+    
+    public ObservableList<Movie> getFilteredMovies()
+    {
+        List<Category> categories = lstSelectedCategories.getItems();
+        String filter = txtSearchMovies.getText().trim();
+        Double rating = parseRatingFromSearchingComboBox(cmbRating.getSelectionModel().getSelectedItem());
+        return mainModel.getFilteredMovies(categories, filter, rating);
+    }
+    
+    private Double parseRatingFromSearchingComboBox(String rating)
+    {
+        if(rating == null || rating.equals("-"))
+        {
+            return null;
+        }
+        else
+        {
+            return Double.parseDouble(rating.substring(2));
+        }
+    }
+
+    @FXML
+    private void clickSearchByRating(ActionEvent event) 
+    {
+        tblMovies.setItems(getFilteredMovies());
     }
 
 }
