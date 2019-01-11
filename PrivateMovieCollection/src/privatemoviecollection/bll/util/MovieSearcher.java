@@ -42,4 +42,36 @@ public class MovieSearcher {
         return filteredMovies;
     }
     
+
+    public static List<Movie> searchMoviesByTitle(List<Movie> allMovies, String filter)
+    {
+        filter = filter.toLowerCase();
+        List<Movie> filteredMovies = new ArrayList();
+        for(Movie movie : allMovies)
+        {
+            if(filter.length() <= movie.getTitle().length() && filter.equals(movie.getTitle().toLowerCase().substring(0, filter.length())))
+            {
+                filteredMovies.add(movie);
+            }
+        }
+        return filteredMovies;
+    }
+    
+    public static List<Movie> searchMoviesByRating(List<Movie> allMovies, Double rating)
+    {
+        if(rating == null)
+        {
+            return allMovies;
+        }
+        List<Movie> filteredMovies = new ArrayList();
+        for(Movie movie : allMovies)
+        {
+            if((double) movie.getRating() >= (double) rating)
+            {
+                filteredMovies.add(movie);
+            }
+        }
+        return filteredMovies;
+    }
+    
 }
