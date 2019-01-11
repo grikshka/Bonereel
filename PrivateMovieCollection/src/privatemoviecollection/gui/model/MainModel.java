@@ -28,20 +28,7 @@ public class MainModel {
     private MainModel()
     {
         bllManager = new BllManager();
-        movies = FXCollections.observableArrayList();
-        
-        //temporary - later we will fetch data from database
-        List<Category> categories = new ArrayList();
-        categories.add(new Category(9, "Biography"));
-        movies.add(new Movie(1, "Ray", categories, "path to file", 999999, 5.0));
-        categories = new ArrayList();
-        categories.add(new Category(7, "Horror"));
-        movies.add(new Movie(2, "Shining", categories, "path to file", 88888, 4.0));
-        categories = new ArrayList();
-        categories.add(new Category(7, "Horror"));
-        categories.add(new Category(9, "Biography"));
-        movies.add(new Movie(3, "The Room", categories, "path to file", 777777, 8.0));
-        
+        movies = FXCollections.observableArrayList(bllManager.getAllMovies());       
     }
     
     public static MainModel createInstance()
