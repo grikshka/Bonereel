@@ -42,6 +42,21 @@ public class DalController implements IDalFacade{
         return createdMovie;
         
     }
+    
+    @Override
+    public List<Movie> getAllMovies()
+    {
+        List<Movie> allMovies = null;
+        try
+        {
+            allMovies = mDao.getAllMovies();
+        }
+        catch(SQLException e)
+        {
+            //TO DO
+        }
+        return allMovies;
+    }
 
     @Override
     public Category createCategory(String name) 

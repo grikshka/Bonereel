@@ -17,6 +17,8 @@ public interface IBllFacade {
     
     Movie createMovie(String title, List<Category> categories, String path, int time, Double rating);
     
+    List<Movie> getAllMovies();
+    
     Category createCategory(String name);
     
     List<Category> getAllCategories();
