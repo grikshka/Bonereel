@@ -7,6 +7,9 @@ package privatemoviecollection.gui.controller;
 
 import java.io.File;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.EventObject;
+import java.util.List;
 import java.util.ResourceBundle;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -16,12 +19,16 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 import privatemoviecollection.be.Category;
 import privatemoviecollection.be.Movie;
 import privatemoviecollection.gui.model.CategoriesModel;
@@ -49,6 +56,8 @@ public class MovieViewController implements Initializable {
     private ListView<Category> lstSelectedCategories;
     @FXML
     private ComboBox<Category> cmbCategories;
+    @FXML
+    private Button btnSave;
 
     public MovieViewController()
     {
@@ -63,7 +72,15 @@ public class MovieViewController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         cmbCategories.setItems(categoriesModel.getCategories());
         createRatingCombo();
-    }   
+        disableElements();
+    } 
+    
+    public void disableElements()
+    {
+        btnSave.setDisable(true);
+        txtTime.setDisable(true);
+        txtFile.setDisable(true);
+    }
     
     private void createRatingCombo()
     {
@@ -83,12 +100,6 @@ public class MovieViewController implements Initializable {
     }
 
     @FXML
-    private void clickSave(ActionEvent event) 
-    {
-        //TO DO
-    }
-
-    @FXML
     private void clickChooseFilePath(ActionEvent event) {
         FileChooser fileChooser = createMovieChooser();
         File selectedFile = fileChooser.showOpenDialog(null);
@@ -97,6 +108,7 @@ public class MovieViewController implements Initializable {
             txtFile.setText(selectedFile.getPath());
             setTimeField(selectedFile);
         }
+        checkInputs();
     }
     
     private FileChooser createMovieChooser()
@@ -137,6 +149,60 @@ public class MovieViewController implements Initializable {
         {
             lstSelectedCategories.getItems().add(selectedCategory);
         }
+    }
+    
+    public void checkInputs()
+    {
+        if(txtTitle.getText().isEmpty() || lstSelectedCategories.getItems().isEmpty() || txtFile.getText().isEmpty())
+        {
+            btnSave.setDisable(true);
+        }
+        else
+        {
+            btnSave.setDisable(false);
+        }
+    }
+
+    @FXML
+    private void clickCancel(ActionEvent event) 
+    {
+        Stage stage = (Stage)((Node)((EventObject) event).getSource()).getScene().getWindow();
+        stage.close();
+    }
+    
+    @FXML
+    private void clickSave(ActionEvent event) 
+    {
+        String movieTitle = txtTitle.getText();
+        List<Category> movieCategories = new ArrayList();
+        for(Category category : lstSelectedCategories.getItems())
+        {
+            movieCategories.add(category);
+        }
+        String moviePath = txtFile.getText();
+        int time = Integer.parseInt(txtTime.getText());
+        Double movieRating = parseRating(cmbRating.getSelectionModel().getSelectedItem());
+        mainModel.createMovie(movieTitle, movieCategories, moviePath, time, movieRating);
+        Stage stage = (Stage)((Node)((EventObject) event).getSource()).getScene().getWindow();
+        stage.close();
+    }
+    
+    private Double parseRating(String ratingInString)
+    {
+        if(ratingInString == null || ratingInString.equals("-"))
+        {
+            return null;
+        }
+        else
+        {
+            return Double.parseDouble(ratingInString);
+        }
+    }
+
+    @FXML
+    private void keyTitleTyped(KeyEvent event) 
+    {
+        checkInputs();
     }
     
 }
