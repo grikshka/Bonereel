@@ -19,16 +19,17 @@
             <TableColumn fx:id="colRating" prefWidth="67.0" text="Rating" />
         </columns>
       </TableView>
-      <TextField layoutX="137.0" layoutY="73.0" prefHeight="35.0" prefWidth="797.0" promptText="Search" />
-      <ComboBox fx:id="cmbCategories" layoutX="668.0" layoutY="28.0" onAction="#clickSelectCategory" prefHeight="35.0" prefWidth="126.0" promptText="Categories" />
+      <TextField fx:id="txtSearchMovies" layoutX="137.0" layoutY="73.0" onKeyReleased="#inputSearchMovies" prefHeight="35.0" prefWidth="643.0" promptText="Search" />
+      <ComboBox fx:id="cmbCategories" layoutX="652.0" layoutY="28.0" onAction="#clickSelectCategory" prefHeight="35.0" prefWidth="126.0" promptText="Categories" />
       <Button layoutX="137.0" layoutY="552.0" mnemonicParsing="false" onAction="#clickAddMovie" prefHeight="45.0" prefWidth="233.0" text="Add Movie" />
       <Button fx:id="btnRemoveMovie" layoutX="701.0" layoutY="552.0" mnemonicParsing="false" onAction="#clickRemoveMovie" prefHeight="45.0" prefWidth="233.0" text="Remove Movie" />
       <Button fx:id="btnEditMovie" layoutX="419.0" layoutY="552.0" mnemonicParsing="false" onAction="#clickEditMovie" prefHeight="45.0" prefWidth="233.0" text="Edit Movie" />
-      <Button layoutX="808.0" layoutY="28.0" mnemonicParsing="false" onAction="#clickEditCategories" prefHeight="35.0" prefWidth="126.0" text="Edit Categories..." />
-      <ListView fx:id="lstSelectedCategories" layoutX="137.0" layoutY="28.0" orientation="HORIZONTAL" prefHeight="35.0" prefWidth="525.0">
+      <Button layoutX="798.0" layoutY="28.0" mnemonicParsing="false" onAction="#clickEditCategories" prefHeight="35.0" prefWidth="136.0" text="Edit Categories..." />
+      <ListView fx:id="lstSelectedCategories" layoutX="137.0" layoutY="28.0" orientation="HORIZONTAL" prefHeight="35.0" prefWidth="509.0">
           <placeholder>
               <Label text="All Categories" />
           </placeholder>
       </ListView>
+      <ComboBox fx:id="cmbRating" layoutX="798.0" layoutY="73.0" onAction="#clickSearchByRating" prefHeight="35.0" prefWidth="136.0" promptText="Search by rating" />
    </children>
 </AnchorPane>
