@@ -33,14 +33,14 @@ public class MainModel {
         //temporary - later we will fetch data from database
         List<Category> categories = new ArrayList();
         categories.add(new Category(9, "Biography"));
-        movies.add(new Movie(1, "Ray", categories, "path to file", 999999));
+        movies.add(new Movie(1, "Ray", categories, "path to file", 999999, 5.0));
         categories = new ArrayList();
         categories.add(new Category(7, "Horror"));
-        movies.add(new Movie(2, "Shining", categories, "path to file", 88888));
+        movies.add(new Movie(2, "Shining", categories, "path to file", 88888, 4.0));
         categories = new ArrayList();
         categories.add(new Category(7, "Horror"));
         categories.add(new Category(9, "Biography"));
-        movies.add(new Movie(3, "The Room", categories, "path to file", 777777));
+        movies.add(new Movie(3, "The Room", categories, "path to file", 777777, 8.0));
         
     }
     
@@ -68,9 +68,11 @@ public class MainModel {
         movies.remove(movie);
     }
     
-    public ObservableList<Movie> getMoviesFilteredByCategory(List<Category> categories)
+    public ObservableList<Movie> getFilteredMovies(List<Category> categories, String filter, Double rating)
     {
         ObservableList<Movie> filteredMovies = FXCollections.observableArrayList(MovieSearcher.searchMoviesByCategory(movies, categories));
+        filteredMovies = FXCollections.observableArrayList(MovieSearcher.searchMoviesByTitle(filteredMovies, filter));
+        filteredMovies = FXCollections.observableArrayList(MovieSearcher.searchMoviesByRating(filteredMovies, rating));
         return filteredMovies;
     }
     
