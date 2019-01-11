@@ -21,13 +21,14 @@ public class Movie {
     private String path;
     private int time;
     
-    public Movie(int id, String title, List<Category> categories, String path, int time)
+    public Movie(int id, String title, String path, int time, Double rating)
     {
         this.id = id;
         this.title = title;
-        this.categories = categories;
         this.path = path;
         this.time = time;
+        this.rating = rating;
+        categories = new ArrayList();
     }
     
     public Movie(int id, String title, List<Category> categories, String path, int time, Double rating)
