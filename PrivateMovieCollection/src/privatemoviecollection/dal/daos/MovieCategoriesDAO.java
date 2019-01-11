@@ -7,6 +7,7 @@ package privatemoviecollection.dal.daos;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.List;
@@ -42,7 +43,32 @@ public class MovieCategoriesDAO {
                 statement.setInt(2, category.getId());
                 statement.addBatch();
             }
-            statement.execute();
+            statement.executeBatch();
+        }
+    }
+    
+    public void addCategoriesToAllMovies(List<Movie> allMovies) throws SQLException
+    {
+        String sqlStatement = "SELECT Movies.id as movieId, Categories.* FROM MovieCategories " +
+                                        "INNER JOIN Movies on MovieCategories.movieId=Movies.id " +
+                                        "INNER JOIN Categories on MovieCategories.categoryId=Categories.id";
+        try(Connection con = connector.getConnection();
+                PreparedStatement statement = con.prepareStatement(sqlStatement))
+        {
+            ResultSet rs = statement.executeQuery();
+            if(rs.next())
+            {
+                for(Movie m : allMovies)
+                {
+                    while(!rs.isAfterLast() && rs.getInt("movieId") == m.getId())
+                    {
+                        int id = rs.getInt("id");
+                        String name = rs.getString("name");
+                        m.addCategory(new Category(id, name));
+                        rs.next();
+                    }
+                }
+            }
         }
     }
     
