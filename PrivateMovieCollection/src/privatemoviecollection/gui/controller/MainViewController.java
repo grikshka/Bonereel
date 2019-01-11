@@ -180,7 +180,6 @@ public class MainViewController implements Initializable {
         if(!lstSelectedCategories.getItems().contains(selectedCategory))
         {
             lstSelectedCategories.getItems().add(selectedCategory);
-            List<Category> selectedCategories = lstSelectedCategories.getItems();
             tblMovies.setItems(getFilteredMovies());
         }
     }
