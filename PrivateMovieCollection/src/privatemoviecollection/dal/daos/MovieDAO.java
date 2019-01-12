@@ -35,7 +35,7 @@ public class MovieDAO {
         mcDao = new MovieCategoriesDAO();
     }
     
-    public Movie createMovie(String title, List<Category> categories, String path, int time, Double rating) throws SQLException
+    public Movie createMovie(String title, List<Category> categories, String path, int time, Integer rating) throws SQLException
     {
         String sqlStatement = "INSERT INTO Movies(title, path, time, rating) values(?,?,?,?)";
         try(Connection con = connector.getConnection();
@@ -46,11 +46,11 @@ public class MovieDAO {
             statement.setInt(3, time);
             if(rating == null)
             {
-                statement.setNull(4, Types.DOUBLE);
+                statement.setNull(4, Types.INTEGER);
             }
             else
             {
-                statement.setDouble(4, rating);
+                statement.setInt(4, rating);
             }
             statement.execute();
             ResultSet rs = statement.getGeneratedKeys();
@@ -74,8 +74,8 @@ public class MovieDAO {
             {
                 int id = rs.getInt("id");
                 String title = rs.getString("title");
-                double primitiveRating = rs.getDouble("rating");
-                Double rating = null;
+                int primitiveRating = rs.getInt("rating");
+                Integer rating = null;
                 if(primitiveRating != 0)
                 {
                     rating = primitiveRating;
@@ -86,6 +86,28 @@ public class MovieDAO {
             }
             mcDao.addCategoriesToAllMovies(allMovies);
             return allMovies;
+        }
+    }
+    
+    public Movie updateMovie(Movie movie, String title, List<Category> categories, String path, int time, Integer rating) throws SQLException
+    {
+        String sqlStatement = "UPDATE Movies SET title=?, path=?, time=?, rating=? WHERE id=?";
+        try(Connection con = connector.getConnection();
+                PreparedStatement statement = con.prepareStatement(sqlStatement))
+        {
+            statement.setString(1, title);
+            statement.setString(2, path);
+            statement.setInt(3, time);
+            statement.setInt(4, rating);
+            statement.setInt(5, movie.getId());
+            statement.execute();
+            movie.setTitle(title);
+            movie.setPath(path);
+            movie.setTime(time);
+            movie.setRating(rating);
+            mcDao.deleteAllCategoriesFromMovie(movie);
+            mcDao.addCategoriesToMovie(movie, categories);
+            return movie;
         }
     }
     
