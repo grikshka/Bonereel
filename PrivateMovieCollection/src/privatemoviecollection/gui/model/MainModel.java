@@ -45,10 +45,22 @@ public class MainModel {
         return movies;
     }
 
-    public void createMovie(String title, List<Category> categories, String path, int time, Double rating)
+    public void createMovie(String title, List<Category> categories, String path, int time, Integer rating)
     {
         Movie createdMovie = bllManager.createMovie(title, categories, path, time, rating);
         movies.add(createdMovie);
+    }
+    
+    public void updateMovie(Movie movie, String title, List<Category> categories, String path, int time, Integer rating)
+    {
+        bllManager.updateMovie(movie, title, categories, path, time, rating);
+        updateListOfMovies(movie);
+    }
+    
+    private void updateListOfMovies(Movie movie)
+    {
+        int index = movies.indexOf(movie);
+        movies.set(index, movie);
     }
     
     public void deleteMovie(Movie movie) {
@@ -56,7 +68,7 @@ public class MainModel {
         movies.remove(movie);
     }
     
-    public ObservableList<Movie> getFilteredMovies(List<Category> categories, String filter, Double rating)
+    public ObservableList<Movie> getFilteredMovies(List<Category> categories, String filter, Integer rating)
     {
         ObservableList<Movie> filteredMovies = FXCollections.observableArrayList(MovieSearcher.searchMoviesByCategory(movies, categories));
         filteredMovies = FXCollections.observableArrayList(MovieSearcher.searchMoviesByTitle(filteredMovies, filter));
