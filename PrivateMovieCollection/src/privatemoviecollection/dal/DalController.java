@@ -57,6 +57,19 @@ public class DalController implements IDalFacade{
         }
         return allMovies;
     }
+    
+    @Override
+    public void deleteMovie(Movie movieToDelete)
+    {
+        try
+        {
+            mDao.deleteMovie(movieToDelete);
+        }
+        catch(SQLException e)
+        {
+            //TO DO
+        }
+    }
 
     @Override
     public Category createCategory(String name) 

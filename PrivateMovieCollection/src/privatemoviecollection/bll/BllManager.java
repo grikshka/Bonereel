@@ -35,6 +35,12 @@ public class BllManager implements IBllFacade{
     {
         return dalController.getAllMovies();
     }
+    
+    @Override
+    public void deleteMovie(Movie movieToDelete)
+    {
+        dalController.deleteMovie(movieToDelete);
+    }
 
     @Override
     public Category createCategory(String name) 

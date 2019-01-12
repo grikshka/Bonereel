@@ -19,6 +19,8 @@ public interface IBllFacade {
     
     List<Movie> getAllMovies();
     
+    void deleteMovie(Movie movieToDelete);
+    
     Category createCategory(String name);
     
     List<Category> getAllCategories();

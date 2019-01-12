@@ -20,6 +20,8 @@ public interface IDalFacade {
     
     List<Movie> getAllMovies();
     
+    void deleteMovie(Movie movieToDelete);
+    
     Category createCategory(String name);
     
     List<Category> getAllCategories();
