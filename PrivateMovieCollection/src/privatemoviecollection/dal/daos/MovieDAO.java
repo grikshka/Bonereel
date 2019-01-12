@@ -89,4 +89,16 @@ public class MovieDAO {
         }
     }
     
+    public void deleteMovie(Movie movieToDelete) throws SQLException
+    {
+        mcDao.deleteAllCategoriesFromMovie(movieToDelete);
+        String sqlStatement = "DELETE FROM Movies WHERE id=?";
+        try(Connection con = connector.getConnection();
+                PreparedStatement statement = con.prepareStatement(sqlStatement))
+        {
+            statement.setInt(1, movieToDelete.getId());
+            statement.execute();
+        }
+    }
+    
 }
