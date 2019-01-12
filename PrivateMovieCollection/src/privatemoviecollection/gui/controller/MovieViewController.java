@@ -43,6 +43,8 @@ public class MovieViewController implements Initializable {
     
     private MainModel mainModel;
     private CategoriesModel categoriesModel;
+    private boolean editing;
+    private Movie editingMovie;
     
     @FXML
     private TextField txtTitle;
@@ -58,11 +60,14 @@ public class MovieViewController implements Initializable {
     private ComboBox<Category> cmbCategories;
     @FXML
     private Button btnSave;
+    @FXML
+    private Button btnCancel;
 
     public MovieViewController()
     {
         mainModel = MainModel.createInstance();
         categoriesModel = CategoriesModel.createInstance();
+        editing = false;
     }
     
     /**
@@ -96,7 +101,17 @@ public class MovieViewController implements Initializable {
     
     public void setEditingMode(Movie editingMovie)
     {
-        //TO DO
+        editing = true;
+        this.editingMovie = editingMovie;
+        txtTitle.setText(editingMovie.getTitle());
+        for(Category category : editingMovie.getCategories())
+        {
+            lstSelectedCategories.getItems().add(category);
+        }
+        cmbRating.getSelectionModel().select(editingMovie.getRatingInString());
+        txtFile.setText(editingMovie.getPath());
+        txtTime.setText(Integer.toString(editingMovie.getTime()));
+        txtTitle.setFocusTraversable(false);
     }
 
     @FXML
@@ -149,6 +164,7 @@ public class MovieViewController implements Initializable {
         {
             lstSelectedCategories.getItems().add(selectedCategory);
         }
+        checkInputs();
     }
     
     public void checkInputs()
@@ -181,13 +197,20 @@ public class MovieViewController implements Initializable {
         }
         String moviePath = txtFile.getText();
         int time = Integer.parseInt(txtTime.getText());
-        Double movieRating = parseRating(cmbRating.getSelectionModel().getSelectedItem());
-        mainModel.createMovie(movieTitle, movieCategories, moviePath, time, movieRating);
+        Integer movieRating = parseRating(cmbRating.getSelectionModel().getSelectedItem());
+        if(editing)
+        {
+            mainModel.updateMovie(editingMovie, movieTitle, movieCategories, moviePath, time, movieRating);
+        }
+        else
+        {
+            mainModel.createMovie(movieTitle, movieCategories, moviePath, time, movieRating);
+        }
         Stage stage = (Stage)((Node)((EventObject) event).getSource()).getScene().getWindow();
         stage.close();
     }
     
-    private Double parseRating(String ratingInString)
+    private Integer parseRating(String ratingInString)
     {
         if(ratingInString == null || ratingInString.equals("-"))
         {
@@ -195,13 +218,18 @@ public class MovieViewController implements Initializable {
         }
         else
         {
-            return Double.parseDouble(ratingInString);
+            return Integer.parseInt(ratingInString);
         }
     }
 
     @FXML
     private void keyTitleTyped(KeyEvent event) 
     {
+        checkInputs();
+    }
+
+    @FXML
+    private void clickSelectRating(ActionEvent event) {
         checkInputs();
     }
     
