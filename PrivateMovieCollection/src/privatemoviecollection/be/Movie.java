@@ -17,11 +17,11 @@ public class Movie {
     private int id;
     private String title;
     private List<Category> categories;
-    private Double rating;
+    private Integer rating;
     private String path;
     private int time;
     
-    public Movie(int id, String title, String path, int time, Double rating)
+    public Movie(int id, String title, String path, int time, Integer rating)
     {
         this.id = id;
         this.title = title;
@@ -31,7 +31,7 @@ public class Movie {
         categories = new ArrayList();
     }
     
-    public Movie(int id, String title, List<Category> categories, String path, int time, Double rating)
+    public Movie(int id, String title, List<Category> categories, String path, int time, Integer rating)
     {
         this.id = id;
         this.title = title;
@@ -82,12 +82,12 @@ public class Movie {
         return categoriesInString;
     }
 
-    public Double getRating() 
+    public Integer getRating() 
     {
         return rating;
     }
 
-    public void setRating(Double rating) 
+    public void setRating(Integer rating) 
     {
         this.rating = rating;
     }
@@ -114,6 +114,11 @@ public class Movie {
         this.path = path;
     }
 
+    public void setTime(int time)
+    {
+        this.time = time;
+    }
+    
     public int getTime() 
     {
         return time;
