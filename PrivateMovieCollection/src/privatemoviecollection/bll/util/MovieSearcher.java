@@ -57,7 +57,7 @@ public class MovieSearcher {
         return filteredMovies;
     }
     
-    public static List<Movie> searchMoviesByRating(List<Movie> allMovies, Double rating)
+    public static List<Movie> searchMoviesByRating(List<Movie> allMovies, Integer rating)
     {
         if(rating == null)
         {
@@ -66,7 +66,7 @@ public class MovieSearcher {
         List<Movie> filteredMovies = new ArrayList();
         for(Movie movie : allMovies)
         {
-            if((double) movie.getRating() >= (double) rating)
+            if((int) movie.getRating() >= (int) rating)
             {
                 filteredMovies.add(movie);
             }
