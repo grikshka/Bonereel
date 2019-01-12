@@ -72,4 +72,15 @@ public class MovieCategoriesDAO {
         }
     }
     
+    public void deleteAllCategoriesFromMovie(Movie movie) throws SQLException
+    {
+        String sqlStatement = "DELETE FROM MovieCategories WHERE movieId=?";
+        try(Connection con = connector.getConnection();
+                PreparedStatement statement = con.prepareStatement(sqlStatement))
+        {
+            statement.setInt(1, movie.getId());
+            statement.execute();
+        }
+    }
+    
 }
