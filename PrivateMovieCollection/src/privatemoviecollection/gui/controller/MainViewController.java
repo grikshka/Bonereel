@@ -181,6 +181,9 @@ public class MainViewController implements Initializable {
         {
             lstSelectedCategories.getItems().add(selectedCategory);
             tblMovies.setItems(getFilteredMovies());
+            tblMovies.getSelectionModel().clearSelection();
+            btnEditMovie.setDisable(true);
+            btnRemoveMovie.setDisable(true);
         }
     }
 
@@ -194,11 +197,11 @@ public class MainViewController implements Initializable {
     {
         List<Category> categories = lstSelectedCategories.getItems();
         String filter = txtSearchMovies.getText().trim();
-        Double rating = parseRatingFromSearchingComboBox(cmbRating.getSelectionModel().getSelectedItem());
+        Integer rating = parseRatingFromSearchingComboBox(cmbRating.getSelectionModel().getSelectedItem());
         return mainModel.getFilteredMovies(categories, filter, rating);
     }
     
-    private Double parseRatingFromSearchingComboBox(String rating)
+    private Integer parseRatingFromSearchingComboBox(String rating)
     {
         if(rating == null || rating.equals("-"))
         {
@@ -206,7 +209,7 @@ public class MainViewController implements Initializable {
         }
         else
         {
-            return Double.parseDouble(rating.substring(2));
+            return Integer.parseInt(rating.substring(2, 3));
         }
     }
 
