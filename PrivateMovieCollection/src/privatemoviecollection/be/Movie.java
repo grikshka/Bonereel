@@ -7,6 +7,7 @@ package privatemoviecollection.be;
 
 import java.util.ArrayList;
 import java.util.List;
+import privatemoviecollection.bll.util.TimeConverter;
 
 /**
  *
@@ -122,6 +123,11 @@ public class Movie {
     public int getTime() 
     {
         return time;
+    }
+    
+    public String getTimeInString()
+    {
+        return TimeConverter.convertToString(time);
     }
     
     
