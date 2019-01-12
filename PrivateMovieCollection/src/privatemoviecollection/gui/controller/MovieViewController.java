@@ -31,6 +31,7 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import privatemoviecollection.be.Category;
 import privatemoviecollection.be.Movie;
+import privatemoviecollection.bll.util.TimeConverter;
 import privatemoviecollection.gui.model.CategoriesModel;
 import privatemoviecollection.gui.model.MainModel;
 
@@ -148,7 +149,7 @@ public class MovieViewController implements Initializable {
             @Override
             public void run() {
                 int time = (int) player.getMedia().getDuration().toSeconds();
-                txtTime.setText(Integer.toString(time));
+                txtTime.setText(TimeConverter.convertToString(time));
             }
             
         };
@@ -196,7 +197,7 @@ public class MovieViewController implements Initializable {
             movieCategories.add(category);
         }
         String moviePath = txtFile.getText();
-        int time = Integer.parseInt(txtTime.getText());
+        int time = TimeConverter.convertToInt(txtTime.getText());
         Integer movieRating = parseRating(cmbRating.getSelectionModel().getSelectedItem());
         if(editing)
         {
