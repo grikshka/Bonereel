@@ -25,7 +25,7 @@ public class BllManager implements IBllFacade{
     }
 
     @Override
-    public Movie createMovie(String title, List<Category> categories, String path, int time, Double rating) 
+    public Movie createMovie(String title, List<Category> categories, String path, int time, Integer rating) 
     {
         return dalController.createMovie(title, categories, path, time, rating);
     }
@@ -34,6 +34,12 @@ public class BllManager implements IBllFacade{
     public List<Movie> getAllMovies()
     {
         return dalController.getAllMovies();
+    }
+    
+    @Override
+    public Movie updateMovie(Movie movie, String title, List<Category> categories, String path, int time, Integer rating)
+    {
+        return dalController.updateMovie(movie, title, categories, path, time, rating);
     }
     
     @Override

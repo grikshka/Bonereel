@@ -16,9 +16,11 @@ import privatemoviecollection.be.Movie;
  */
 public interface IDalFacade {
     
-    Movie createMovie(String title, List<Category> categories, String path, int time, Double rating);
+    Movie createMovie(String title, List<Category> categories, String path, int time, Integer rating);
     
     List<Movie> getAllMovies();
+    
+    Movie updateMovie(Movie movie, String title, List<Category> categories, String path, int time, Integer rating);
     
     void deleteMovie(Movie movieToDelete);
     

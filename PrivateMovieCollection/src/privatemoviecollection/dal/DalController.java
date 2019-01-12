@@ -28,7 +28,7 @@ public class DalController implements IDalFacade{
     }
 
     @Override
-    public Movie createMovie(String title, List<Category> categories, String path, int time, Double rating)
+    public Movie createMovie(String title, List<Category> categories, String path, int time, Integer rating)
     {
         Movie createdMovie = null;
         try
@@ -56,6 +56,21 @@ public class DalController implements IDalFacade{
             //TO DO
         }
         return allMovies;
+    }
+    
+    @Override
+    public Movie updateMovie(Movie movie, String title, List<Category> categories, String path, int time, Integer rating)
+    {
+        Movie updatedMovie = null;
+        try
+        {
+            updatedMovie = mDao.updateMovie(movie, title, categories, path, time, rating);
+        }
+        catch(SQLException e)
+        {
+            e.printStackTrace();
+        }
+        return updatedMovie;
     }
     
     @Override
