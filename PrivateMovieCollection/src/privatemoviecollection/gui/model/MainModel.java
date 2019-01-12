@@ -52,6 +52,7 @@ public class MainModel {
     }
     
     public void deleteMovie(Movie movie) {
+        bllManager.deleteMovie(movie);
         movies.remove(movie);
     }
     
