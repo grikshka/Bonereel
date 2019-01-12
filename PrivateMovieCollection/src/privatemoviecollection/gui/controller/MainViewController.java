@@ -31,6 +31,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.ContextMenuEvent;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -108,7 +109,7 @@ public class MainViewController implements Initializable {
     {
         colTitle.setCellValueFactory(new PropertyValueFactory("title"));
         colCategories.setCellValueFactory(new PropertyValueFactory("categoriesInString"));
-        colTime.setCellValueFactory(new PropertyValueFactory("time"));
+        colTime.setCellValueFactory(new PropertyValueFactory("timeInString"));
         colRating.setCellValueFactory(new PropertyValueFactory("ratingInString"));
         tblMovies.setItems(mainModel.getMovies());
         
@@ -151,9 +152,20 @@ public class MainViewController implements Initializable {
     }
 
     @FXML
-    private void clickOnMovies(MouseEvent event) {
+    private void clickOnMovies(MouseEvent event) throws IOException {
         if(tblMovies.getSelectionModel().getSelectedItem() != null)
         {
+            if(event.getButton().equals(MouseButton.PRIMARY) && event.getClickCount() == 2)
+            {
+                Movie selectedMovie = tblMovies.getSelectionModel().getSelectedItem();
+                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/privatemoviecollection/gui/view/MoviePlayerView.fxml"));
+                Parent root = (Parent) fxmlLoader.load();
+                Stage stage = new Stage();
+                stage.setScene(new Scene(root));
+                stage.show();
+                MoviePlayerViewController controller = (MoviePlayerViewController) fxmlLoader.getController();
+                controller.playMovie(selectedMovie);
+            }
             btnEditMovie.setDisable(false);
             btnRemoveMovie.setDisable(false);
         }
