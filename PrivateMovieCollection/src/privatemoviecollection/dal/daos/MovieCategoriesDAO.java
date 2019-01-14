@@ -13,6 +13,7 @@ import java.sql.Statement;
 import java.util.List;
 import privatemoviecollection.be.Category;
 import privatemoviecollection.be.Movie;
+import privatemoviecollection.be.User;
 import privatemoviecollection.dal.DbConnectionProvider;
 
 /**
@@ -47,14 +48,16 @@ public class MovieCategoriesDAO {
         }
     }
     
-    public void addCategoriesToAllMovies(List<Movie> allMovies) throws SQLException
+    public void addCategoriesToAllMovies(User user, List<Movie> allMovies) throws SQLException
     {
         String sqlStatement = "SELECT Movies.id as movieId, Categories.* FROM MovieCategories " +
                                         "INNER JOIN Movies on MovieCategories.movieId=Movies.id " +
-                                        "INNER JOIN Categories on MovieCategories.categoryId=Categories.id";
+                                        "INNER JOIN Categories on MovieCategories.categoryId=Categories.id " + 
+                                        "WHERE Categories.userId=?";
         try(Connection con = connector.getConnection();
                 PreparedStatement statement = con.prepareStatement(sqlStatement))
         {
+            statement.setInt(1, user.getId());
             ResultSet rs = statement.executeQuery();
             if(rs.next())
             {

@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 import privatemoviecollection.be.Category;
 import privatemoviecollection.be.Movie;
+import privatemoviecollection.be.User;
 import privatemoviecollection.dal.DbConnectionProvider;
 
 /**
@@ -35,22 +36,23 @@ public class MovieDAO {
         mcDao = new MovieCategoriesDAO();
     }
     
-    public Movie createMovie(String title, List<Category> categories, String path, int time, Integer rating) throws SQLException
+    public Movie createMovie(User user, String title, List<Category> categories, String path, int time, Integer rating) throws SQLException
     {
-        String sqlStatement = "INSERT INTO Movies(title, path, time, rating) values(?,?,?,?)";
+        String sqlStatement = "INSERT INTO Movies(userId, title, path, time, rating) values(?,?,?,?,?)";
         try(Connection con = connector.getConnection();
                 PreparedStatement statement = con.prepareStatement(sqlStatement, Statement.RETURN_GENERATED_KEYS))
         {
-            statement.setString(1, title);
-            statement.setString(2, path);
-            statement.setInt(3, time);
+            statement.setInt(1, user.getId());
+            statement.setString(2, title);
+            statement.setString(3, path);
+            statement.setInt(4, time);
             if(rating == null)
             {
-                statement.setNull(4, Types.INTEGER);
+                statement.setNull(5, Types.INTEGER);
             }
             else
             {
-                statement.setInt(4, rating);
+                statement.setInt(5, rating);
             }
             statement.execute();
             ResultSet rs = statement.getGeneratedKeys();
@@ -62,13 +64,14 @@ public class MovieDAO {
         }
     }
     
-    public List<Movie> getAllMovies() throws SQLException
+    public List<Movie> getAllMovies(User user) throws SQLException
     {
-        String sqlStatement = "SELECT * FROM Movies";
+        String sqlStatement = "SELECT * FROM Movies WHERE userId=?";
         List<Movie> allMovies = new ArrayList();
         try(Connection con = connector.getConnection();
                 PreparedStatement statement = con.prepareStatement(sqlStatement))
         {
+            statement.setInt(1, user.getId());
             ResultSet rs = statement.executeQuery();
             while(rs.next())
             {
@@ -84,7 +87,7 @@ public class MovieDAO {
                 int time = rs.getInt("time");
                 allMovies.add(new Movie(id, title, path, time, rating));
             }
-            mcDao.addCategoriesToAllMovies(allMovies);
+            mcDao.addCategoriesToAllMovies(user, allMovies);
             return allMovies;
         }
     }

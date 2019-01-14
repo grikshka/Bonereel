@@ -13,6 +13,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import privatemoviecollection.be.Category;
+import privatemoviecollection.be.User;
 import privatemoviecollection.dal.DbConnectionProvider;
 
 /**
@@ -31,13 +32,14 @@ public class CategoriesDAO {
         connector = new DbConnectionProvider();
     }
     
-    public Category createCategory(String name) throws SQLException
+    public Category createCategory(User user, String name) throws SQLException
     {
-        String sqlStatement = "INSERT INTO Categories(name) VALUES(?)";
+        String sqlStatement = "INSERT INTO Categories(userId, name) VALUES(?,?)";
         try(Connection con = connector.getConnection();
                 PreparedStatement statement = con.prepareStatement(sqlStatement, Statement.RETURN_GENERATED_KEYS))
         {
-            statement.setString(1, name);
+            statement.setInt(1, user.getId());
+            statement.setString(2, name);
             statement.execute();
             ResultSet rs = statement.getGeneratedKeys();
             rs.next();
@@ -47,13 +49,14 @@ public class CategoriesDAO {
         }
     }
     
-    public List<Category> getAllCategories() throws SQLException
+    public List<Category> getAllCategories(User user) throws SQLException
     {
-        String sqlStatement = "SELECT * FROM Categories";
+        String sqlStatement = "SELECT * FROM Categories WHERE userId=?";
         List<Category> allCategories = new ArrayList();
         try(Connection con = connector.getConnection();
                 PreparedStatement statement = con.prepareStatement(sqlStatement))
         {
+            statement.setInt(1, user.getId());
             ResultSet rs = statement.executeQuery();
             while(rs.next())
             {
