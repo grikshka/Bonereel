@@ -104,6 +104,7 @@ public class MoviePlayerViewController implements Initializable {
         Media mediaFile = new Media(file.toURI().toString());
         mediaPlayer = new MediaPlayer(mediaFile);
         setTimeListener();
+        sldTime.setMax(movie.getTime());
         lblMovieEndTime.setText(movie.getTimeInString());
         mdvPlayer.setMediaPlayer(mediaPlayer);
         mediaPlayer.setVolume(sldVolume.getValue());
