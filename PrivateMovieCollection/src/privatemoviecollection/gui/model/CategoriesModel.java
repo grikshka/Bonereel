@@ -8,6 +8,7 @@ package privatemoviecollection.gui.model;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import privatemoviecollection.be.Category;
+import privatemoviecollection.be.User;
 import privatemoviecollection.bll.BllManager;
 import privatemoviecollection.bll.IBllFacade;
 
@@ -20,11 +21,12 @@ public class CategoriesModel {
     private static CategoriesModel instance;
     private IBllFacade bllManager;
     private ObservableList<Category> categories;
+    private static User loggedInUser;
     
     private CategoriesModel()
     {
         bllManager = new BllManager();
-        categories = FXCollections.observableArrayList(bllManager.getAllCategories());
+        categories = FXCollections.observableArrayList(bllManager.getAllCategories(loggedInUser));
     }
     
     public static CategoriesModel createInstance()
@@ -34,6 +36,11 @@ public class CategoriesModel {
             instance = new CategoriesModel();
         }
         return instance;
+    }
+    
+    public static void setUser(User user)
+    {
+        loggedInUser = user;
     }
     
     public ObservableList<Category> getCategories()
@@ -47,7 +54,7 @@ public class CategoriesModel {
         {
             return false;
         }
-        Category createdCategory = bllManager.createCategory(name);
+        Category createdCategory = bllManager.createCategory(loggedInUser, name);
         categories.add(createdCategory);
         return true;
     }

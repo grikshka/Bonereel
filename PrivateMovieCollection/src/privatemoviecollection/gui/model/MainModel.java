@@ -11,6 +11,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import privatemoviecollection.be.Category;
 import privatemoviecollection.be.Movie;
+import privatemoviecollection.be.User;
 import privatemoviecollection.bll.BllManager;
 import privatemoviecollection.bll.IBllFacade;
 import privatemoviecollection.bll.util.MovieSearcher;
@@ -24,11 +25,12 @@ public class MainModel {
     private static MainModel instance;
     private IBllFacade bllManager;
     private ObservableList<Movie> movies;
+    private static User loggedInUser;
     
     private MainModel()
     {
         bllManager = new BllManager();
-        movies = FXCollections.observableArrayList(bllManager.getAllMovies());       
+        movies = FXCollections.observableArrayList(bllManager.getAllMovies(loggedInUser));       
     }
     
     public static MainModel createInstance()
@@ -40,6 +42,11 @@ public class MainModel {
         return instance;
     }
     
+    public static void setUser(User user)
+    {
+        loggedInUser = user;
+    }
+    
     public ObservableList<Movie> getMovies()
     {
         return movies;
@@ -47,7 +54,7 @@ public class MainModel {
 
     public void createMovie(String title, List<Category> categories, String path, int time, Integer rating)
     {
-        Movie createdMovie = bllManager.createMovie(title, categories, path, time, rating);
+        Movie createdMovie = bllManager.createMovie(loggedInUser, title, categories, path, time, rating);
         movies.add(createdMovie);
     }
     
