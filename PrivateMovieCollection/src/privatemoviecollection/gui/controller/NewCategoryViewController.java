@@ -68,5 +68,11 @@ public class NewCategoryViewController implements Initializable {
         Stage stage = (Stage)((Node)((EventObject) event).getSource()).getScene().getWindow();
         stage.close();
     }
+
+    @FXML
+    private void clickClose(ActionEvent event) {
+        Stage stage = (Stage)((Node)((EventObject) event).getSource()).getScene().getWindow();
+        stage.close();
+    }
     
 }

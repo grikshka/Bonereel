@@ -10,6 +10,7 @@ import java.net.URL;
 import java.util.EventObject;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -97,6 +98,7 @@ public class LoginViewController implements Initializable {
         Parent root = (Parent) fxmlLoader.load();
         Stage stage = new Stage();
         stage.initModality(Modality.APPLICATION_MODAL);
+        stage.initStyle(StageStyle.UNDECORATED);
         stage.setTitle("Sign In");
         stage.setScene(new Scene(root));  
         stage.show();
@@ -124,6 +126,17 @@ public class LoginViewController implements Initializable {
             alert.setContentText("Invalid email or password");
             alert.show();
         }
+    }
+
+    @FXML
+    private void clickClose(ActionEvent event) {
+        Platform.exit();
+    }
+
+    @FXML
+    private void clickMinimalize(ActionEvent event) {
+        Stage stage = (Stage)((Node)((EventObject) event).getSource()).getScene().getWindow();
+        stage.setIconified(true);
     }
     
 }

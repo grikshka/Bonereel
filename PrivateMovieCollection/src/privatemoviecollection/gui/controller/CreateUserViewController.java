@@ -15,6 +15,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import privatemoviecollection.be.User;
@@ -133,6 +134,12 @@ public class CreateUserViewController implements Initializable {
         }
         return faults;
 
+    }
+
+    @FXML
+    private void clickClose(ActionEvent event) {
+        Stage stage = (Stage)((Node)((EventObject) event).getSource()).getScene().getWindow();
+        stage.close();
     }
     
 }

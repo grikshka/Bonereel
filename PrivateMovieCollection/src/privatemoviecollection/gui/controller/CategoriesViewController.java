@@ -7,12 +7,14 @@ package privatemoviecollection.gui.controller;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.EventObject;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -22,6 +24,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import privatemoviecollection.be.Category;
 import privatemoviecollection.be.Movie;
 import privatemoviecollection.gui.model.CategoriesModel;
@@ -60,6 +63,7 @@ public class CategoriesViewController implements Initializable {
         Parent root = (Parent) fxmlLoader.load();
         Stage stage = new Stage();
         stage.initModality(Modality.APPLICATION_MODAL);
+        stage.initStyle(StageStyle.UNDECORATED);
         stage.setTitle("New Category");
         stage.setScene(new Scene(root));
         stage.show();
@@ -88,6 +92,12 @@ public class CategoriesViewController implements Initializable {
         }
         lstCategories.getSelectionModel().clearSelection();
         btnDelete.setDisable(true);
+    }
+
+    @FXML
+    private void clickClose(ActionEvent event) {
+        Stage stage = (Stage)((Node)((EventObject) event).getSource()).getScene().getWindow();
+        stage.close();
     }
     
 }

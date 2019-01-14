@@ -5,18 +5,23 @@
  */
 package privatemoviecollection.gui.controller;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.EventObject;
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -35,6 +40,7 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import privatemoviecollection.be.Category;
 import privatemoviecollection.be.Movie;
 import privatemoviecollection.gui.model.CategoriesModel;
@@ -121,6 +127,7 @@ public class MainViewController implements Initializable {
         Parent root = (Parent) fxmlLoader.load();
         Stage stage = new Stage();
         stage.initModality(Modality.APPLICATION_MODAL);
+        stage.initStyle(StageStyle.UNDECORATED);
         stage.setTitle("Edit Categories");
         stage.setScene(new Scene(root));
         stage.show();
@@ -132,6 +139,7 @@ public class MainViewController implements Initializable {
         Parent root = (Parent) fxmlLoader.load();
         Stage stage = new Stage();
         stage.initModality(Modality.APPLICATION_MODAL);
+        stage.initStyle(StageStyle.UNDECORATED);
         stage.setTitle("New Movie");
         stage.setScene(new Scene(root));
         stage.show();
@@ -146,6 +154,7 @@ public class MainViewController implements Initializable {
         controller.setEditingMode(selectedMovie);
         Stage stage = new Stage();
         stage.initModality(Modality.APPLICATION_MODAL);
+        stage.initStyle(StageStyle.UNDECORATED);
         stage.setTitle("Edit Movie");
         stage.setScene(new Scene(root));
         stage.show();
@@ -157,14 +166,16 @@ public class MainViewController implements Initializable {
         {
             if(event.getButton().equals(MouseButton.PRIMARY) && event.getClickCount() == 2)
             {
-                Movie selectedMovie = tblMovies.getSelectionModel().getSelectedItem();
-                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/privatemoviecollection/gui/view/MoviePlayerView.fxml"));
+                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/privatemoviecollection/gui/view/ChoosePlayerView.fxml"));
                 Parent root = (Parent) fxmlLoader.load();
+                ChoosePlayerViewController controller = fxmlLoader.getController();
+                controller.setMovieToPlayer(tblMovies.getSelectionModel().getSelectedItem());
                 Stage stage = new Stage();
-                stage.setScene(new Scene(root));
+                stage.initModality(Modality.APPLICATION_MODAL);
+                stage.setTitle("Choose player");
+                stage.initStyle(StageStyle.UNDECORATED);
+                stage.setScene(new Scene(root));              
                 stage.show();
-                MoviePlayerViewController controller = (MoviePlayerViewController) fxmlLoader.getController();
-                controller.playMovie(selectedMovie);
             }
             btnEditMovie.setDisable(false);
             btnRemoveMovie.setDisable(false);
@@ -229,6 +240,17 @@ public class MainViewController implements Initializable {
     private void clickSearchByRating(ActionEvent event) 
     {
         tblMovies.setItems(getFilteredMovies());
+    }
+
+    @FXML
+    private void clickClose(ActionEvent event) {
+        Platform.exit();
+    }
+
+    @FXML
+    private void clickMinimize(ActionEvent event) {
+        Stage stage = (Stage)((Node)((EventObject) event).getSource()).getScene().getWindow();
+        stage.setIconified(true);
     }
 
 }
