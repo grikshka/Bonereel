@@ -26,12 +26,14 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import privatemoviecollection.be.User;
 import privatemoviecollection.gui.model.MainModel;
 import privatemoviecollection.gui.model.UserModel;
+import privatemoviecollection.gui.util.WindowDecorator;
 
 /**
  * FXML Controller class
@@ -41,6 +43,8 @@ import privatemoviecollection.gui.model.UserModel;
 public class LoginViewController implements Initializable {
     
     private UserModel userModel;
+    private double xOffset;
+    private double yOffset;
 
     @FXML
     private Button btnLogin;
@@ -94,6 +98,8 @@ public class LoginViewController implements Initializable {
 
     @FXML
     private void clickCreateAccount(ActionEvent event) throws IOException {
+        Stage currentStage = (Stage)((Node)((EventObject) event).getSource()).getScene().getWindow();
+        WindowDecorator.fadeOutStage(currentStage);
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/privatemoviecollection/gui/view/CreateUserView.fxml"));
         Parent root = (Parent) fxmlLoader.load();
         Stage stage = new Stage();
@@ -101,7 +107,8 @@ public class LoginViewController implements Initializable {
         stage.initStyle(StageStyle.UNDECORATED);
         stage.setTitle("Sign In");
         stage.setScene(new Scene(root));  
-        stage.show();
+        stage.showAndWait();
+        WindowDecorator.fadeInStage(currentStage);
     }
 
     @FXML
@@ -116,7 +123,7 @@ public class LoginViewController implements Initializable {
             Parent root = (Parent) fxmlLoader.load();
             stage.setScene(new Scene(root));  
             stage.centerOnScreen();
-            stage.show();
+            WindowDecorator.showStage(stage);
         }
         else
         {
@@ -137,6 +144,22 @@ public class LoginViewController implements Initializable {
     private void clickMinimalize(ActionEvent event) {
         Stage stage = (Stage)((Node)((EventObject) event).getSource()).getScene().getWindow();
         stage.setIconified(true);
+    }
+
+    @FXML
+    private void clickMouseDragged(MouseEvent event) 
+    {
+        Stage stage = (Stage)((Node)((EventObject) event).getSource()).getScene().getWindow();
+        stage.setX(event.getScreenX() + xOffset);
+        stage.setY(event.getScreenY() + yOffset);
+    }
+
+    @FXML
+    private void clickMousePressed(MouseEvent event) 
+    {
+        Stage stage = (Stage)((Node)((EventObject) event).getSource()).getScene().getWindow();
+        xOffset = stage.getX() - event.getScreenX();
+        yOffset = stage.getY() - event.getScreenY();
     }
     
 }

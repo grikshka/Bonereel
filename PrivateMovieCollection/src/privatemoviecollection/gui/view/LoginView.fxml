@@ -5,10 +5,11 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="556.0" prefWidth="855.0" style="-fx-background-color: #282828;" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="privatemoviecollection.gui.controller.LoginViewController">
+<AnchorPane id="AnchorPane" prefHeight="556.0" prefWidth="855.0" style="-fx-background-color: #282828;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="privatemoviecollection.gui.controller.LoginViewController">
    <children>
       <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#1f93ff00" height="556.0" stroke="#212121" strokeLineJoin="ROUND" strokeType="INSIDE" strokeWidth="2.0" width="855.0" />
       <Button layoutX="223.0" layoutY="329.0" mnemonicParsing="false" onAction="#clickCreateAccount" prefHeight="40.0" prefWidth="153.0" style="-fx-background-radius: 100;" stylesheets="@../css/ButtonSecondary.css" text="Sign In">
@@ -24,5 +25,6 @@
       <ImageView fitHeight="200.0" fitWidth="300.0" layoutX="295.0" pickOnBounds="true" preserveRatio="true" />
       <Button layoutX="814.0" mnemonicParsing="false" onAction="#clickClose" prefHeight="30.0" prefWidth="40.0" stylesheets="@../css/ButtonClose.css" />
       <Button layoutX="777.0" mnemonicParsing="false" onAction="#clickMinimalize" prefHeight="30.0" prefWidth="37.0" stylesheets="@../css/ButtonMinimalize.css" />
+      <Pane layoutX="2.0" layoutY="2.0" onMouseDragged="#clickMouseDragged" onMousePressed="#clickMousePressed" prefHeight="30.0" prefWidth="775.0" />
    </children>
 </AnchorPane>

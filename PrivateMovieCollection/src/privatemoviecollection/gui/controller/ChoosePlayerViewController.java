@@ -22,6 +22,7 @@ import javafx.scene.control.ToggleGroup;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import privatemoviecollection.be.Movie;
+import privatemoviecollection.gui.util.WindowDecorator;
 
 /**
  * FXML Controller class
@@ -66,7 +67,7 @@ public class ChoosePlayerViewController implements Initializable {
             Stage stage = new Stage();
             stage.setScene(new Scene(root));
             stage.initStyle(StageStyle.UNDECORATED);
-            stage.show();
+            WindowDecorator.showStage(stage);
             MoviePlayerViewController controller = (MoviePlayerViewController) fxmlLoader.getController();
             controller.playMovie(movieToPlay);
         }

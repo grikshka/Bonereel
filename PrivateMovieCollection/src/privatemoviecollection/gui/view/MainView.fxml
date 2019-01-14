@@ -8,12 +8,13 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.shape.Rectangle?>
 
-<AnchorPane id="AnchorPane" prefHeight="638.0" prefWidth="1046.0" style="-fx-background-color: #181818;" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="privatemoviecollection.gui.controller.MainViewController">
+<AnchorPane id="AnchorPane" prefHeight="638.0" prefWidth="1046.0" style="-fx-background-color: #181818;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="privatemoviecollection.gui.controller.MainViewController">
    <children>
       <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#282828" height="121.0" layoutX="-8.0" layoutY="-5.0" stroke="BLACK" strokeType="INSIDE" width="1063.0" />
-      <TableView fx:id="tblMovies" layoutX="48.0" layoutY="140.0" onMousePressed="#clickOnMovies" prefHeight="421.0" prefWidth="797.0" stylesheets="@../css/SongTableView.css">
+      <TableView fx:id="tblMovies" layoutX="48.0" layoutY="140.0" onMousePressed="#clickOnMovies" prefHeight="421.0" prefWidth="800.0" stylesheets="@../css/SongTableView.css">
         <columns>
           <TableColumn fx:id="colTitle" prefWidth="424.0" style="-fx-background-color: #181818;" text="TITLE" />
           <TableColumn fx:id="colCategories" prefWidth="187.0" style="-fx-background-color: #181818;" text="CATEGORIES" />
@@ -21,7 +22,7 @@
             <TableColumn fx:id="colRating" prefWidth="67.0" style="-fx-background-color: #181818;" text="RATING" />
         </columns>
       </TableView>
-      <TextField fx:id="txtSearchMovies" layoutX="48.0" layoutY="29.0" onKeyReleased="#inputSearchMovies" prefHeight="35.0" prefWidth="913.0" promptText="Search" stylesheets="@../css/TextFieldFilter.css" />
+      <TextField fx:id="txtSearchMovies" layoutX="48.0" layoutY="32.0" onKeyReleased="#inputSearchMovies" prefHeight="35.0" prefWidth="913.0" promptText="Search" stylesheets="@../css/TextFieldFilter.css" />
       <ComboBox fx:id="cmbCategories" layoutX="204.0" layoutY="73.0" onAction="#clickSelectCategory" prefHeight="35.0" prefWidth="126.0" promptText="Categories" stylesheets="@../css/ComboBox.css" />
       <Button layoutX="1015.0" layoutY="-1.0" mnemonicParsing="false" onAction="#clickClose" prefHeight="30.0" prefWidth="40.0" stylesheets="@../css/ButtonClose.css" />
       <Button layoutX="975.0" layoutY="-1.0" mnemonicParsing="false" onAction="#clickMinimize" prefHeight="30.0" prefWidth="40.0" stylesheets="@../css/ButtonMinimalize.css" />
@@ -35,5 +36,6 @@
           </placeholder>
       </ListView>
       <ComboBox fx:id="cmbRating" layoutX="48.0" layoutY="73.0" onAction="#clickSearchByRating" prefHeight="35.0" prefWidth="136.0" promptText="Search by rating" stylesheets="@../css/ComboBox.css" />
+      <Pane onMouseDragged="#clickMouseDragged" onMousePressed="#clickMousePressed" prefHeight="30.0" prefWidth="975.0" />
    </children>
 </AnchorPane>

@@ -80,4 +80,9 @@ public class CategoriesDAO {
         }
     }
     
+    public void addDefaultCategories(User user)
+    {
+//        String sqlStatement"INSERT INTO Categories(name)"
+    }
+    
 }

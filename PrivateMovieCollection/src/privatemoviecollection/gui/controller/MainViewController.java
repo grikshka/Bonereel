@@ -45,6 +45,7 @@ import privatemoviecollection.be.Category;
 import privatemoviecollection.be.Movie;
 import privatemoviecollection.gui.model.CategoriesModel;
 import privatemoviecollection.gui.model.MainModel;
+import privatemoviecollection.gui.util.WindowDecorator;
 
 /**
  *
@@ -54,6 +55,8 @@ public class MainViewController implements Initializable {
     
     private MainModel mainModel;
     private CategoriesModel categoriesModel;
+    private double xOffset;
+    private double yOffset;
 
     @FXML
     private TableView<Movie> tblMovies;
@@ -123,6 +126,8 @@ public class MainViewController implements Initializable {
     
     @FXML
     private void clickEditCategories(ActionEvent event) throws IOException {
+        Stage currentStage = (Stage)((Node)((EventObject) event).getSource()).getScene().getWindow();
+        WindowDecorator.fadeOutStage(currentStage);
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/privatemoviecollection/gui/view/CategoriesView.fxml"));
         Parent root = (Parent) fxmlLoader.load();
         Stage stage = new Stage();
@@ -130,11 +135,14 @@ public class MainViewController implements Initializable {
         stage.initStyle(StageStyle.UNDECORATED);
         stage.setTitle("Edit Categories");
         stage.setScene(new Scene(root));
-        stage.show();
+        stage.showAndWait();
+        WindowDecorator.fadeInStage(currentStage);
     }
 
     @FXML
     private void clickAddMovie(ActionEvent event) throws IOException {
+        Stage currentStage = (Stage)((Node)((EventObject) event).getSource()).getScene().getWindow();
+        WindowDecorator.fadeOutStage(currentStage);
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/privatemoviecollection/gui/view/MovieView.fxml"));
         Parent root = (Parent) fxmlLoader.load();
         Stage stage = new Stage();
@@ -142,12 +150,15 @@ public class MainViewController implements Initializable {
         stage.initStyle(StageStyle.UNDECORATED);
         stage.setTitle("New Movie");
         stage.setScene(new Scene(root));
-        stage.show();
+        stage.showAndWait();
+        WindowDecorator.fadeInStage(currentStage);
     }
 
     @FXML
     private void clickEditMovie(ActionEvent event) throws IOException {
         Movie selectedMovie = tblMovies.getSelectionModel().getSelectedItem();
+        Stage currentStage = (Stage)((Node)((EventObject) event).getSource()).getScene().getWindow();
+        WindowDecorator.fadeOutStage(currentStage);
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/privatemoviecollection/gui/view/MovieView.fxml"));
         Parent root = (Parent) fxmlLoader.load();
         MovieViewController controller = (MovieViewController) fxmlLoader.getController();
@@ -157,7 +168,8 @@ public class MainViewController implements Initializable {
         stage.initStyle(StageStyle.UNDECORATED);
         stage.setTitle("Edit Movie");
         stage.setScene(new Scene(root));
-        stage.show();
+        stage.showAndWait();
+        WindowDecorator.fadeInStage(currentStage);
     }
 
     @FXML
@@ -166,6 +178,8 @@ public class MainViewController implements Initializable {
         {
             if(event.getButton().equals(MouseButton.PRIMARY) && event.getClickCount() == 2)
             {
+                Stage currentStage = (Stage)((Node)((EventObject) event).getSource()).getScene().getWindow();
+                WindowDecorator.fadeOutStage(currentStage);
                 FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/privatemoviecollection/gui/view/ChoosePlayerView.fxml"));
                 Parent root = (Parent) fxmlLoader.load();
                 ChoosePlayerViewController controller = fxmlLoader.getController();
@@ -175,7 +189,8 @@ public class MainViewController implements Initializable {
                 stage.setTitle("Choose player");
                 stage.initStyle(StageStyle.UNDECORATED);
                 stage.setScene(new Scene(root));              
-                stage.show();
+                stage.showAndWait();
+                WindowDecorator.fadeInStage(currentStage);
             }
             btnEditMovie.setDisable(false);
             btnRemoveMovie.setDisable(false);
@@ -251,6 +266,20 @@ public class MainViewController implements Initializable {
     private void clickMinimize(ActionEvent event) {
         Stage stage = (Stage)((Node)((EventObject) event).getSource()).getScene().getWindow();
         stage.setIconified(true);
+    }
+
+    @FXML
+    private void clickMouseDragged(MouseEvent event) {
+        Stage stage = (Stage)((Node)((EventObject) event).getSource()).getScene().getWindow();
+        stage.setX(event.getScreenX() + xOffset);
+        stage.setY(event.getScreenY() + yOffset);
+    }
+
+    @FXML
+    private void clickMousePressed(MouseEvent event) {
+        Stage stage = (Stage)((Node)((EventObject) event).getSource()).getScene().getWindow();
+        xOffset = stage.getX() - event.getScreenX();
+        yOffset = stage.getY() - event.getScreenY();
     }
 
 }
