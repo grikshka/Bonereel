@@ -9,6 +9,7 @@ import java.sql.SQLException;
 import java.util.List;
 import privatemoviecollection.be.Category;
 import privatemoviecollection.be.Movie;
+import privatemoviecollection.be.User;
 
 /**
  *
@@ -16,17 +17,21 @@ import privatemoviecollection.be.Movie;
  */
 public interface IDalFacade {
     
-    Movie createMovie(String title, List<Category> categories, String path, int time, Integer rating);
+    Movie createMovie(User user, String title, List<Category> categories, String path, int time, Integer rating);
     
-    List<Movie> getAllMovies();
+    List<Movie> getAllMovies(User user);
     
     Movie updateMovie(Movie movie, String title, List<Category> categories, String path, int time, Integer rating);
     
     void deleteMovie(Movie movieToDelete);
     
-    Category createCategory(String name);
+    Category createCategory(User user, String name);
     
-    List<Category> getAllCategories();
+    List<Category> getAllCategories(User user);
     
     void deleteCategory(Category categoryToDelete);
+    
+    User createUser(String email, String password);
+
+    User getUser(String email, String password);
 }

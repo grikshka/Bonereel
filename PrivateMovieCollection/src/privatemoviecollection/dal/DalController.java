@@ -9,8 +9,10 @@ import java.sql.SQLException;
 import java.util.List;
 import privatemoviecollection.be.Category;
 import privatemoviecollection.be.Movie;
+import privatemoviecollection.be.User;
 import privatemoviecollection.dal.daos.CategoriesDAO;
 import privatemoviecollection.dal.daos.MovieDAO;
+import privatemoviecollection.dal.daos.UserDAO;
 
 /**
  *
@@ -20,20 +22,22 @@ public class DalController implements IDalFacade{
     
     private MovieDAO mDao;
     private CategoriesDAO cDao;
+    private UserDAO userDao;
     
     public DalController()
     {
         mDao = new MovieDAO();
         cDao = new CategoriesDAO();
+        userDao = new UserDAO();
     }
 
     @Override
-    public Movie createMovie(String title, List<Category> categories, String path, int time, Integer rating)
+    public Movie createMovie(User user, String title, List<Category> categories, String path, int time, Integer rating)
     {
         Movie createdMovie = null;
         try
         {
-            createdMovie = mDao.createMovie(title, categories, path, time, rating);
+            createdMovie = mDao.createMovie(user, title, categories, path, time, rating);
         }
         catch(SQLException e)
         {
@@ -44,12 +48,12 @@ public class DalController implements IDalFacade{
     }
     
     @Override
-    public List<Movie> getAllMovies()
+    public List<Movie> getAllMovies(User user)
     {
         List<Movie> allMovies = null;
         try
         {
-            allMovies = mDao.getAllMovies();
+            allMovies = mDao.getAllMovies(user);
         }
         catch(SQLException e)
         {
@@ -87,12 +91,12 @@ public class DalController implements IDalFacade{
     }
 
     @Override
-    public Category createCategory(String name) 
+    public Category createCategory(User user, String name) 
     {
         Category category = null;
         try
         {
-            category = cDao.createCategory(name);
+            category = cDao.createCategory(user, name);
         }
         catch(SQLException e)
         {
@@ -102,12 +106,12 @@ public class DalController implements IDalFacade{
     }
     
     @Override
-    public List<Category> getAllCategories()
+    public List<Category> getAllCategories(User user)
     {
         List<Category> allCategories = null;
         try
         {
-            allCategories = cDao.getAllCategories();
+            allCategories = cDao.getAllCategories(user);
         }
         catch(SQLException e)
         {
@@ -127,6 +131,36 @@ public class DalController implements IDalFacade{
         {
             //TO DO
         }
+    }
+    
+    @Override
+    public User createUser(String email, String password)
+    {
+        User user = null;
+        try
+        {
+            user = userDao.createUser(email, password);
+        }
+        catch(SQLException e)
+        {
+            //TO DO
+        }
+        return user;
+    }
+
+    @Override
+    public User getUser(String email, String password)
+    {
+        User user = null;
+        try
+        {
+            user = userDao.getUser(email, password);
+        }
+        catch(SQLException e)
+        {
+            //TO DO
+        }
+        return user;
     }
     
 }

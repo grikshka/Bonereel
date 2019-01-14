@@ -8,6 +8,7 @@ package privatemoviecollection.bll;
 import java.util.List;
 import privatemoviecollection.be.Category;
 import privatemoviecollection.be.Movie;
+import privatemoviecollection.be.User;
 import privatemoviecollection.dal.DalController;
 import privatemoviecollection.dal.IDalFacade;
 
@@ -25,15 +26,15 @@ public class BllManager implements IBllFacade{
     }
 
     @Override
-    public Movie createMovie(String title, List<Category> categories, String path, int time, Integer rating) 
+    public Movie createMovie(User user, String title, List<Category> categories, String path, int time, Integer rating) 
     {
-        return dalController.createMovie(title, categories, path, time, rating);
+        return dalController.createMovie(user, title, categories, path, time, rating);
     }
     
     @Override
-    public List<Movie> getAllMovies()
+    public List<Movie> getAllMovies(User user)
     {
-        return dalController.getAllMovies();
+        return dalController.getAllMovies(user);
     }
     
     @Override
@@ -49,21 +50,31 @@ public class BllManager implements IBllFacade{
     }
 
     @Override
-    public Category createCategory(String name) 
+    public Category createCategory(User user, String name) 
     {
-        return dalController.createCategory(name);
+        return dalController.createCategory(user, name);
     }
     
     @Override
-    public List<Category> getAllCategories()
+    public List<Category> getAllCategories(User user)
     {
-        return dalController.getAllCategories();
+        return dalController.getAllCategories(user);
     }
     
     @Override
     public void deleteCategory(Category categoryToDelete)
     {
         dalController.deleteCategory(categoryToDelete);
+    }
+    
+    @Override
+    public User createUser(String email, String password) {
+        return dalController.createUser(email,password);
+    }
+
+    @Override
+    public User getUser(String email, String password) {
+        return dalController.getUser(email, password);
     }
     
 }
