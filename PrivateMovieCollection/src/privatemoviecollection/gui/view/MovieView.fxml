@@ -6,26 +6,36 @@
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="343.0" prefWidth="550.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="privatemoviecollection.gui.controller.MovieViewController">
+<AnchorPane id="AnchorPane" prefHeight="372.0" prefWidth="596.0" style="-fx-background-color: #282828;" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="privatemoviecollection.gui.controller.MovieViewController">
    <children>
-      <TextField fx:id="txtTitle" layoutX="91.0" layoutY="35.0" onKeyReleased="#keyTitleTyped" prefHeight="25.0" prefWidth="414.0" />
-      <TextField fx:id="txtFile" layoutX="91.0" layoutY="175.0" prefHeight="25.0" prefWidth="249.0" />
-      <TextField fx:id="txtTime" layoutX="91.0" layoutY="222.0" prefHeight="25.0" prefWidth="82.0" />
-      <Label layoutX="21.0" layoutY="39.0" text="Title" />
-      <Label layoutX="16.0" layoutY="87.0" text="Categories" />
-      <Label layoutX="15.0" layoutY="132.0" text="Rating" />
-      <Label layoutX="14.0" layoutY="179.0" text="File" />
-      <Label layoutX="17.0" layoutY="226.0" text="Time" />
-      <Button layoutX="354.0" layoutY="175.0" mnemonicParsing="false" onAction="#clickChooseFilePath" prefHeight="25.0" prefWidth="82.0" text="Choose..." />
-      <Button fx:id="btnCancel" layoutX="112.0" layoutY="276.0" mnemonicParsing="false" onAction="#clickCancel" prefHeight="35.0" prefWidth="123.0" text="Cancel" />
-      <Button fx:id="btnSave" layoutX="327.0" layoutY="276.0" mnemonicParsing="false" onAction="#clickSave" prefHeight="35.0" prefWidth="123.0" text="Save" />
-      <ComboBox fx:id="cmbRating" layoutX="91.0" layoutY="128.0" onAction="#clickSelectRating" prefHeight="25.0" prefWidth="72.0" promptText="-" />
-      <ListView fx:id="lstSelectedCategories" layoutX="92.0" layoutY="83.0" orientation="HORIZONTAL" prefHeight="25.0" prefWidth="286.0">
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#1f93ff00" height="368.0" layoutX="2.0" layoutY="2.0" stroke="#212121" strokeLineJoin="ROUND" strokeType="OUTSIDE" strokeWidth="2.0" width="592.0" />
+      <TextField fx:id="txtTitle" layoutX="91.0" layoutY="57.0" onKeyReleased="#keyTitleTyped" prefHeight="30.0" prefWidth="414.0" style="-fx-background-color: #181818;" stylesheets="@../css/TextFieldGeneric.css" />
+      <TextField fx:id="txtFile" layoutX="91.0" layoutY="203.0" prefHeight="30.0" prefWidth="286.0" style="-fx-background-color: #181818;" stylesheets="@../css/TextFieldGeneric.css" />
+      <TextField fx:id="txtTime" layoutX="91.0" layoutY="250.0" prefHeight="30.0" prefWidth="72.0" style="-fx-background-color: #181818;" stylesheets="@../css/TextFieldGeneric.css" />
+      <Label layoutX="50.0" layoutY="64.0" text="Title" textFill="#b3b3b3" />
+      <Label layoutX="17.0" layoutY="116.0" text="Categories" textFill="#b3b3b3" />
+      <Label layoutX="38.0" layoutY="164.0" text="Rating" textFill="#b3b3b3" />
+      <Label layoutX="52.0" layoutY="210.0" text="File" textFill="#b3b3b3" />
+      <Label layoutX="45.0" layoutY="257.0" text="Time" textFill="#b3b3b3" />
+      <Button layoutX="385.0" layoutY="203.0" mnemonicParsing="false" onAction="#clickChooseFilePath" prefHeight="30.0" prefWidth="125.0" style="-fx-background-radius: 100;" stylesheets="@../css/ButtonSecondary.css" text="Choose..." />
+      <Button fx:id="btnCancel" layoutX="91.0" layoutY="309.0" mnemonicParsing="false" onAction="#clickCancel" prefHeight="35.0" prefWidth="135.0" style="-fx-background-radius: 100;" stylesheets="@../css/ButtonSecondary.css" text="Cancel">
+         <font>
+            <Font size="14.0" />
+         </font></Button>
+      <Button layoutX="554.0" layoutY="2.0" mnemonicParsing="false" onAction="#clickClose" prefHeight="30.0" prefWidth="40.0" stylesheets="@../css/ButtonClose.css" />
+      <Button fx:id="btnSave" layoutX="237.0" layoutY="309.0" mnemonicParsing="false" onAction="#clickSave" prefHeight="35.0" prefWidth="135.0" style="-fx-background-radius: 100;" stylesheets="@../css/ButtonNewSong.css" text="Save" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font></Button>
+      <ComboBox fx:id="cmbRating" layoutX="91.0" layoutY="157.0" onAction="#clickSelectRating" prefHeight="25.0" prefWidth="72.0" promptText="-" stylesheets="@../css/ComboBox.css" />
+      <ListView fx:id="lstSelectedCategories" layoutX="92.0" layoutY="109.0" orientation="HORIZONTAL" prefHeight="30.0" prefWidth="286.0" stylesheets="@../css/ListView.css">
          <placeholder>
-            <Label text="No Categories Selected" />
+            <Label stylesheets="@../css/ListView.css" />
          </placeholder>
       </ListView>
-      <ComboBox fx:id="cmbCategories" layoutX="389.0" layoutY="83.0" onAction="#clickSelectCategory" prefHeight="25.0" prefWidth="116.0" promptText="Categories" />
+      <ComboBox fx:id="cmbCategories" layoutX="389.0" layoutY="109.0" onAction="#clickSelectCategory" prefHeight="25.0" prefWidth="116.0" promptText="Categories" stylesheets="@../css/ComboBox.css" />
    </children>
 </AnchorPane>
