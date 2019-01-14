@@ -1,0 +1,13 @@
+/* 
+    Author schemabuoi
+    Author kiddo
+*/
+
+.radio-button .radio {
+    visibility: hidden;
+    -fx-border-color: #000;
+    -fx-background-color: red;
+    -fx-background-image: null;
+    -fx-border-radius: 15px;
+    -fx-padding: 4px;
+}
