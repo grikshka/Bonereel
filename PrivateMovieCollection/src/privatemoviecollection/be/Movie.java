@@ -62,9 +62,15 @@ public class Movie {
         categories.add(category);
     }
     
-    public void removeCategory(String category)
+    public boolean removeCategory(Category category)
     {
-        categories.remove(category);
+        return categories.remove(category);
+
+    }
+    
+    public void setCategories(List<Category> categories)
+    {
+        this.categories = categories;
     }
     
     public List<Category> getCategories()
@@ -75,11 +81,14 @@ public class Movie {
     public String getCategoriesInString()
     {
         String categoriesInString = "";
-        for(Category category: categories)
+        if(!categories.isEmpty())
         {
-            categoriesInString += category.getName() + ", ";
+            for(Category category: categories)
+            {
+                categoriesInString += category.getName() + ", ";
+            }
+            categoriesInString = categoriesInString.substring(0,categoriesInString.length()-2);
         }
-        categoriesInString = categoriesInString.substring(0,categoriesInString.length()-2);
         return categoriesInString;
     }
 
