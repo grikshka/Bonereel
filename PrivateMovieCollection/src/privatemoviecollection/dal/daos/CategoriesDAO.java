@@ -23,6 +23,7 @@ import privatemoviecollection.dal.DbConnectionProvider;
 public class CategoriesDAO {
     
     private DbConnectionProvider connector;
+    private MovieCategoriesDAO mcDao;
     
     /**
      * Creates connector with database.
@@ -30,6 +31,7 @@ public class CategoriesDAO {
     public CategoriesDAO()
     {
         connector = new DbConnectionProvider();
+        mcDao = new MovieCategoriesDAO();
     }
     
     public Category createCategory(User user, String name) throws SQLException
@@ -71,6 +73,7 @@ public class CategoriesDAO {
     
     public void deleteCategory(Category categoryToDelete) throws SQLException
     {
+        mcDao.deleteCategoryFromAllMovies(categoryToDelete);
         String sqlStatement = "DELETE FROM Categories WHERE id=?";
         try(Connection con = connector.getConnection();
                 PreparedStatement statement = con.prepareStatement(sqlStatement))
