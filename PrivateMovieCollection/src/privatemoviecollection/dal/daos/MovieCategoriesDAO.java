@@ -46,7 +46,6 @@ public class MovieCategoriesDAO {
                 statement.addBatch();
             }
             statement.executeBatch();
-            movie.setCategories(categories);
         }
     }
     

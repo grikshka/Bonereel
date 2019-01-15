@@ -101,7 +101,14 @@ public class MovieDAO {
             statement.setString(1, title);
             statement.setString(2, path);
             statement.setInt(3, time);
-            statement.setInt(4, rating);
+            if(rating == null)
+            {
+                statement.setNull(4, Types.INTEGER);
+            }
+            else
+            {
+                statement.setInt(4, rating);
+            }
             statement.setInt(5, movie.getId());
             statement.execute();
             movie.setTitle(title);
@@ -110,6 +117,7 @@ public class MovieDAO {
             movie.setRating(rating);
             mcDao.deleteAllCategoriesFromMovie(movie);
             mcDao.addCategoriesToMovie(movie, categories);
+            movie.setCategories(categories);
             return movie;
         }
     }
