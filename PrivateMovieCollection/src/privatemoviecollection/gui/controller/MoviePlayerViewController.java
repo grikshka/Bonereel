@@ -12,6 +12,8 @@ import java.util.ResourceBundle;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
@@ -41,6 +43,7 @@ public class MoviePlayerViewController implements Initializable {
     private MediaPlayer mediaPlayer;
     private double previousVolume;
     private boolean movieTimeChanged = false;
+    private boolean buttonPlaySelected;
     private double xOffset;
     private double yOffset;
     
@@ -77,6 +80,7 @@ public class MoviePlayerViewController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         createVolumeSliderListener();
         createTimeSliderListener();
+        setPlayButton();
     }   
     
     private void createTimeSliderListener()
@@ -150,9 +154,102 @@ public class MoviePlayerViewController implements Initializable {
         );
     }
 
+    /**
+     * Switches the image of Play/Stop button.
+     */
+    private void switchPlayButton(boolean buttonClicked)
+    {
+        if(buttonClicked)
+        {
+            if(buttonPlaySelected)
+            {
+                btnPlay.setGraphic(new ImageView("/privatemoviecollection/gui/images/PlayButtonLarge.png"));
+                buttonPlaySelected = false;
+            }
+            else
+            {
+                btnPlay.setGraphic(new ImageView("/privatemoviecollection/gui/images/StopButtonLarge.png"));
+                buttonPlaySelected = true;
+            }
+        }
+        else
+        {
+            if(buttonPlaySelected)
+            {
+                btnPlay.setGraphic(new ImageView("/privatemoviecollection/gui/images/PlayButtonSmall.png"));
+                buttonPlaySelected = false;
+            }
+            else
+            {
+                btnPlay.setGraphic(new ImageView("/privatemoviecollection/gui/images/StopButtonSmall.png"));
+                buttonPlaySelected = true;
+            }
+        }
+    }
+    
+    /**
+     * Sets the image and invokes methods for setting animations of play/stop button.
+     */
+    private void setPlayButton()
+    {
+        btnPlay.setGraphic(new ImageView("/privatemoviecollection/gui/images/StopButtonSmall.png"));
+        buttonPlaySelected = true;
+        setPlayButtonHoverIn();
+        setPlayButtonHoverOut();
+    }
+    
+     /**
+     * Sets the Hover in animation of play/stop button.
+     */
+    private void setPlayButtonHoverIn()
+    {
+        btnPlay.setOnMouseEntered(new EventHandler() 
+            {
+                @Override
+                public void handle(Event event) 
+                {
+                    if(buttonPlaySelected)
+                    {
+                        btnPlay.setGraphic(new ImageView("/privatemoviecollection/gui/images/StopButtonLarge.png"));
+                    }
+                    else
+                    {
+                        btnPlay.setGraphic(new ImageView("/privatemoviecollection/gui/images/PlayButtonLarge.png"));
+                    }
+                }
+            
+            }
+        );
+    }
+    
+    /**
+     * Sets the Hover out animation of play/stop button
+     */
+    private void setPlayButtonHoverOut()
+    {
+        btnPlay.setOnMouseExited(new EventHandler() 
+            {
+                @Override
+                public void handle(Event event) 
+                {
+                    if(buttonPlaySelected)
+                    {
+                        btnPlay.setGraphic(new ImageView("/privatemoviecollection/gui/images/StopButtonSmall.png"));
+                    }
+                    else
+                    {
+                        btnPlay.setGraphic(new ImageView("/privatemoviecollection/gui/images/PlayButtonSmall.png"));
+                    }
+                }
+            
+            }
+        );
+    }
+    
     @FXML
     private void clickPlay(ActionEvent event) 
     {
+        switchPlayButton(true);
         if(mediaPlayer.getStatus().equals(MediaPlayer.Status.PLAYING))
         {
             mediaPlayer.pause();
@@ -231,7 +328,7 @@ public class MoviePlayerViewController implements Initializable {
         if(mediaPlayer.getStatus().equals(MediaPlayer.Status.PLAYING))
         {
             mediaPlayer.pause();
-            //change play button image
+            switchPlayButton(false);
             sldTime.setVisible(true);
             sldVolume.setVisible(true);
             btnMute.setVisible(true);
@@ -246,7 +343,7 @@ public class MoviePlayerViewController implements Initializable {
         else
         {
             mediaPlayer.play();
-            //change play button image
+            switchPlayButton(false);
             sldTime.setVisible(false);
             sldVolume.setVisible(false);
             btnMute.setVisible(false);
