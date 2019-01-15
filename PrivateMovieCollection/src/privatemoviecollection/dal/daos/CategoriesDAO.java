@@ -5,6 +5,7 @@
  */
 package privatemoviecollection.dal.daos;
 
+import com.microsoft.sqlserver.jdbc.SQLServerException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -34,7 +35,7 @@ public class CategoriesDAO {
         mcDao = new MovieCategoriesDAO();
     }
     
-    public Category createCategory(User user, String name) throws SQLException
+    public Category createCategory(User user, String name) throws SQLServerException, SQLException
     {
         String sqlStatement = "INSERT INTO Categories(userId, name) VALUES(?,?)";
         try(Connection con = connector.getConnection();
@@ -51,7 +52,7 @@ public class CategoriesDAO {
         }
     }
     
-    public List<Category> getAllCategories(User user) throws SQLException
+    public List<Category> getAllCategories(User user) throws SQLServerException, SQLException
     {
         String sqlStatement = "SELECT * FROM Categories WHERE userId=?";
         List<Category> allCategories = new ArrayList();
@@ -71,7 +72,7 @@ public class CategoriesDAO {
         
     }
     
-    public void deleteCategory(Category categoryToDelete) throws SQLException
+    public void deleteCategory(Category categoryToDelete) throws SQLServerException, SQLException
     {
         mcDao.deleteCategoryFromAllMovies(categoryToDelete);
         String sqlStatement = "DELETE FROM Categories WHERE id=?";
