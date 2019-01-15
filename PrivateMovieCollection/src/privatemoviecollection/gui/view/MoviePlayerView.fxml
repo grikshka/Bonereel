@@ -36,7 +36,7 @@
             </LinearGradient>
          </fill>
       </Rectangle>
-      <Pane onMouseClicked="#clickOnMediaView" onMouseEntered="#hoverOffHud" onMouseExited="#hoverOnHud" prefHeight="495.0" prefWidth="1000.0" style="-fx-background-color: transparent;" />
+      <Pane layoutY="38.0" onMouseClicked="#clickOnMediaView" onMouseEntered="#hoverOffHud" onMouseExited="#hoverOnHud" prefHeight="457.0" prefWidth="1000.0" style="-fx-background-color: transparent;" />
       <Label fx:id="lblMovieCurrentTime" alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="231.0" layoutY="531.0" prefHeight="20.0" prefWidth="48.0" text="--:--" textFill="WHITE">
          <font>
             <Font size="14.0" />
