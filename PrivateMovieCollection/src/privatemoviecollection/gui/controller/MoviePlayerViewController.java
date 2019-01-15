@@ -41,6 +41,8 @@ public class MoviePlayerViewController implements Initializable {
     private MediaPlayer mediaPlayer;
     private double previousVolume;
     private boolean movieTimeChanged = false;
+    private double xOffset;
+    private double yOffset;
     
     @FXML
     private MediaView mdvPlayer;
@@ -256,6 +258,20 @@ public class MoviePlayerViewController implements Initializable {
             rctTop.setVisible(false);
             rctBottom.setVisible(false);
         }
+    }
+
+    @FXML
+    private void clickMouseDragged(MouseEvent event) {
+        Stage stage = (Stage)((Node)((EventObject) event).getSource()).getScene().getWindow();
+        stage.setX(event.getScreenX() + xOffset);
+        stage.setY(event.getScreenY() + yOffset);
+    }
+
+    @FXML
+    private void clickMousePressed(MouseEvent event) {
+        Stage stage = (Stage)((Node)((EventObject) event).getSource()).getScene().getWindow();
+        xOffset = stage.getX() - event.getScreenX();
+        yOffset = stage.getY() - event.getScreenY();
     }
 
     
