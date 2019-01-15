@@ -10,6 +10,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.List;
 import privatemoviecollection.be.Category;
 import privatemoviecollection.be.Movie;
@@ -45,6 +46,7 @@ public class MovieCategoriesDAO {
                 statement.addBatch();
             }
             statement.executeBatch();
+            movie.setCategories(categories);
         }
     }
     
@@ -82,6 +84,17 @@ public class MovieCategoriesDAO {
                 PreparedStatement statement = con.prepareStatement(sqlStatement))
         {
             statement.setInt(1, movie.getId());
+            statement.execute();
+        }
+    }
+    
+    public void deleteCategoryFromAllMovies(Category category) throws SQLException
+    {
+        String sqlStatement = "DELETE FROM MovieCategories WHERE categoryId=?";
+        try(Connection con = connector.getConnection();
+                PreparedStatement statement = con.prepareStatement(sqlStatement))
+        {
+            statement.setInt(1, category.getId());
             statement.execute();
         }
     }
