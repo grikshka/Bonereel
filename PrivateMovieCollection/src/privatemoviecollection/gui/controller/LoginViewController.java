@@ -19,7 +19,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.PasswordField;
@@ -33,6 +32,7 @@ import javafx.stage.StageStyle;
 import privatemoviecollection.be.User;
 import privatemoviecollection.gui.model.MainModel;
 import privatemoviecollection.gui.model.UserModel;
+import privatemoviecollection.gui.util.WarningDisplayer;
 import privatemoviecollection.gui.util.WindowDecorator;
 
 /**
@@ -45,6 +45,7 @@ public class LoginViewController implements Initializable {
     private UserModel userModel;
     private double xOffset;
     private double yOffset;
+    private WarningDisplayer warningDisplayer;
 
     @FXML
     private Button btnLogin;
@@ -56,6 +57,7 @@ public class LoginViewController implements Initializable {
     public LoginViewController()
     {
         userModel = UserModel.createInstance();
+        warningDisplayer = new WarningDisplayer();
     }
     
     /**
@@ -127,11 +129,8 @@ public class LoginViewController implements Initializable {
         }
         else
         {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Cannot log in");
-            alert.setHeaderText(null);
-            alert.setContentText("Invalid email or password");
-            alert.show();
+            Stage currentStage = (Stage)((Node)((EventObject) event).getSource()).getScene().getWindow();
+            warningDisplayer.displayError(currentStage, "Cannot log in", "Invalid email or password");
         }
     }
 

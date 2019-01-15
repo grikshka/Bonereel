@@ -45,6 +45,7 @@ import privatemoviecollection.be.Category;
 import privatemoviecollection.be.Movie;
 import privatemoviecollection.gui.model.CategoriesModel;
 import privatemoviecollection.gui.model.MainModel;
+import privatemoviecollection.gui.util.WarningDisplayer;
 import privatemoviecollection.gui.util.WindowDecorator;
 
 /**
@@ -57,7 +58,8 @@ public class MainViewController implements Initializable {
     private CategoriesModel categoriesModel;
     private double xOffset;
     private double yOffset;
-
+    private WarningDisplayer warningDisplayer;
+    
     @FXML
     private TableView<Movie> tblMovies;
     @FXML
@@ -85,6 +87,7 @@ public class MainViewController implements Initializable {
     {
         mainModel = MainModel.createInstance();
         categoriesModel = CategoriesModel.createInstance();
+        warningDisplayer = new WarningDisplayer();
     }
 
     @Override
@@ -200,11 +203,8 @@ public class MainViewController implements Initializable {
     @FXML
     private void clickRemoveMovie(ActionEvent event) {
         Movie selectedMovie = tblMovies.getSelectionModel().getSelectedItem();
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Confirmation");
-        alert.setHeaderText(null);
-        alert.setContentText("Are you sure you want to delete \"" + selectedMovie.getTitle() + " from your movies?");
-        Optional<ButtonType> action = alert.showAndWait();
+        Stage currentStage = (Stage)((Node)((EventObject) event).getSource()).getScene().getWindow();
+        Optional<ButtonType> action = warningDisplayer.displayConfirmation(currentStage, "Confirmation", "Are you sure you want to delete \"" + selectedMovie.getTitle() + " from your movies?");
         if(action.get() == ButtonType.OK)
         {
             mainModel.deleteMovie(selectedMovie);

@@ -16,49 +16,63 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import privatemoviecollection.be.User;
 import privatemoviecollection.gui.model.UserModel;
+import privatemoviecollection.gui.util.WarningDisplayer;
 
 /**
- * FXML Controller class
- *
- * @author Acer
+ * The {@code CreateUserViewController} class is a controller for
+ * {@code CreateUserView}. It is responsible for sending request to model
+ * to create new user and for checking conditions for users address e-mail
+ * and password.
+ * 
+ * @author schemabuoi
+ * @author kiddo
  */
-public class CreateUserViewController implements Initializable {
 
-    private UserModel model;
+public class CreateUserViewController implements Initializable {
     
-    public CreateUserViewController()
-    {
-        model = UserModel.createInstance();
-    }
+    private UserModel model;
+    private WarningDisplayer warningDisplayer;
     
     @FXML
     private TextField txtEmail;
     @FXML
-    private TextField txtPassword;
+    private PasswordField txtPassword;
     @FXML
-    private TextField txtRepeatPassword;
+    private PasswordField txtRepeatPassword;
+    
+    /**
+     * Creates connection with {@code UserModel} instance.
+     */
+    public CreateUserViewController()
+    {
+        model = UserModel.createInstance();
+        warningDisplayer = new WarningDisplayer();
+    }
 
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
     }    
 
+    /**
+     * Method which is invoked after clicking Create button on 
+     * {@code CreateUserView}. Its responsibility is creating a new user - it is
+     * displaying warnings if user data are incorrect and sending request 
+     * to model to create a new user.
+     */
     @FXML
     private void clickCreate(ActionEvent event) {
+        Stage currentStage = (Stage)((Node)((EventObject) event).getSource()).getScene().getWindow();
         if(!isEmailCorrect(txtEmail.getText()))
         {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Cannot create user");
-            alert.setHeaderText(null);
-            alert.setContentText("Address email is invalid");
-            alert.show();
+            warningDisplayer.displayError(currentStage, "Cannot create user", "Address e-mail is invalid");
         }       
         else
         {
@@ -70,30 +84,18 @@ public class CreateUserViewController implements Initializable {
                 {
                     errorText += "- " + s + "\n";
                 }
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Cannot create user");
-                alert.setHeaderText(null);
-                alert.setContentText(errorText);
-                alert.show();
+                warningDisplayer.displayError(currentStage, "Cannot create user", errorText);
             }
             else if(!txtPassword.getText().equals(txtRepeatPassword.getText()))
             {
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Cannot create user");
-                alert.setHeaderText(null);
-                alert.setContentText("Your passwords are not the same");
-                alert.show();
+                warningDisplayer.displayError(currentStage, "Cannot create user", "Your passwords do not match");
             }
             else
             {
                 User user = model.createUser(txtEmail.getText(), txtPassword.getText());
                 if(user == null)
                 {
-                    Alert alert = new Alert(Alert.AlertType.ERROR);
-                    alert.setTitle("Cannot create user");
-                    alert.setHeaderText(null);
-                    alert.setContentText("This adres e-mail is already taken");
-                    alert.show();
+                    warningDisplayer.displayError(currentStage, "Cannot create user", "This e-mail address is already in use");
                 }
                 else
                 {
@@ -104,6 +106,12 @@ public class CreateUserViewController implements Initializable {
         }
     }
     
+    /**
+     * Checks if given e-mail address is correct.
+     * 
+     * @param email The e-mail to check
+     * @return true if e-mail is correct.
+     */
     private boolean isEmailCorrect(String email)
     {
         if(email.length()<5 || !email.contains("@") || !email.contains("."))
@@ -113,29 +121,40 @@ public class CreateUserViewController implements Initializable {
         return true;
     }
     
+    /**
+     * Returns all faults of given password as a list of strings.
+     * 
+     * @param password The password to check.
+     * @return List of strings.
+     */
     private List<String> getPasswordFaults(String password)
     {
         List<String> faults = new ArrayList();
         if(password.length()<7)
         {
-            faults.add("Your password need o have at least 8 characters");
+            faults.add("Your password has to contain at least 8 characters");
         }
         if(password.equals(password.toLowerCase()) || password.equals(password.toUpperCase()))
         {
-            faults.add("Your password need to contain small and big letters");
+            faults.add("Your password has to contain at least one upper case and one lower case letter");
         }
         if(!password.matches(".*\\d+.*"))
         {
-            faults.add("Your password need to contain numbers");
+            faults.add("Your password has to contain at least one number");
         }
         if(password.matches("[a-zA-Z0-9]*"))
         {
-            faults.add("Your password need to contain special characters");
+            faults.add("Your password has to contain at least one special character");
         }
         return faults;
 
     }
-
+    
+    /**
+     * Method which is invoked after clicking on Close
+     * button on {@code CreateUserView}. It is closing the
+     * current stage.
+     */
     @FXML
     private void clickClose(ActionEvent event) {
         Stage stage = (Stage)((Node)((EventObject) event).getSource()).getScene().getWindow();

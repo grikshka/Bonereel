@@ -19,6 +19,7 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import privatemoviecollection.be.Movie;
 import privatemoviecollection.gui.model.CategoriesModel;
+import privatemoviecollection.gui.util.WarningDisplayer;
 
 /**
  * FXML Controller class
@@ -28,12 +29,15 @@ import privatemoviecollection.gui.model.CategoriesModel;
 public class NewCategoryViewController implements Initializable {
 
     private CategoriesModel model;
+    private WarningDisplayer warningDisplayer;
+    
     @FXML
     private TextField txtName;
     
     public NewCategoryViewController()
     {
         model = CategoriesModel.createInstance();
+        warningDisplayer = new WarningDisplayer();
     }
     
     /**
@@ -48,18 +52,14 @@ public class NewCategoryViewController implements Initializable {
     private void clickSave(ActionEvent event) 
     {
         boolean isCategoryCreated = model.createCategory(txtName.getText());
+        Stage stage = (Stage)((Node)((EventObject) event).getSource()).getScene().getWindow();
         if(isCategoryCreated)
         {
-            Stage stage = (Stage)((Node)((EventObject) event).getSource()).getScene().getWindow();
             stage.close();
         }
         else
         {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Error");
-            alert.setHeaderText(null);
-            alert.setContentText(txtName.getText() + " is already in your categories");
-            alert.show();
+            warningDisplayer.displayError(stage, "Error", (txtName.getText() + " is already in your categories"));
         }
     }
 
