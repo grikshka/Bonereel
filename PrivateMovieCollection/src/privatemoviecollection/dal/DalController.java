@@ -8,6 +8,8 @@ package privatemoviecollection.dal;
 import com.microsoft.sqlserver.jdbc.SQLServerException;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import privatemoviecollection.be.Category;
 import privatemoviecollection.be.Movie;
 import privatemoviecollection.be.User;
@@ -25,6 +27,7 @@ public class DalController implements IDalFacade{
     private MovieDAO mDao;
     private CategoriesDAO cDao;
     private UserDAO userDao;
+    private final static Logger LOGGER = Logger.getLogger(DalController.class.getName());
     
     public DalController()
     {
@@ -93,45 +96,57 @@ public class DalController implements IDalFacade{
     }
 
     @Override
-    public Category createCategory(User user, String name) 
+    public Category createCategory(User user, String name) throws DalException
     {
         Category category = null;
         try
         {
             category = cDao.createCategory(user, name);
         }
+        catch(SQLServerException e)
+        {
+            throw new DalException("Cannot connect to server. Check your internet connection.");
+        }
         catch(SQLException e)
         {
-            //TO DO
+            LOGGER.log(Level.SEVERE, e.getMessage(), e);
         }
         return category;
     }
     
     @Override
-    public List<Category> getAllCategories(User user)
+    public List<Category> getAllCategories(User user) throws DalException
     {
         List<Category> allCategories = null;
         try
         {
             allCategories = cDao.getAllCategories(user);
         }
+        catch(SQLServerException e)
+        {
+            throw new DalException("Cannot connect to server. Check your internet connection.");
+        }
         catch(SQLException e)
         {
-            //TO DO
+            LOGGER.log(Level.SEVERE, e.getMessage(), e);
         }
         return allCategories;
     }
     
     @Override
-    public void deleteCategory(Category categoryToDelete)
+    public void deleteCategory(Category categoryToDelete) throws DalException
     {
         try
         {
             cDao.deleteCategory(categoryToDelete);
         }
+        catch(SQLServerException e)
+        {
+            throw new DalException("Cannot connect to server. Check your internet connection.");
+        }
         catch(SQLException e)
         {
-            e.printStackTrace();
+            LOGGER.log(Level.SEVERE, e.getMessage(), e);
         }
     }
     
@@ -149,7 +164,7 @@ public class DalController implements IDalFacade{
         }
         catch(SQLException e)
         {
-            //TO DO
+            LOGGER.log(Level.SEVERE, e.getMessage(), e);
         }
         return user;
     }
@@ -163,13 +178,13 @@ public class DalController implements IDalFacade{
             user = userDao.getUser(email, password);
         }
         catch(SQLServerException e)
-        {
+        {          
             throw new DalException("Cannot connect to server. Check your internet connection.");
         }
         catch(SQLException e)
         {
-            //TO DO
-        }
+            LOGGER.log(Level.SEVERE, e.getMessage(), e);
+        }   
         return user;
     }
     

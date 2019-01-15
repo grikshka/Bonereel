@@ -26,11 +26,11 @@ public interface IDalFacade {
     
     void deleteMovie(Movie movieToDelete);
     
-    Category createCategory(User user, String name);
+    Category createCategory(User user, String name) throws DalException;
     
-    List<Category> getAllCategories(User user);
+    List<Category> getAllCategories(User user) throws DalException;
     
-    void deleteCategory(Category categoryToDelete);
+    void deleteCategory(Category categoryToDelete) throws DalException;
     
     User createUser(String email, String password) throws DalException;
 
