@@ -12,6 +12,7 @@
 }
 .button:hover{
     -fx-background-image: url("../images/EditButton.png");
+    -fx-background-size: 28 28;
 }
 .button:pressed{
     -fx-background-image: url("../images/EditButton.png");

@@ -47,13 +47,13 @@
     -fx-text-fill:white;
 }
 .table-view .arrow{
-    -fx-background-color:#6fff00;
+    -fx-background-color:#4deeea;
 }
 .table-row-cell{
     -fx-text-background-color:white;
 }
 .table-row-cell:selected{
-    -fx-text-background-color:#403998;
+    -fx-text-background-color:#4deeea;
 }
 .table-row-cell:hover{
     -fx-text-background-color:#b3b3b3;

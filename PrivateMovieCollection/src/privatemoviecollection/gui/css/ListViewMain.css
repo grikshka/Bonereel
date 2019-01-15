@@ -5,13 +5,13 @@
 
 .list-view .column-header,
 .list-view .column-header-background .filler{
-    -fx-background-color:#181818; 
+    -fx-background-color:#121212; 
 }
 .list-view .scroll-bar{
-    -fx-background-color:#181818; 
+    -fx-background-color:#121212; 
 }
 .list-view .scroll-bar:vertical{
-    -fx-background-color:#181818; 
+    -fx-background-color:#121212; 
 }
 .list-view .scroll-bar:horizontal{
     -fx-background-color:transparent;
@@ -30,23 +30,22 @@
 }
 
 .list-view{
-    -fx-background-color:#181818;
+    -fx-background-color:#121212;
 }
 
 .list-view .list-cell:hover{
-    -fx-text-fill:#4deeea;
-}
-
-.list-view .list-cell:selected{
-    -fx-background-color:#535353;
+    -fx-text-fill:#b3b3b3;
+    -fx-background-color:#101010;
 }
 
 .list-view .list-cell{
-    -fx-padding:5 5 5 80;
-    -fx-background-color:#181818;
+    -fx-background-color:#121212;
+    -fx-font-size:25;
+    
+    -fx-border-width:5;
+    -fx-border-color: red
+    -fx-alignment:center;
     -fx-text-fill:white;
-    -fx-font-size:13;
-    -fx-font-weight:bold;
 }
 
 .list-view .label{

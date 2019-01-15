@@ -11,7 +11,7 @@
     -fx-background-size:8 8;  
 }
 .button:hover{
-    -fx-background-color:#535353;
+    -fx-background-color:#bd0832;
     -fx-background-image: url("../images/CancelView.png");
     -fx-background-repeat:no-repeat;
     -fx-background-position:center;
