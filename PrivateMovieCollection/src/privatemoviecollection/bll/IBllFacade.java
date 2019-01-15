@@ -9,6 +9,7 @@ import java.util.List;
 import privatemoviecollection.be.Category;
 import privatemoviecollection.be.Movie;
 import privatemoviecollection.be.User;
+import privatemoviecollection.bll.exceptions.BllException;
 
 /**
  *
@@ -30,8 +31,8 @@ public interface IBllFacade {
     
     void deleteCategory(Category categoryToDelete);
     
-    User createUser(String email, String password);
+    User createUser(String email, String password) throws BllException;
 
-    User getUser(String email, String password);
+    User getUser(String email, String password) throws BllException;
     
 }

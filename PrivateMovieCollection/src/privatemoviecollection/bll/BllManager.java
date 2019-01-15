@@ -9,8 +9,10 @@ import java.util.List;
 import privatemoviecollection.be.Category;
 import privatemoviecollection.be.Movie;
 import privatemoviecollection.be.User;
+import privatemoviecollection.bll.exceptions.BllException;
 import privatemoviecollection.dal.DalController;
 import privatemoviecollection.dal.IDalFacade;
+import privatemoviecollection.dal.exceptions.DalException;
 
 /**
  *
@@ -68,13 +70,28 @@ public class BllManager implements IBllFacade{
     }
     
     @Override
-    public User createUser(String email, String password) {
+    public User createUser(String email, String password) throws BllException{
+        try
+        {
         return dalController.createUser(email,password);
+        }
+        catch(DalException e)
+        {
+            throw new BllException(e.getMessage());
+        }
     }
 
     @Override
-    public User getUser(String email, String password) {
-        return dalController.getUser(email, password);
+    public User getUser(String email, String password) throws BllException{
+        try
+        {
+            return dalController.getUser(email, password);
+            
+        }
+        catch(DalException e)
+        {
+            throw new BllException(e.getMessage());
+        }
     }
     
 }
