@@ -5,6 +5,7 @@
  */
 package privatemoviecollection.dal;
 
+import com.microsoft.sqlserver.jdbc.SQLServerException;
 import java.sql.SQLException;
 import java.util.List;
 import privatemoviecollection.be.Category;
@@ -13,6 +14,7 @@ import privatemoviecollection.be.User;
 import privatemoviecollection.dal.daos.CategoriesDAO;
 import privatemoviecollection.dal.daos.MovieDAO;
 import privatemoviecollection.dal.daos.UserDAO;
+import privatemoviecollection.dal.exceptions.DalException;
 
 /**
  *
@@ -129,17 +131,21 @@ public class DalController implements IDalFacade{
         }
         catch(SQLException e)
         {
-            //TO DO
+            e.printStackTrace();
         }
     }
     
     @Override
-    public User createUser(String email, String password)
+    public User createUser(String email, String password) throws DalException
     {
         User user = null;
         try
         {
             user = userDao.createUser(email, password);
+        }
+        catch(SQLServerException e)
+        {
+            throw new DalException("Cannot connect to server. Check your internet connection.");
         }
         catch(SQLException e)
         {
@@ -149,12 +155,16 @@ public class DalController implements IDalFacade{
     }
 
     @Override
-    public User getUser(String email, String password)
+    public User getUser(String email, String password) throws DalException
     {
         User user = null;
         try
         {
             user = userDao.getUser(email, password);
+        }
+        catch(SQLServerException e)
+        {
+            throw new DalException("Cannot connect to server. Check your internet connection.");
         }
         catch(SQLException e)
         {

@@ -10,6 +10,7 @@ import java.util.List;
 import privatemoviecollection.be.Category;
 import privatemoviecollection.be.Movie;
 import privatemoviecollection.be.User;
+import privatemoviecollection.dal.exceptions.DalException;
 
 /**
  *
@@ -31,7 +32,7 @@ public interface IDalFacade {
     
     void deleteCategory(Category categoryToDelete);
     
-    User createUser(String email, String password);
+    User createUser(String email, String password) throws DalException;
 
-    User getUser(String email, String password);
+    User getUser(String email, String password) throws DalException;
 }
