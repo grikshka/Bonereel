@@ -21,12 +21,14 @@ public class CategoriesModel {
     private static CategoriesModel instance;
     private IBllFacade bllManager;
     private ObservableList<Category> categories;
+    private MainModel mainModel;
     private static User loggedInUser;
     
     private CategoriesModel()
     {
         bllManager = new BllManager();
         categories = FXCollections.observableArrayList(bllManager.getAllCategories(loggedInUser));
+        mainModel = MainModel.createInstance();
     }
     
     public static CategoriesModel createInstance()
@@ -74,6 +76,8 @@ public class CategoriesModel {
     public void deleteCategory(Category category)
     {
         bllManager.deleteCategory(category);
+        mainModel.deleteCategoryFromAllMovies(category);
         categories.remove(category);
     }
+    
 }

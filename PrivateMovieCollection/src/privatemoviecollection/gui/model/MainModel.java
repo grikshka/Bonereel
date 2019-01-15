@@ -60,8 +60,8 @@ public class MainModel {
     
     public void updateMovie(Movie movie, String title, List<Category> categories, String path, int time, Integer rating)
     {
-        bllManager.updateMovie(movie, title, categories, path, time, rating);
-        updateListOfMovies(movie);
+        Movie updatedMovie = bllManager.updateMovie(movie, title, categories, path, time, rating);
+        updateListOfMovies(updatedMovie);
     }
     
     private void updateListOfMovies(Movie movie)
@@ -73,6 +73,28 @@ public class MainModel {
     public void deleteMovie(Movie movie) {
         bllManager.deleteMovie(movie);
         movies.remove(movie);
+    }
+    
+    public void deleteCategoryFromAllMovies(Category category)
+    {
+        for(Movie movie : movies)
+        {
+            if(movie.removeCategory(category))
+            {
+                updateMovieCategories(movie);
+                updateListOfMovies(movie);
+            }
+        }
+    }
+    
+    private void updateMovieCategories(Movie movie)
+    {
+        List<Category> categories = new ArrayList();
+        for(Category category : movie.getCategories())
+        {
+            categories.add(category);
+        }
+        movie.setCategories(categories);
     }
     
     public ObservableList<Movie> getFilteredMovies(List<Category> categories, String filter, Integer rating)
