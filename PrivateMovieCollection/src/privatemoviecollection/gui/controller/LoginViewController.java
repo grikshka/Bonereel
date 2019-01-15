@@ -30,6 +30,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import privatemoviecollection.be.User;
+import privatemoviecollection.gui.exceptions.ModelException;
 import privatemoviecollection.gui.model.MainModel;
 import privatemoviecollection.gui.model.UserModel;
 import privatemoviecollection.gui.util.WarningDisplayer;
@@ -115,9 +116,9 @@ public class LoginViewController implements Initializable {
 
     @FXML
     private void clickLogin(ActionEvent event) throws IOException {
-        User user = userModel.getUser(txtEmail.getText(), txtPassword.getText());
-        if(user != null)
+        try
         {
+            User user = userModel.getUser(txtEmail.getText(), txtPassword.getText());
             Stage stage = (Stage)((Node)((EventObject) event).getSource()).getScene().getWindow();
             stage.hide();
             userModel.setUser(user);
@@ -127,10 +128,10 @@ public class LoginViewController implements Initializable {
             stage.centerOnScreen();
             WindowDecorator.showStage(stage);
         }
-        else
+        catch(ModelException e)
         {
             Stage currentStage = (Stage)((Node)((EventObject) event).getSource()).getScene().getWindow();
-            warningDisplayer.displayError(currentStage, "Cannot log in", "Invalid email or password");
+            warningDisplayer.displayError(currentStage, "Error", e.getMessage());
         }
     }
 

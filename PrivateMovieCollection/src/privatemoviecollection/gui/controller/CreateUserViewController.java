@@ -20,6 +20,7 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import privatemoviecollection.be.User;
+import privatemoviecollection.gui.exceptions.ModelException;
 import privatemoviecollection.gui.model.UserModel;
 import privatemoviecollection.gui.util.WarningDisplayer;
 
@@ -92,15 +93,14 @@ public class CreateUserViewController implements Initializable {
             }
             else
             {
-                User user = model.createUser(txtEmail.getText(), txtPassword.getText());
-                if(user == null)
+                try
                 {
-                    warningDisplayer.displayError(currentStage, "Cannot create user", "This e-mail address is already in use");
+                    User user = model.createUser(txtEmail.getText(), txtPassword.getText());
+                    currentStage.close();
                 }
-                else
+                catch(ModelException e)
                 {
-                    Stage stage = (Stage)((Node)((EventObject) event).getSource()).getScene().getWindow();
-                    stage.close();
+                    warningDisplayer.displayError(currentStage, "Error", e.getMessage());
                 }
             }
         }
