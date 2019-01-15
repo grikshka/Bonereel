@@ -28,6 +28,8 @@ import javafx.stage.StageStyle;
 import privatemoviecollection.be.Category;
 import privatemoviecollection.be.Movie;
 import privatemoviecollection.gui.model.CategoriesModel;
+import privatemoviecollection.gui.util.WarningDisplayer;
+import privatemoviecollection.gui.util.WindowDecorator;
 
 /**
  * FXML Controller class
@@ -37,12 +39,15 @@ import privatemoviecollection.gui.model.CategoriesModel;
 public class CategoriesViewController implements Initializable {
 
     private CategoriesModel model;
+    private WarningDisplayer warningDisplayer;
+    
     @FXML
     private Button btnDelete;
     
     public CategoriesViewController()
     {
         model = CategoriesModel.createInstance();
+        warningDisplayer = new WarningDisplayer();
     }
     
     @FXML
@@ -59,6 +64,8 @@ public class CategoriesViewController implements Initializable {
 
     @FXML
     private void clickNewCategory(ActionEvent event) throws IOException {
+        Stage currentStage = (Stage)((Node)((EventObject) event).getSource()).getScene().getWindow();
+        WindowDecorator.fadeOutStage(currentStage);
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/privatemoviecollection/gui/view/NewCategoryView.fxml"));
         Parent root = (Parent) fxmlLoader.load();
         Stage stage = new Stage();
@@ -66,7 +73,8 @@ public class CategoriesViewController implements Initializable {
         stage.initStyle(StageStyle.UNDECORATED);
         stage.setTitle("New Category");
         stage.setScene(new Scene(root));
-        stage.show();
+        stage.showAndWait();
+        WindowDecorator.fadeInStage(currentStage);
     }
 
     @FXML
@@ -81,11 +89,9 @@ public class CategoriesViewController implements Initializable {
     private void clickDelete(ActionEvent event) 
     {
         Category selectedCategory = lstCategories.getSelectionModel().getSelectedItem();
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Confirmation");
-        alert.setHeaderText(null);
-        alert.setContentText("Are you sure you want to delete \"" + selectedCategory.getName() + " from your categories?");
-        Optional<ButtonType> action = alert.showAndWait();
+        Stage currentStage = (Stage)((Node)((EventObject) event).getSource()).getScene().getWindow();
+        Optional<ButtonType> action = warningDisplayer.displayConfirmation(currentStage, "Confirmation", "Are you sure you want to delete \"" + selectedCategory.getName() + "\" from your categories?" + 
+                                                                                                                "\nDeleting this category will remove it from all the movies that belong to it.");
         if(action.get() == ButtonType.OK)
         {
             model.deleteCategory(selectedCategory);
