@@ -52,21 +52,42 @@ public class BllManager implements IBllFacade{
     }
 
     @Override
-    public Category createCategory(User user, String name) 
+    public Category createCategory(User user, String name) throws BllException
     {
-        return dalController.createCategory(user, name);
+        try
+        {
+            return dalController.createCategory(user, name);
+        }
+        catch(DalException e)
+        {
+            throw new BllException(e.getMessage());
+        }
     }
     
     @Override
-    public List<Category> getAllCategories(User user)
+    public List<Category> getAllCategories(User user) throws BllException
     {
-        return dalController.getAllCategories(user);
+        try
+        {
+            return dalController.getAllCategories(user);
+        }
+        catch(DalException e)
+        {
+            throw new BllException(e.getMessage());
+        }
     }
     
     @Override
-    public void deleteCategory(Category categoryToDelete)
+    public void deleteCategory(Category categoryToDelete) throws BllException
     {
-        dalController.deleteCategory(categoryToDelete);
+        try
+        {
+            dalController.deleteCategory(categoryToDelete);
+        }
+        catch(DalException e)
+        {
+            throw new BllException(e.getMessage());
+        }
     }
     
     @Override

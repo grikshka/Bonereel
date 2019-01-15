@@ -25,11 +25,11 @@ public interface IBllFacade {
     
     void deleteMovie(Movie movieToDelete);
     
-    Category createCategory(User user, String name);
+    Category createCategory(User user, String name) throws BllException;
     
-    List<Category> getAllCategories(User user);
+    List<Category> getAllCategories(User user) throws BllException;
     
-    void deleteCategory(Category categoryToDelete);
+    void deleteCategory(Category categoryToDelete) throws BllException;
     
     User createUser(String email, String password) throws BllException;
 
