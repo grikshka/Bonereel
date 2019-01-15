@@ -39,11 +39,11 @@ public class UserDAO {
      * @return Created user.
      * @throws SQLException if connection with database cannot be established.
      */
-    public User createUser(String email, String password) throws SQLException
+    public User createUser(String email, String password) throws SQLException, DalException
     {
         if(isEmailTaken(email))
         {
-            return null;
+            throw new DalException("This e-mail address is already in use");
         }
         else
         {
