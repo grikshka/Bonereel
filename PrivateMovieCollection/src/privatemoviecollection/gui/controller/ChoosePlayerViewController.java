@@ -17,6 +17,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ListView;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.stage.Stage;
@@ -30,28 +31,27 @@ import privatemoviecollection.gui.util.WindowDecorator;
  * @author Acer
  */
 public class ChoosePlayerViewController implements Initializable {
-
-    @FXML
-    private RadioButton rdoWindowsMediaPlayer;
-    @FXML
-    private ToggleGroup player;
-    @FXML
-    private RadioButton rdoPrivateMoviePlayer;
     
     private Movie movieToPlay;
+    
+    @FXML
+    private ListView<String> lstPlayerSelection;
 
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+        lstPlayerSelection.getItems().add("Windows Media Player");
+        lstPlayerSelection.getItems().add("Bonereel Player");
+        lstPlayerSelection.getSelectionModel().select("Windows Media Player");
+
     }    
 
     @FXML
     private void clickOk(ActionEvent event) throws IOException 
     {
-        if(rdoWindowsMediaPlayer.isSelected())
+        if(lstPlayerSelection.getSelectionModel().getSelectedItem().equals("Windows Media Player"))
         {
             Stage currentStage = (Stage)((Node)((EventObject) event).getSource()).getScene().getWindow();
             currentStage.close();
@@ -67,7 +67,7 @@ public class ChoosePlayerViewController implements Initializable {
             Stage stage = new Stage();
             stage.setScene(new Scene(root));
             stage.initStyle(StageStyle.UNDECORATED);
-            WindowDecorator.showStage(stage);
+            stage.show();
             MoviePlayerViewController controller = (MoviePlayerViewController) fxmlLoader.getController();
             controller.playMovie(movieToPlay);
         }
@@ -76,6 +76,12 @@ public class ChoosePlayerViewController implements Initializable {
     public void setMovieToPlayer(Movie movie)
     {
         movieToPlay = movie;
+    }
+
+    @FXML
+    private void clickClose(ActionEvent event) {
+        Stage currentStage = (Stage)((Node)((EventObject) event).getSource()).getScene().getWindow();
+        currentStage.close();
     }
     
 }
