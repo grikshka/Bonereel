@@ -11,7 +11,7 @@
 <AnchorPane id="AnchorPane" prefHeight="242.0" prefWidth="452.0" style="-fx-background-color: #121212;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="privatemoviecollection.gui.controller.ChoosePlayerViewController">
    <children>
       <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#1f93ff00" height="242.0" stroke="#212121" strokeLineJoin="ROUND" strokeType="INSIDE" strokeWidth="2.0" width="453.0" />
-      <ListView fx:id="lstPlayerSelection" fixedCellSize="70.0" layoutY="39.0" prefHeight="142.0" prefWidth="453.0" stylesheets="@../css/ListView.css" />
+      <ListView fx:id="lstPlayerSelection" fixedCellSize="70.0" layoutY="39.0" prefHeight="142.0" prefWidth="453.0" stylesheets="@../css/ListViewPlayerChooser.css" />
       <ImageView fitHeight="37.0" fitWidth="40.0" layoutX="20.0" layoutY="58.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../images/wmplayer.png" />
