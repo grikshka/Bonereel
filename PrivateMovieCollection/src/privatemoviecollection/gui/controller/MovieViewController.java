@@ -32,8 +32,10 @@ import javafx.stage.Stage;
 import privatemoviecollection.be.Category;
 import privatemoviecollection.be.Movie;
 import privatemoviecollection.bll.util.TimeConverter;
+import privatemoviecollection.gui.exceptions.ModelException;
 import privatemoviecollection.gui.model.CategoriesModel;
 import privatemoviecollection.gui.model.MainModel;
+import privatemoviecollection.gui.util.WarningDisplayer;
 
 /**
  * FXML Controller class
@@ -46,6 +48,7 @@ public class MovieViewController implements Initializable {
     private CategoriesModel categoriesModel;
     private boolean editing;
     private Movie editingMovie;
+    private  WarningDisplayer warningDisplayer;
     
     @FXML
     private TextField txtTitle;
@@ -66,8 +69,17 @@ public class MovieViewController implements Initializable {
 
     public MovieViewController()
     {
-        mainModel = MainModel.createInstance();
-        categoriesModel = CategoriesModel.createInstance();
+        warningDisplayer = new WarningDisplayer();
+        try
+        {
+            mainModel = MainModel.createInstance();
+            categoriesModel = CategoriesModel.createInstance();
+        }
+        catch(ModelException e)
+        {
+            Stage currentStage = (Stage) txtTitle.getScene().getWindow();
+            warningDisplayer.displayError(currentStage, "Error", e.getMessage());
+        }
         editing = false;
     }
     

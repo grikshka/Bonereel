@@ -27,6 +27,7 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import privatemoviecollection.be.Category;
 import privatemoviecollection.be.Movie;
+import privatemoviecollection.gui.exceptions.ModelException;
 import privatemoviecollection.gui.model.CategoriesModel;
 import privatemoviecollection.gui.util.WarningDisplayer;
 import privatemoviecollection.gui.util.WindowDecorator;
@@ -46,8 +47,16 @@ public class CategoriesViewController implements Initializable {
     
     public CategoriesViewController()
     {
-        model = CategoriesModel.createInstance();
         warningDisplayer = new WarningDisplayer();
+        try
+        {
+            model = CategoriesModel.createInstance();
+        }
+        catch(ModelException e)
+        {
+            Stage currentStage = (Stage) btnDelete.getScene().getWindow();
+            warningDisplayer.displayError(currentStage, "Error", e.getMessage());
+        }
     }
     
     @FXML
@@ -94,7 +103,14 @@ public class CategoriesViewController implements Initializable {
                                                                                                                 "\nDeleting this category will remove it from all the movies that belong to it.");
         if(action.get() == ButtonType.OK)
         {
-            model.deleteCategory(selectedCategory);
+            try
+            {
+                model.deleteCategory(selectedCategory);
+            }
+            catch(ModelException e)
+            {
+                warningDisplayer.displayError(currentStage, "Error", e.getMessage());
+            }
         }
         lstCategories.getSelectionModel().clearSelection();
         btnDelete.setDisable(true);

@@ -18,6 +18,7 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import privatemoviecollection.be.Movie;
+import privatemoviecollection.gui.exceptions.ModelException;
 import privatemoviecollection.gui.model.CategoriesModel;
 import privatemoviecollection.gui.util.WarningDisplayer;
 
@@ -36,8 +37,16 @@ public class NewCategoryViewController implements Initializable {
     
     public NewCategoryViewController()
     {
-        model = CategoriesModel.createInstance();
         warningDisplayer = new WarningDisplayer();
+        try
+        {
+            model = CategoriesModel.createInstance();
+        }
+        catch(ModelException e)
+        {
+            Stage currentStage = (Stage) txtName.getScene().getWindow();
+            warningDisplayer.displayError(currentStage, "Error", e.getMessage());
+        }
     }
     
     /**
@@ -51,15 +60,14 @@ public class NewCategoryViewController implements Initializable {
     @FXML
     private void clickSave(ActionEvent event) 
     {
-        boolean isCategoryCreated = model.createCategory(txtName.getText());
-        Stage stage = (Stage)((Node)((EventObject) event).getSource()).getScene().getWindow();
-        if(isCategoryCreated)
+        try
         {
-            stage.close();
+            model.createCategory(txtName.getText());
         }
-        else
+        catch(ModelException e)
         {
-            warningDisplayer.displayError(stage, "Error", (txtName.getText() + " is already in your categories"));
+            Stage stage = (Stage)((Node)((EventObject) event).getSource()).getScene().getWindow();
+            warningDisplayer.displayError(stage, "Error", e.getMessage());
         }
     }
 

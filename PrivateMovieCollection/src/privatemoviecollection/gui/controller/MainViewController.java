@@ -43,6 +43,7 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import privatemoviecollection.be.Category;
 import privatemoviecollection.be.Movie;
+import privatemoviecollection.gui.exceptions.ModelException;
 import privatemoviecollection.gui.model.CategoriesModel;
 import privatemoviecollection.gui.model.MainModel;
 import privatemoviecollection.gui.util.WarningDisplayer;
@@ -85,9 +86,16 @@ public class MainViewController implements Initializable {
     
     public MainViewController()
     {
-        mainModel = MainModel.createInstance();
-        categoriesModel = CategoriesModel.createInstance();
-        warningDisplayer = new WarningDisplayer();
+        try
+        {
+            mainModel = MainModel.createInstance();
+            categoriesModel = CategoriesModel.createInstance();
+        }
+        catch(ModelException e)
+        {
+            Stage currentStage = (Stage) tblMovies.getScene().getWindow();
+            warningDisplayer.displayError(currentStage, "Error", e.getMessage());
+        }
     }
 
     @Override
