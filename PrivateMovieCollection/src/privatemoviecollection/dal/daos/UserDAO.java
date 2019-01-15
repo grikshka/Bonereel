@@ -5,6 +5,7 @@
  */
 package privatemoviecollection.dal.daos;
 
+import com.microsoft.sqlserver.jdbc.SQLServerException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -12,6 +13,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import privatemoviecollection.be.User;
 import privatemoviecollection.dal.DbConnectionProvider;
+import privatemoviecollection.dal.exceptions.DalException;
 
 /**
  *
@@ -97,7 +99,7 @@ public class UserDAO {
      * @return The user.
      * @throws SQLException if connection with database cannot be established. 
      */
-    public User getUser(String email, String password) throws SQLException
+    public User getUser(String email, String password) throws SQLServerException, SQLException, DalException
     {
         String sqlStatement = "SELECT * FROM Users WHERE email=? and password=?";
         try(Connection con = connector.getConnection();
@@ -109,7 +111,7 @@ public class UserDAO {
                 ResultSet rs = statement.executeQuery();
                 if(rs.next()==false)
                 {
-                    return null;
+                    throw new DalException("Invalid e-mail address or password.");
                 }
                 else
                 {
