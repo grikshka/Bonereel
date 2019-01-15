@@ -11,6 +11,9 @@ import privatemoviecollection.be.Category;
 import privatemoviecollection.be.User;
 import privatemoviecollection.bll.BllManager;
 import privatemoviecollection.bll.IBllFacade;
+import privatemoviecollection.bll.exceptions.BllException;
+import privatemoviecollection.gui.exceptions.ModelException;
+import privatemoviecollection.gui.util.WarningDisplayer;
 
 /**
  *
@@ -23,15 +26,24 @@ public class CategoriesModel {
     private ObservableList<Category> categories;
     private MainModel mainModel;
     private static User loggedInUser;
+    private WarningDisplayer warningDisplayer;
     
-    private CategoriesModel()
+    private CategoriesModel() throws ModelException
     {
         bllManager = new BllManager();
-        categories = FXCollections.observableArrayList(bllManager.getAllCategories(loggedInUser));
+        warningDisplayer = new WarningDisplayer();
+        try
+        {
+            categories = FXCollections.observableArrayList(bllManager.getAllCategories(loggedInUser));
+        }
+        catch(BllException e)
+        {
+            throw new ModelException(e.getMessage());
+        }
         mainModel = MainModel.createInstance();
     }
     
-    public static CategoriesModel createInstance()
+    public static CategoriesModel createInstance() throws ModelException
     {
         if(instance == null)
         {
@@ -50,15 +62,21 @@ public class CategoriesModel {
         return categories;
     }
     
-    public boolean createCategory(String name)
+    public void createCategory(String name) throws ModelException
     {
         if(isCategoryExisting(name))
         {
-            return false;
+            throw new ModelException(name + " is already in your categories");
         }
-        Category createdCategory = bllManager.createCategory(loggedInUser, name);
-        categories.add(createdCategory);
-        return true;
+        try
+        {
+            Category createdCategory = bllManager.createCategory(loggedInUser, name);
+            categories.add(createdCategory);
+        }
+        catch(BllException e)
+        {
+            throw new ModelException(e.getMessage());
+        }
     }
     
     private boolean isCategoryExisting(String name)
@@ -73,11 +91,18 @@ public class CategoriesModel {
         return false;
     }
     
-    public void deleteCategory(Category category)
+    public void deleteCategory(Category category) throws ModelException
     {
-        bllManager.deleteCategory(category);
-        mainModel.deleteCategoryFromAllMovies(category);
-        categories.remove(category);
+        try
+        {
+            bllManager.deleteCategory(category);
+            mainModel.deleteCategoryFromAllMovies(category);
+            categories.remove(category);
+        }
+        catch(BllException e)
+        {
+            throw new ModelException(e.getMessage());
+        }
     }
     
 }
