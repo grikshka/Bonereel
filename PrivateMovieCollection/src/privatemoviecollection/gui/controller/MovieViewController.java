@@ -111,7 +111,7 @@ public class MovieViewController implements Initializable {
         }
         cmbRating.getSelectionModel().select(editingMovie.getRatingInString());
         txtFile.setText(editingMovie.getPath());
-        txtTime.setText(Integer.toString(editingMovie.getTime()));
+        txtTime.setText(TimeConverter.convertToString(editingMovie.getTime()));
         txtTitle.setFocusTraversable(false);
     }
 
@@ -170,7 +170,7 @@ public class MovieViewController implements Initializable {
     
     public void checkInputs()
     {
-        if(txtTitle.getText().isEmpty() || lstSelectedCategories.getItems().isEmpty() || txtFile.getText().isEmpty())
+        if(txtTitle.getText().isEmpty() || txtFile.getText().isEmpty())
         {
             btnSave.setDisable(true);
         }
