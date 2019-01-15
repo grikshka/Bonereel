@@ -8,6 +8,8 @@ package privatemoviecollection.gui.model;
 import privatemoviecollection.be.User;
 import privatemoviecollection.bll.BllManager;
 import privatemoviecollection.bll.IBllFacade;
+import privatemoviecollection.bll.exceptions.BllException;
+import privatemoviecollection.gui.exceptions.ModelException;
 
 /**
  *
@@ -38,13 +40,27 @@ public class UserModel {
         CategoriesModel.setUser(user);
     }
 
-    public User createUser(String email, String password)
+    public User createUser(String email, String password) throws ModelException
     {
-        return bllManager.createUser(email, password);
+        try
+        {
+            return bllManager.createUser(email, password);
+        }
+        catch(BllException e)
+        {
+            throw new ModelException(e.getMessage());
+        }
     }
 
-    public User getUser(String email, String password)
+    public User getUser(String email, String password) throws ModelException
     {
-        return bllManager.getUser(email, password);
+        try
+        {
+            return bllManager.getUser(email, password);
+        }
+        catch(BllException e)
+        {
+            throw new ModelException(e.getMessage());
+        }
     }
 }
