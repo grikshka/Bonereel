@@ -282,4 +282,25 @@ public class MainViewController implements Initializable {
         yOffset = stage.getY() - event.getScreenY();
     }
 
+    @FXML
+    private void clickCategory(MouseEvent event) 
+    {
+        MouseButton button = event.getButton();
+        if(button==MouseButton.SECONDARY)
+        {
+            if (lstSelectedCategories.getItems() != null)
+            {
+                lstSelectedCategories.getItems().remove(lstSelectedCategories.getSelectionModel().getSelectedItem());
+                tblMovies.setItems(getFilteredMovies());
+                tblMovies.getSelectionModel().clearSelection();
+                btnEditMovie.setDisable(true);
+                btnRemoveMovie.setDisable(true);
+            }
+        }
+        else if(button==MouseButton.PRIMARY)
+        {
+            lstSelectedCategories.getSelectionModel().clearSelection();
+        }
+    }
+    
 }
