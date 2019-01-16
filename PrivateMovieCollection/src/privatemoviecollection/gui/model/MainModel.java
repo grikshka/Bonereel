@@ -14,7 +14,9 @@ import privatemoviecollection.be.Movie;
 import privatemoviecollection.be.User;
 import privatemoviecollection.bll.BllManager;
 import privatemoviecollection.bll.IBllFacade;
+import privatemoviecollection.bll.exceptions.BllException;
 import privatemoviecollection.bll.util.MovieSearcher;
+import privatemoviecollection.gui.exceptions.ModelException;
 
 /**
  *
@@ -27,13 +29,20 @@ public class MainModel {
     private ObservableList<Movie> movies;
     private static User loggedInUser;
     
-    private MainModel()
+    private MainModel() throws ModelException
     {
         bllManager = new BllManager();
-        movies = FXCollections.observableArrayList(bllManager.getAllMovies(loggedInUser));       
+        try
+        {
+            movies = FXCollections.observableArrayList(bllManager.getAllMovies(loggedInUser));     
+        }
+        catch(BllException e)
+        {
+            throw new ModelException(e.getMessage());
+        }
     }
     
-    public static MainModel createInstance()
+    public static MainModel createInstance() throws ModelException
     {
         if(instance == null)
         {
@@ -52,16 +61,30 @@ public class MainModel {
         return movies;
     }
 
-    public void createMovie(String title, List<Category> categories, String path, int time, Integer rating)
+    public void createMovie(String title, List<Category> categories, String path, int time, Integer rating) throws ModelException
     {
+        try
+        {
         Movie createdMovie = bllManager.createMovie(loggedInUser, title, categories, path, time, rating);
         movies.add(createdMovie);
+        }
+        catch(BllException e)
+        {
+            throw new ModelException(e.getMessage());
+        }
     }
     
-    public void updateMovie(Movie movie, String title, List<Category> categories, String path, int time, Integer rating)
+    public void updateMovie(Movie movie, String title, List<Category> categories, String path, int time, Integer rating) throws ModelException
     {
-        Movie updatedMovie = bllManager.updateMovie(movie, title, categories, path, time, rating);
-        updateListOfMovies(updatedMovie);
+        try
+        {
+            Movie updatedMovie = bllManager.updateMovie(movie, title, categories, path, time, rating);
+            updateListOfMovies(updatedMovie);
+        }
+        catch(BllException e)
+        {
+            throw new ModelException(e.getMessage());
+        }
     }
     
     private void updateListOfMovies(Movie movie)
@@ -70,9 +93,16 @@ public class MainModel {
         movies.set(index, movie);
     }
     
-    public void deleteMovie(Movie movie) {
-        bllManager.deleteMovie(movie);
-        movies.remove(movie);
+    public void deleteMovie(Movie movie) throws ModelException{
+        try
+        {
+            bllManager.deleteMovie(movie);
+            movies.remove(movie);
+        }
+        catch(BllException e)
+        {
+            throw new ModelException(e.getMessage());
+        }
     }
     
     public void deleteCategoryFromAllMovies(Category category)
