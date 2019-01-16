@@ -131,8 +131,14 @@ public class MainModel {
     {
         ObservableList<Movie> filteredMovies = FXCollections.observableArrayList(MovieSearcher.searchMoviesByCategory(movies, categories));
         filteredMovies = FXCollections.observableArrayList(MovieSearcher.searchMoviesByTitle(filteredMovies, filter));
-        filteredMovies = FXCollections.observableArrayList(MovieSearcher.searchMoviesByRating(filteredMovies, rating));
+        filteredMovies = FXCollections.observableArrayList(MovieSearcher.searchMoviesWithHigherRating(filteredMovies, rating));
         return filteredMovies;
+    }
+    
+    public ObservableList<Movie> getMoviesToDelete()
+    {
+        ObservableList<Movie> moviesToDelete = FXCollections.observableArrayList(MovieSearcher.searchMoviesWithLowerRating(movies, 4));
+        return moviesToDelete;
     }
     
     
