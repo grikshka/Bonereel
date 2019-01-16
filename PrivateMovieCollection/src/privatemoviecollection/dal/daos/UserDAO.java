@@ -22,6 +22,7 @@ import privatemoviecollection.dal.exceptions.DalException;
 public class UserDAO {
     
     private DbConnectionProvider connector;
+    private CategoriesDAO cDao;
     
     /**
      * Creates connector with database and DAO for PlaylistSongs.
@@ -29,6 +30,7 @@ public class UserDAO {
     public UserDAO()
     {
         connector = new DbConnectionProvider();
+        cDao = new CategoriesDAO();
     }
     
     /**
@@ -57,8 +59,9 @@ public class UserDAO {
                 ResultSet rs = statement.executeQuery();
                 rs.next();
                 int id = rs.getInt(1);
-                return new User(id,email,password);
-                
+                User user = new User(id,email,password);
+                cDao.addDefaultCategories(user);
+                return user;               
             }
         }
     }

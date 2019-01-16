@@ -84,9 +84,31 @@ public class CategoriesDAO {
         }
     }
     
-    public void addDefaultCategories(User user)
+    public void addDefaultCategories(User user) throws SQLServerException, SQLException
     {
-//        String sqlStatement"INSERT INTO Categories(name)"
+        List<String> defaultCategories = new ArrayList();
+        String sqlStatement = "SELECT * FROM DefaultCategories";
+        try(Connection con = connector.getConnection();
+                PreparedStatement statement = con.prepareStatement(sqlStatement))
+        {
+            ResultSet rs = statement.executeQuery();
+            while(rs.next())
+            {
+                defaultCategories.add(rs.getString("name"));
+            }
+        }
+        sqlStatement = "INSERT INTO Categories(userId, name) VALUES(?, ?)";
+        try(Connection con = connector.getConnection();
+                PreparedStatement statement = con.prepareStatement(sqlStatement))
+        {
+            for(String categoryName : defaultCategories)
+            {
+                statement.setInt(1, user.getId());
+                statement.setString(2, categoryName);
+                statement.addBatch();
+            }
+            statement.executeBatch();
+        }
     }
     
 }
