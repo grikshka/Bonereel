@@ -10,8 +10,11 @@ import java.net.URL;
 import java.util.EventObject;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import javafx.animation.PauseTransition;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -29,6 +32,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import javafx.util.Duration;
 import privatemoviecollection.be.User;
 import privatemoviecollection.gui.exceptions.ModelException;
 import privatemoviecollection.gui.model.MainModel;
@@ -115,18 +119,30 @@ public class LoginViewController implements Initializable {
     }
 
     @FXML
-    private void clickLogin(ActionEvent event) throws IOException {
+    private void clickLogin(ActionEvent event) throws IOException, InterruptedException {
         try
         {
+            //showing main stage
             User user = userModel.getUser(txtEmail.getText(), txtPassword.getText());
-            Stage stage = (Stage)((Node)((EventObject) event).getSource()).getScene().getWindow();
-            stage.hide();
+            Stage mainStage = (Stage)((Node)((EventObject) event).getSource()).getScene().getWindow();
+            mainStage.hide();
             userModel.setUser(user);
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/privatemoviecollection/gui/view/MainView.fxml"));
             Parent root = (Parent) fxmlLoader.load();
-            stage.setScene(new Scene(root));  
-            stage.centerOnScreen();
-            WindowDecorator.showStage(stage);
+            mainStage.setScene(new Scene(root));  
+            mainStage.centerOnScreen();
+            WindowDecorator.showStage(mainStage);
+            
+            //showing stage with removing movies
+            WindowDecorator.fadeOutStage(mainStage);
+            fxmlLoader = new FXMLLoader(getClass().getResource("/privatemoviecollection/gui/view/RemoveMoviesView.fxml"));
+            root = (Parent) fxmlLoader.load();
+            Stage stage = new Stage();
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.initStyle(StageStyle.UNDECORATED);
+            stage.setScene(new Scene(root));
+            stage.showAndWait();
+            WindowDecorator.fadeInStage(mainStage);
         }
         catch(ModelException e)
         {
