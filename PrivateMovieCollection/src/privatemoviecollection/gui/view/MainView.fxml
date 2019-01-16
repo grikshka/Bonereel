@@ -13,6 +13,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
 
 <AnchorPane id="AnchorPane" prefHeight="638.0" prefWidth="1046.0" style="-fx-background-color: #181818;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="privatemoviecollection.gui.controller.MainViewController">
    <children>
@@ -39,7 +40,10 @@
       <ComboBox fx:id="cmbCategories" layoutX="14.0" layoutY="146.0" onAction="#clickSelectCategory" prefHeight="35.0" prefWidth="126.0" promptText="Categories" stylesheets="@../css/ComboBox.css" />
       <Button layoutX="1015.0" layoutY="-1.0" mnemonicParsing="false" onAction="#clickClose" prefHeight="30.0" prefWidth="40.0" stylesheets="@../css/ButtonClose.css" />
       <Button layoutX="975.0" layoutY="-1.0" mnemonicParsing="false" onAction="#clickMinimize" prefHeight="30.0" prefWidth="40.0" stylesheets="@../css/ButtonMinimalize.css" />
-      <Button layoutX="253.0" layoutY="569.0" mnemonicParsing="false" onAction="#clickAddMovie" prefHeight="45.0" prefWidth="233.0" style="-fx-background-radius: 100;" stylesheets="@../css/ButtonSecondary.css" text="Add Movie" />
+      <Button layoutX="253.0" layoutY="569.0" mnemonicParsing="false" onAction="#clickAddMovie" prefHeight="45.0" prefWidth="233.0" style="-fx-background-radius: 100;" stylesheets="@../css/ButtonNewSong.css" text="Add Movie" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font></Button>
       <Button fx:id="btnRemoveMovie" layoutX="757.0" layoutY="569.0" mnemonicParsing="false" onAction="#clickRemoveMovie" prefHeight="45.0" prefWidth="233.0" style="-fx-background-radius: 100;" stylesheets="@../css/ButtonSecondary.css" text="Remove Movie" />
       <Button fx:id="btnEditMovie" layoutX="505.0" layoutY="569.0" mnemonicParsing="false" onAction="#clickEditMovie" prefHeight="45.0" prefWidth="233.0" style="-fx-background-radius: 100;" stylesheets="@../css/ButtonSecondary.css" text="Edit Movie" />
       <ListView fx:id="lstSelectedCategories" layoutY="207.0" onMouseClicked="#clickCategory" prefHeight="414.0" prefWidth="218.0" style="-fx-background-color: #121212;" stylesheets="@../css/ListViewMain.css">
