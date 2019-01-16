@@ -17,13 +17,13 @@ import privatemoviecollection.bll.exceptions.BllException;
  */
 public interface IBllFacade {
     
-    Movie createMovie(User user, String title, List<Category> categories, String path, int time, Integer rating);
+    Movie createMovie(User user, String title, List<Category> categories, String path, int time, Integer rating) throws BllException;
     
-    List<Movie> getAllMovies(User user);
+    List<Movie> getAllMovies(User user) throws BllException;
     
-    Movie updateMovie(Movie movie, String title, List<Category> categories, String path, int time, Integer rating);
+    Movie updateMovie(Movie movie, String title, List<Category> categories, String path, int time, Integer rating) throws BllException;
     
-    void deleteMovie(Movie movieToDelete);
+    void deleteMovie(Movie movieToDelete) throws BllException;
     
     Category createCategory(User user, String name) throws BllException;
     

@@ -37,61 +37,77 @@ public class DalController implements IDalFacade{
     }
 
     @Override
-    public Movie createMovie(User user, String title, List<Category> categories, String path, int time, Integer rating)
+    public Movie createMovie(User user, String title, List<Category> categories, String path, int time, Integer rating) throws DalException
     {
         Movie createdMovie = null;
         try
         {
             createdMovie = mDao.createMovie(user, title, categories, path, time, rating);
         }
+        catch(SQLServerException e)
+        {
+            throw new DalException("Cannot connect to server. Check your internet connection.");
+        }
         catch(SQLException e)
         {
-            //TO DO
+            LOGGER.log(Level.SEVERE, e.getMessage(), e);
         }
         return createdMovie;
         
     }
     
     @Override
-    public List<Movie> getAllMovies(User user)
+    public List<Movie> getAllMovies(User user) throws DalException
     {
         List<Movie> allMovies = null;
         try
         {
             allMovies = mDao.getAllMovies(user);
         }
+        catch(SQLServerException e)
+        {
+            throw new DalException("Cannot connect to server. Check your internet connection.");
+        }
         catch(SQLException e)
         {
-            //TO DO
+            LOGGER.log(Level.SEVERE, e.getMessage(), e);
         }
         return allMovies;
     }
     
     @Override
-    public Movie updateMovie(Movie movie, String title, List<Category> categories, String path, int time, Integer rating)
+    public Movie updateMovie(Movie movie, String title, List<Category> categories, String path, int time, Integer rating) throws DalException
     {
         Movie updatedMovie = null;
         try
         {
             updatedMovie = mDao.updateMovie(movie, title, categories, path, time, rating);
         }
+        catch(SQLServerException e)
+        {
+            throw new DalException("Cannot connect to server. Check your internet connection.");
+        }
         catch(SQLException e)
         {
-            e.printStackTrace();
+            LOGGER.log(Level.SEVERE, e.getMessage(), e);
         }
         return updatedMovie;
     }
     
     @Override
-    public void deleteMovie(Movie movieToDelete)
+    public void deleteMovie(Movie movieToDelete) throws DalException
     {
         try
         {
             mDao.deleteMovie(movieToDelete);
         }
+        catch(SQLServerException e)
+        {
+            throw new DalException("Cannot connect to server. Check your internet connection.");
+        }
         catch(SQLException e)
         {
-            //TO DO
+            LOGGER.log(Level.SEVERE, e.getMessage(), e);
         }
     }
 

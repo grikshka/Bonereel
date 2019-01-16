@@ -18,13 +18,13 @@ import privatemoviecollection.dal.exceptions.DalException;
  */
 public interface IDalFacade {
     
-    Movie createMovie(User user, String title, List<Category> categories, String path, int time, Integer rating);
+    Movie createMovie(User user, String title, List<Category> categories, String path, int time, Integer rating) throws DalException;
     
-    List<Movie> getAllMovies(User user);
+    List<Movie> getAllMovies(User user) throws DalException;
     
-    Movie updateMovie(Movie movie, String title, List<Category> categories, String path, int time, Integer rating);
+    Movie updateMovie(Movie movie, String title, List<Category> categories, String path, int time, Integer rating) throws DalException;
     
-    void deleteMovie(Movie movieToDelete);
+    void deleteMovie(Movie movieToDelete) throws DalException;
     
     Category createCategory(User user, String name) throws DalException;
     

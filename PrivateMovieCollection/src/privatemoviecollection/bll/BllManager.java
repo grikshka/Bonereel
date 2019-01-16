@@ -28,27 +28,55 @@ public class BllManager implements IBllFacade{
     }
 
     @Override
-    public Movie createMovie(User user, String title, List<Category> categories, String path, int time, Integer rating) 
+    public Movie createMovie(User user, String title, List<Category> categories, String path, int time, Integer rating) throws BllException
     {
-        return dalController.createMovie(user, title, categories, path, time, rating);
+        try
+        {
+            return dalController.createMovie(user, title, categories, path, time, rating);
+        }
+        catch(DalException e)
+        {
+            throw new BllException(e.getMessage());
+        }
     }
     
     @Override
-    public List<Movie> getAllMovies(User user)
+    public List<Movie> getAllMovies(User user) throws BllException
     {
-        return dalController.getAllMovies(user);
+        try
+        {
+            return dalController.getAllMovies(user);
+        }
+        catch(DalException e)
+        {
+            throw new BllException(e.getMessage());
+        }
     }
     
     @Override
-    public Movie updateMovie(Movie movie, String title, List<Category> categories, String path, int time, Integer rating)
+    public Movie updateMovie(Movie movie, String title, List<Category> categories, String path, int time, Integer rating) throws BllException
     {
-        return dalController.updateMovie(movie, title, categories, path, time, rating);
+        try
+        {
+            return dalController.updateMovie(movie, title, categories, path, time, rating);
+        }
+        catch(DalException e)
+        {
+            throw new BllException(e.getMessage());
+        }
     }
     
     @Override
-    public void deleteMovie(Movie movieToDelete)
+    public void deleteMovie(Movie movieToDelete) throws BllException
     {
-        dalController.deleteMovie(movieToDelete);
+        try
+        {
+            dalController.deleteMovie(movieToDelete);
+        }
+        catch(DalException e)
+        {
+            throw new BllException(e.getMessage());
+        }
     }
 
     @Override
