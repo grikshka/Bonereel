@@ -211,15 +211,29 @@ public class MovieViewController implements Initializable {
         String moviePath = txtFile.getText();
         int time = TimeConverter.convertToInt(txtTime.getText());
         Integer movieRating = parseRating(cmbRating.getSelectionModel().getSelectedItem());
+        Stage stage = (Stage)((Node)((EventObject) event).getSource()).getScene().getWindow();
         if(editing)
         {
-            mainModel.updateMovie(editingMovie, movieTitle, movieCategories, moviePath, time, movieRating);
+            try
+            {
+                mainModel.updateMovie(editingMovie, movieTitle, movieCategories, moviePath, time, movieRating);
+            }
+            catch(ModelException e)
+            {
+                warningDisplayer.displayError(stage, "Error", e.getMessage());
+            }
         }
         else
         {
-            mainModel.createMovie(movieTitle, movieCategories, moviePath, time, movieRating);
+            try
+            {
+                mainModel.createMovie(movieTitle, movieCategories, moviePath, time, movieRating);
+            }
+            catch(ModelException e)
+            {
+                warningDisplayer.displayError(stage, "Error", e.getMessage());
+            }
         }
-        Stage stage = (Stage)((Node)((EventObject) event).getSource()).getScene().getWindow();
         stage.close();
     }
     

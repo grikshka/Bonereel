@@ -38,6 +38,9 @@ import javafx.scene.input.ContextMenuEvent;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaException;
+import javafx.scene.media.MediaPlayer;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -86,6 +89,7 @@ public class MainViewController implements Initializable {
     
     public MainViewController()
     {
+        warningDisplayer = new WarningDisplayer();
         try
         {
             mainModel = MainModel.createInstance();
@@ -185,23 +189,34 @@ public class MainViewController implements Initializable {
 
     @FXML
     private void clickOnMovies(MouseEvent event) throws IOException {
-        if(tblMovies.getSelectionModel().getSelectedItem() != null)
+        Movie selectedMovie = tblMovies.getSelectionModel().getSelectedItem();
+        if(selectedMovie != null)
         {
             if(event.getButton().equals(MouseButton.PRIMARY) && event.getClickCount() == 2)
             {
                 Stage currentStage = (Stage)((Node)((EventObject) event).getSource()).getScene().getWindow();
-                WindowDecorator.fadeOutStage(currentStage);
-                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/privatemoviecollection/gui/view/ChoosePlayerView.fxml"));
-                Parent root = (Parent) fxmlLoader.load();
-                ChoosePlayerViewController controller = fxmlLoader.getController();
-                controller.setMovieToPlayer(tblMovies.getSelectionModel().getSelectedItem());
-                Stage stage = new Stage();
-                stage.initModality(Modality.APPLICATION_MODAL);
-                stage.setTitle("Choose player");
-                stage.initStyle(StageStyle.UNDECORATED);
-                stage.setScene(new Scene(root));              
-                stage.showAndWait();
-                WindowDecorator.fadeInStage(currentStage);
+                try
+                {
+                    File file = new File(selectedMovie.getPath());
+                    Media mediaFile = new Media(file.toURI().toString());
+                    MediaPlayer mediaPlayer = new MediaPlayer(mediaFile);                   
+                    WindowDecorator.fadeOutStage(currentStage);
+                    FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/privatemoviecollection/gui/view/ChoosePlayerView.fxml"));
+                    Parent root = (Parent) fxmlLoader.load();
+                    ChoosePlayerViewController controller = fxmlLoader.getController();
+                    controller.setMovieToPlayer(selectedMovie);
+                    Stage stage = new Stage();
+                    stage.initModality(Modality.APPLICATION_MODAL);
+                    stage.setTitle("Choose player");
+                    stage.initStyle(StageStyle.UNDECORATED);
+                    stage.setScene(new Scene(root));              
+                    stage.showAndWait();
+                    WindowDecorator.fadeInStage(currentStage);
+                }
+                catch(MediaException e)
+                {
+                    warningDisplayer.displayError(currentStage, "Error", e.getMessage());
+                }
             }
             btnEditMovie.setDisable(false);
             btnRemoveMovie.setDisable(false);
@@ -215,7 +230,14 @@ public class MainViewController implements Initializable {
         Optional<ButtonType> action = warningDisplayer.displayConfirmation(currentStage, "Confirmation", "Are you sure you want to delete \"" + selectedMovie.getTitle() + " from your movies?");
         if(action.get() == ButtonType.OK)
         {
-            mainModel.deleteMovie(selectedMovie);
+            try
+            {
+                mainModel.deleteMovie(selectedMovie);
+            }
+            catch(ModelException e)
+            {
+                warningDisplayer.displayError(currentStage, "Error", e.getMessage());
+            }
         }
     }
 

@@ -60,13 +60,14 @@ public class NewCategoryViewController implements Initializable {
     @FXML
     private void clickSave(ActionEvent event) 
     {
+        Stage stage = (Stage)((Node)((EventObject) event).getSource()).getScene().getWindow();
         try
         {
             model.createCategory(txtName.getText());
+            stage.close();
         }
         catch(ModelException e)
         {
-            Stage stage = (Stage)((Node)((EventObject) event).getSource()).getScene().getWindow();
             warningDisplayer.displayError(stage, "Error", e.getMessage());
         }
     }
