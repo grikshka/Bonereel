@@ -15,6 +15,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -45,6 +46,8 @@ public class RemoveMoviesViewController implements Initializable {
     private TableColumn<Movie, Integer> colTime;
     @FXML
     private TableColumn<Movie, String> colRating;
+    @FXML
+    private Button btnDelete;
 
     /**
      * Initializes the controller class.
@@ -62,6 +65,7 @@ public class RemoveMoviesViewController implements Initializable {
             warningDisplayer.displayError(currentStage, "Error", e.getMessage());
         }
         loadData();
+        btnDelete.setDisable(true);
     }    
     
     private void loadData()
@@ -81,10 +85,28 @@ public class RemoveMoviesViewController implements Initializable {
 
     @FXML
     private void clickDelete(ActionEvent event) {
+        Stage currentStage = (Stage)((Node)((EventObject) event).getSource()).getScene().getWindow();
+        try
+        {
+            Movie selectedMovie = tblMovies.getSelectionModel().getSelectedItem();
+            model.deleteMovie(selectedMovie);
+            if(tblMovies.getItems().size()==1)
+            {
+                currentStage.close();
+            }
+        }
+        catch(ModelException e)
+        {
+            warningDisplayer.displayError(currentStage, "Error", e.getMessage());
+        }
     }
 
     @FXML
     private void clickOnMovies(MouseEvent event) {
+        if(tblMovies.getSelectionModel().getSelectedItem()!=null)
+        {
+            btnDelete.setDisable(false);
+        }
     }
 
     @FXML
