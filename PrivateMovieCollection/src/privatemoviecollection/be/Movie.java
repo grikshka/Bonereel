@@ -5,6 +5,7 @@
  */
 package privatemoviecollection.be;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import privatemoviecollection.bll.util.TimeConverter;
@@ -21,18 +22,20 @@ public class Movie {
     private Integer rating;
     private String path;
     private int time;
+    private LocalDate lastView;
     
-    public Movie(int id, String title, String path, int time, Integer rating)
+    public Movie(int id, String title, String path, int time, Integer rating, LocalDate lastView)
     {
         this.id = id;
         this.title = title;
         this.path = path;
         this.time = time;
         this.rating = rating;
+        this.lastView = lastView;
         categories = new ArrayList();
     }
     
-    public Movie(int id, String title, List<Category> categories, String path, int time, Integer rating)
+    public Movie(int id, String title, List<Category> categories, String path, int time, Integer rating, LocalDate lastView)
     {
         this.id = id;
         this.title = title;
@@ -40,6 +43,7 @@ public class Movie {
         this.path = path;
         this.time = time;
         this.rating = rating;
+        this.lastView = lastView;
     }
 
     public int getId()
@@ -139,6 +143,9 @@ public class Movie {
         return TimeConverter.convertToString(time);
     }
     
-    
+    public LocalDate getLastView()
+    {
+        return lastView;
+    }
     
 }
