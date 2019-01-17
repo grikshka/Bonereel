@@ -5,12 +5,15 @@
  */
 package privatemoviecollection.dal.daos;
 
+import com.microsoft.sqlserver.jdbc.SQLServerException;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Types;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import privatemoviecollection.be.Category;
@@ -36,9 +39,9 @@ public class MovieDAO {
         mcDao = new MovieCategoriesDAO();
     }
     
-    public Movie createMovie(User user, String title, List<Category> categories, String path, int time, Integer rating) throws SQLException
+    public Movie createMovie(User user, String title, List<Category> categories, String path, int time, Integer rating, LocalDate lastView) throws SQLException
     {
-        String sqlStatement = "INSERT INTO Movies(userId, title, path, time, rating) values(?,?,?,?,?)";
+        String sqlStatement = "INSERT INTO Movies(userId, title, path, time, rating, lastView) values(?,?,?,?,?,?)";
         try(Connection con = connector.getConnection();
                 PreparedStatement statement = con.prepareStatement(sqlStatement, Statement.RETURN_GENERATED_KEYS))
         {
@@ -54,11 +57,12 @@ public class MovieDAO {
             {
                 statement.setInt(5, rating);
             }
+            statement.setDate(6, Date.valueOf(lastView));
             statement.execute();
             ResultSet rs = statement.getGeneratedKeys();
             rs.next();
             int id = rs.getInt(1);
-            Movie movie = new Movie(id, title, categories, path, time, rating);
+            Movie movie = new Movie(id, title, categories, path, time, rating, lastView);
             mcDao.addCategoriesToMovie(movie, categories);
             return movie;
         }
@@ -85,7 +89,8 @@ public class MovieDAO {
                 }
                 String path = rs.getString("path");
                 int time = rs.getInt("time");
-                allMovies.add(new Movie(id, title, path, time, rating));
+                LocalDate lastView = rs.getDate("lastView").toLocalDate();
+                allMovies.add(new Movie(id, title, path, time, rating, lastView));
             }
             mcDao.addCategoriesToAllMovies(user, allMovies);
             return allMovies;
@@ -119,6 +124,18 @@ public class MovieDAO {
             mcDao.addCategoriesToMovie(movie, categories);
             movie.setCategories(categories);
             return movie;
+        }
+    }
+    
+    public void updateMovieLastView(Movie movie, LocalDate lastView) throws SQLServerException, SQLException
+    {
+        String sqlStatement = "UPDATE Movies SET lastView=? WHERE id=?";
+        try(Connection con = connector.getConnection();
+                PreparedStatement statement = con.prepareStatement(sqlStatement))
+        {
+            statement.setDate(1, Date.valueOf(lastView));
+            statement.setInt(2, movie.getId());
+            statement.execute();
         }
     }
     
