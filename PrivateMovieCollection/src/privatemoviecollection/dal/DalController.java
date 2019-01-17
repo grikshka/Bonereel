@@ -7,6 +7,7 @@ package privatemoviecollection.dal;
 
 import com.microsoft.sqlserver.jdbc.SQLServerException;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -37,15 +38,16 @@ public class DalController implements IDalFacade{
     }
 
     @Override
-    public Movie createMovie(User user, String title, List<Category> categories, String path, int time, Integer rating) throws DalException
+    public Movie createMovie(User user, String title, List<Category> categories, String path, int time, Integer rating, LocalDate lastView) throws DalException
     {
         Movie createdMovie = null;
         try
         {
-            createdMovie = mDao.createMovie(user, title, categories, path, time, rating);
+            createdMovie = mDao.createMovie(user, title, categories, path, time, rating, lastView);
         }
         catch(SQLServerException e)
         {
+            e.printStackTrace();
             throw new DalException("Cannot connect to server. Check your internet connection.");
         }
         catch(SQLException e)
@@ -92,6 +94,23 @@ public class DalController implements IDalFacade{
             LOGGER.log(Level.SEVERE, e.getMessage(), e);
         }
         return updatedMovie;
+    }
+    
+    @Override 
+    public void updateMovieLastView(Movie movie, LocalDate lastView) throws DalException
+    {
+        try
+        {
+            mDao.updateMovieLastView(movie, lastView);
+        }
+        catch(SQLServerException e)
+        {
+            throw new DalException("Cannot connect to server. Check your internet connection.");
+        }
+        catch(SQLException e)
+        {
+            LOGGER.log(Level.SEVERE, e.getMessage(), e);
+        }
     }
     
     @Override

@@ -5,6 +5,7 @@
  */
 package privatemoviecollection.bll;
 
+import java.time.LocalDate;
 import java.util.List;
 import privatemoviecollection.be.Category;
 import privatemoviecollection.be.Movie;
@@ -28,11 +29,11 @@ public class BllManager implements IBllFacade{
     }
 
     @Override
-    public Movie createMovie(User user, String title, List<Category> categories, String path, int time, Integer rating) throws BllException
+    public Movie createMovie(User user, String title, List<Category> categories, String path, int time, Integer rating, LocalDate lastView) throws BllException
     {
         try
         {
-            return dalController.createMovie(user, title, categories, path, time, rating);
+            return dalController.createMovie(user, title, categories, path, time, rating, lastView);
         }
         catch(DalException e)
         {
@@ -59,6 +60,19 @@ public class BllManager implements IBllFacade{
         try
         {
             return dalController.updateMovie(movie, title, categories, path, time, rating);
+        }
+        catch(DalException e)
+        {
+            throw new BllException(e.getMessage());
+        }
+    }
+    
+    @Override
+    public void updateMovieLastView(Movie movie, LocalDate lastView) throws BllException
+    {
+        try
+        {
+            dalController.updateMovieLastView(movie, lastView);
         }
         catch(DalException e)
         {
