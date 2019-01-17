@@ -134,15 +134,19 @@ public class LoginViewController implements Initializable {
             WindowDecorator.showStage(mainStage);
             
             //showing stage with removing movies
-            WindowDecorator.fadeOutStage(mainStage);
-            fxmlLoader = new FXMLLoader(getClass().getResource("/privatemoviecollection/gui/view/RemoveMoviesView.fxml"));
-            root = (Parent) fxmlLoader.load();
-            Stage stage = new Stage();
-            stage.initModality(Modality.APPLICATION_MODAL);
-            stage.initStyle(StageStyle.UNDECORATED);
-            stage.setScene(new Scene(root));
-            stage.showAndWait();
-            WindowDecorator.fadeInStage(mainStage);
+            MainModel mainModel = MainModel.createInstance();
+            if(!mainModel.getMoviesToDelete().isEmpty())
+            {
+                WindowDecorator.fadeOutStage(mainStage);
+                fxmlLoader = new FXMLLoader(getClass().getResource("/privatemoviecollection/gui/view/RemoveMoviesView.fxml"));
+                root = (Parent) fxmlLoader.load();
+                Stage stage = new Stage();
+                stage.initModality(Modality.APPLICATION_MODAL);
+                stage.initStyle(StageStyle.UNDECORATED);
+                stage.setScene(new Scene(root));
+                stage.showAndWait();
+                WindowDecorator.fadeInStage(mainStage);
+            }
         }
         catch(ModelException e)
         {
