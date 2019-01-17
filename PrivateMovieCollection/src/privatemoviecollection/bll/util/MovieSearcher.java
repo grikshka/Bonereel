@@ -5,6 +5,8 @@
  */
 package privatemoviecollection.bll.util;
 
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 import privatemoviecollection.be.Category;
@@ -66,9 +68,12 @@ public class MovieSearcher {
         List<Movie> filteredMovies = new ArrayList();
         for(Movie movie : allMovies)
         {
-            if((int) movie.getRating() >= (int) rating)
+            if(movie.getRating()!=null)
             {
-                filteredMovies.add(movie);
+                if((int) movie.getRating() >= (int) rating)
+                {
+                    filteredMovies.add(movie);
+                }
             }
         }
         return filteredMovies;
@@ -83,12 +88,28 @@ public class MovieSearcher {
         List<Movie> filteredMovies = new ArrayList();
         for(Movie movie : allMovies)
         {
-            if((int) movie.getRating() <= (int) rating)
+            if(movie.getRating()!=null)
+            {
+                if((int) movie.getRating() <= (int) rating)
+                {
+                    filteredMovies.add(movie);
+                }
+            }
+        }
+        return filteredMovies;
+    }
+    
+    public static List<Movie> searchMoviesNotSeenRecently(List<Movie> allMovies, int amountOfYears)
+    {
+        List<Movie> filteredMovies = new ArrayList();
+        LocalDate currentDate = LocalDate.now();
+        for(Movie movie : allMovies)
+        {
+            if(ChronoUnit.YEARS.between(movie.getLastView(), currentDate) >= amountOfYears)
             {
                 filteredMovies.add(movie);
             }
         }
         return filteredMovies;
     }
-    
 }
