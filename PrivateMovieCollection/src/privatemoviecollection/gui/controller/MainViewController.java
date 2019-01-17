@@ -199,7 +199,8 @@ public class MainViewController implements Initializable {
                 {
                     File file = new File(selectedMovie.getPath());
                     Media mediaFile = new Media(file.toURI().toString());
-                    MediaPlayer mediaPlayer = new MediaPlayer(mediaFile);                   
+                    MediaPlayer mediaPlayer = new MediaPlayer(mediaFile);   
+                    mainModel.updateMovieLastView(selectedMovie);
                     WindowDecorator.fadeOutStage(currentStage);
                     FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/privatemoviecollection/gui/view/ChoosePlayerView.fxml"));
                     Parent root = (Parent) fxmlLoader.load();
@@ -212,6 +213,10 @@ public class MainViewController implements Initializable {
                     stage.setScene(new Scene(root));              
                     stage.showAndWait();
                     WindowDecorator.fadeInStage(currentStage);
+                }
+                catch(ModelException e)
+                {
+                    warningDisplayer.displayError(currentStage, "Error", e.getMessage());
                 }
                 catch(MediaException e)
                 {
