@@ -5,6 +5,7 @@
  */
 package privatemoviecollection.gui.model;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import javafx.collections.FXCollections;
@@ -65,8 +66,9 @@ public class MainModel {
     {
         try
         {
-        Movie createdMovie = bllManager.createMovie(loggedInUser, title, categories, path, time, rating);
-        movies.add(createdMovie);
+            LocalDate currentDate = LocalDate.now();
+            Movie createdMovie = bllManager.createMovie(loggedInUser, title, categories, path, time, rating, currentDate);
+            movies.add(createdMovie);
         }
         catch(BllException e)
         {
@@ -80,6 +82,19 @@ public class MainModel {
         {
             Movie updatedMovie = bllManager.updateMovie(movie, title, categories, path, time, rating);
             updateListOfMovies(updatedMovie);
+        }
+        catch(BllException e)
+        {
+            throw new ModelException(e.getMessage());
+        }
+    }
+    
+    public void updateMovieLastView(Movie movie) throws ModelException
+    {
+        try
+        {
+            LocalDate currentDate = LocalDate.now();
+            bllManager.updateMovieLastView(movie, currentDate);
         }
         catch(BllException e)
         {
@@ -138,6 +153,7 @@ public class MainModel {
     public ObservableList<Movie> getMoviesToDelete()
     {
         ObservableList<Movie> moviesToDelete = FXCollections.observableArrayList(MovieSearcher.searchMoviesWithLowerRating(movies, 4));
+        moviesToDelete = FXCollections.observableArrayList(MovieSearcher.searchMoviesNotSeenRecently(moviesToDelete, 2));
         return moviesToDelete;
     }
     
