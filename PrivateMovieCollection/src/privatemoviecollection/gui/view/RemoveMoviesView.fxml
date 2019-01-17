@@ -10,19 +10,19 @@
 
 <AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #282828;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="privatemoviecollection.gui.controller.RemoveMoviesViewController">
    <children>
-      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#212121" height="30.0" layoutX="-14.0" layoutY="45.0" stroke="#212121" strokeLineJoin="ROUND" strokeType="OUTSIDE" strokeWidth="2.0" width="612.0" />
-      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#ffffff00" height="396.0" layoutX="2.0" layoutY="2.0" stroke="#212121" strokeLineJoin="ROUND" strokeType="OUTSIDE" strokeWidth="2.0" width="596.0" />
-      <Button layoutX="106.0" layoutY="332.0" mnemonicParsing="false" onAction="#clickCancel" prefHeight="44.0" prefWidth="151.0" style="-fx-background-radius: 100;" stylesheets="@../css/ButtonSecondary.css" text="Cancel" />
-      <Button layoutX="338.0" layoutY="332.0" mnemonicParsing="false" onAction="#clickDelete" prefHeight="44.0" prefWidth="165.0" style="-fx-background-radius: 100;" stylesheets="@../css/ButtonNewSong.css" text="Delete" textFill="WHITE">
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#212121" height="30.0" layoutX="2.0" layoutY="57.0" stroke="#212121" strokeLineJoin="ROUND" strokeType="OUTSIDE" strokeWidth="2.0" width="598.0" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#ffffff00" height="471.0" stroke="#212121" strokeLineJoin="ROUND" strokeType="OUTSIDE" strokeWidth="2.0" width="600.0" />
+      <Button layoutX="106.0" layoutY="391.0" mnemonicParsing="false" onAction="#clickCancel" prefHeight="44.0" prefWidth="151.0" style="-fx-background-radius: 100;" stylesheets="@../css/ButtonSecondary.css" text="Cancel" />
+      <Button fx:id="btnDelete" layoutX="338.0" layoutY="391.0" mnemonicParsing="false" onAction="#clickDelete" prefHeight="44.0" prefWidth="165.0" style="-fx-background-radius: 100;" stylesheets="@../css/ButtonNewSong.css" text="Delete" textFill="WHITE">
          <font>
             <Font name="System Bold" size="12.0" />
          </font>
       </Button>
-      <TableView fx:id="tblMovies" layoutX="15.0" layoutY="89.0" onMousePressed="#clickOnMovies" prefHeight="228.0" prefWidth="578.0" stylesheets="@../css/SongTableView.css">
+      <TableView fx:id="tblMovies" layoutX="15.0" layoutY="111.0" onMousePressed="#clickOnMovies" prefHeight="262.0" prefWidth="578.0" stylesheets="@../css/SongTableView.css">
          <columns>
             <TableColumn fx:id="colTitle" prefWidth="424.0" style="-fx-background-color: #282828;" text="TITLE" />
-            <TableColumn fx:id="colCategories" prefWidth="134.0" style="-fx-background-color: #282828;" text="CATEGORIES" />
-            <TableColumn fx:id="colTime" prefWidth="133.0" style="-fx-background-color: #282828;" text="TIME" />
+            <TableColumn fx:id="colCategories" prefWidth="145.0" style="-fx-background-color: #282828;" text="CATEGORIES" />
+            <TableColumn fx:id="colTime" prefWidth="143.0" style="-fx-background-color: #282828;" text="TIME" />
             <TableColumn fx:id="colRating" prefWidth="144.0" style="-fx-background-color: #282828;" text="RATING" />
          </columns>
          <columnResizePolicy>
@@ -30,7 +30,7 @@
          </columnResizePolicy>
       </TableView>
       <Button layoutX="558.0" layoutY="2.0" mnemonicParsing="false" onAction="#clickClose" prefHeight="30.0" prefWidth="40.0" stylesheets="@../css/ButtonClose.css" />
-      <Label layoutX="17.0" layoutY="32.0" prefHeight="58.0" prefWidth="567.0" text="List of movies recommended to delete based on their rating and watching frequency" textFill="WHITE" textOverrun="CLIP">
+      <Label alignment="CENTER" layoutX="17.0" layoutY="43.0" prefHeight="58.0" prefWidth="567.0" text="List of movies recommended to delete" textFill="WHITE" textOverrun="CLIP">
          <font>
             <Font name="System Bold" size="14.0" />
          </font>
