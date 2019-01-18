@@ -7,17 +7,17 @@ package privatemoviecollection.gui.controller;
 
 import java.net.URL;
 import java.util.EventObject;
-import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
+import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
-import privatemoviecollection.be.Movie;
 import privatemoviecollection.gui.exceptions.ModelException;
 import privatemoviecollection.gui.model.CategoriesModel;
 import privatemoviecollection.gui.util.WarningDisplayer;
@@ -34,6 +34,8 @@ public class NewCategoryViewController implements Initializable {
     
     @FXML
     private TextField txtName;
+    @FXML
+    private Button btnSave;
     
     public NewCategoryViewController()
     {
@@ -54,7 +56,7 @@ public class NewCategoryViewController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+        createTextFieldListener();
     }    
 
     @FXML
@@ -70,6 +72,23 @@ public class NewCategoryViewController implements Initializable {
         {
             warningDisplayer.displayError(stage, "Error", e.getMessage());
         }
+    }
+    
+    private void createTextFieldListener()
+    {
+        txtName.setOnKeyPressed(new EventHandler<KeyEvent>()
+                {
+                    @Override
+                    public void handle(KeyEvent key) 
+                    {
+                        if(key.getCode() == KeyCode.ENTER)
+                        {
+                            btnSave.fire();
+                        }
+                    }
+
+                }
+            );
     }
 
     @FXML
