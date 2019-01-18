@@ -34,6 +34,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.ContextMenuEvent;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
@@ -74,6 +75,8 @@ public class MainViewController implements Initializable {
     private TableColumn<Movie, Integer> colTime;
     @FXML
     private TableColumn<Movie, String> colRating;
+    @FXML
+    private TableColumn<Movie, ImageView> colImage;
     @FXML
     private Button btnRemoveMovie;
     @FXML
@@ -135,6 +138,7 @@ public class MainViewController implements Initializable {
         colCategories.setCellValueFactory(new PropertyValueFactory("categoriesInString"));
         colTime.setCellValueFactory(new PropertyValueFactory("timeInString"));
         colRating.setCellValueFactory(new PropertyValueFactory("ratingInString"));
+        colImage.setCellValueFactory(new PropertyValueFactory("image"));
         tblMovies.setItems(mainModel.getMovies());
         
     }
@@ -326,6 +330,7 @@ public class MainViewController implements Initializable {
             if (lstSelectedCategories.getItems() != null)
             {
                 lstSelectedCategories.getItems().remove(lstSelectedCategories.getSelectionModel().getSelectedItem());
+                lstSelectedCategories.getSelectionModel().clearSelection();
                 tblMovies.setItems(getFilteredMovies());
                 tblMovies.getSelectionModel().clearSelection();
                 btnEditMovie.setDisable(true);
