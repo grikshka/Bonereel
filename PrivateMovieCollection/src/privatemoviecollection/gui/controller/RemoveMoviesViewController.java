@@ -19,6 +19,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import privatemoviecollection.be.Movie;
@@ -41,13 +42,9 @@ public class RemoveMoviesViewController implements Initializable {
     @FXML
     private TableColumn<Movie, String> colTitle;
     @FXML
-    private TableColumn<Movie, String> colCategories;
-    @FXML
-    private TableColumn<Movie, Integer> colTime;
-    @FXML
-    private TableColumn<Movie, String> colRating;
-    @FXML
     private Button btnDelete;
+    @FXML
+    private TableColumn<Movie, ImageView> colImage;
 
     /**
      * Initializes the controller class.
@@ -71,9 +68,7 @@ public class RemoveMoviesViewController implements Initializable {
     private void loadData()
     {
         colTitle.setCellValueFactory(new PropertyValueFactory("title"));
-        colCategories.setCellValueFactory(new PropertyValueFactory("categoriesInString"));
-        colTime.setCellValueFactory(new PropertyValueFactory("timeInString"));
-        colRating.setCellValueFactory(new PropertyValueFactory("ratingInString"));
+        colImage.setCellValueFactory(new PropertyValueFactory("image"));
         tblMovies.setItems(model.getMoviesToDelete());
     }
 
@@ -90,7 +85,8 @@ public class RemoveMoviesViewController implements Initializable {
         {
             Movie selectedMovie = tblMovies.getSelectionModel().getSelectedItem();
             model.deleteMovie(selectedMovie);
-            if(tblMovies.getItems().size()==1)
+            tblMovies.getItems().remove(selectedMovie);
+            if(tblMovies.getItems().isEmpty())
             {
                 currentStage.close();
             }
