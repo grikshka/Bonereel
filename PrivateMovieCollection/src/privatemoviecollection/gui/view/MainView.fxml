@@ -25,7 +25,7 @@
          </image>
       </ImageView>
       <Pane onMouseDragged="#clickMouseDragged" onMousePressed="#clickMousePressed" prefHeight="30.0" prefWidth="975.0" />
-      <TableView fx:id="tblMovies" fixedCellSize="100.0" layoutX="233.0" layoutY="141.0" onMousePressed="#clickOnMovies" prefHeight="520.0" prefWidth="941.0" stylesheets="@../css/SongTableView.css">
+      <TableView fx:id="tblMovies" fixedCellSize="100.0" layoutX="233.0" layoutY="141.0" onMousePressed="#clickOnMovies" prefHeight="520.0" prefWidth="935.0" stylesheets="@../css/SongTableView.css">
         <columns>
             <TableColumn fx:id="colImage" editable="false" maxWidth="67.0" minWidth="48.0" prefWidth="67.0" resizable="false" style="-fx-background-color: #181818;" />
           <TableColumn fx:id="colTitle" editable="false" maxWidth="440.0" minWidth="300.0" prefWidth="422.0" resizable="false" style="-fx-background-color: #181818;" text="TITLE" />

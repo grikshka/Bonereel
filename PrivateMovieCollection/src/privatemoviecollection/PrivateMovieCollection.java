@@ -9,6 +9,7 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import privatemoviecollection.gui.util.WindowDecorator;
@@ -26,6 +27,9 @@ public class PrivateMovieCollection extends Application {
         Scene scene = new Scene(root);
         stage.initStyle(StageStyle.UNDECORATED);
         stage.setScene(scene);
+        stage.setTitle("Bonereel");
+        Image icon = new Image(getClass().getResourceAsStream("/privatemoviecollection/gui/images/Logo.png"));
+        stage.getIcons().add(icon);
         WindowDecorator.showStage(stage);
     }
 
