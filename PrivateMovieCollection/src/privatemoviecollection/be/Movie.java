@@ -8,6 +8,7 @@ package privatemoviecollection.be;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import javafx.scene.image.ImageView;
 import privatemoviecollection.bll.util.TimeConverter;
 
 /**
@@ -22,20 +23,22 @@ public class Movie {
     private Integer rating;
     private String path;
     private int time;
+    private MovieImage image;
     private LocalDate lastView;
     
-    public Movie(int id, String title, String path, int time, Integer rating, LocalDate lastView)
+    public Movie(int id, String title, String path, int time, Integer rating, String pathToImage, LocalDate lastView)
     {
         this.id = id;
         this.title = title;
         this.path = path;
         this.time = time;
         this.rating = rating;
+        this.image = new MovieImage(pathToImage);
         this.lastView = lastView;
         categories = new ArrayList();
     }
     
-    public Movie(int id, String title, List<Category> categories, String path, int time, Integer rating, LocalDate lastView)
+    public Movie(int id, String title, List<Category> categories, String path, int time, Integer rating, String pathToImage, LocalDate lastView)
     {
         this.id = id;
         this.title = title;
@@ -43,6 +46,7 @@ public class Movie {
         this.path = path;
         this.time = time;
         this.rating = rating;
+        this.image = new MovieImage(pathToImage);
         this.lastView = lastView;
     }
 
@@ -136,6 +140,21 @@ public class Movie {
     public int getTime() 
     {
         return time;
+    }
+    
+    public ImageView getImage()
+    {
+        return image.getImage();
+    }
+    
+    public void setImage(String imagePath)
+    {
+        image.setImage(imagePath);
+    }
+    
+    public String getImagePath()
+    {
+        return image.getImagePath();
     }
     
     public String getTimeInString()
