@@ -9,6 +9,8 @@ import java.io.File;
 import java.net.URL;
 import java.util.EventObject;
 import java.util.ResourceBundle;
+import javafx.beans.binding.Bindings;
+import javafx.beans.property.DoubleProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
@@ -22,7 +24,9 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.StackPane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
@@ -71,6 +75,8 @@ public class MoviePlayerViewController implements Initializable {
     private Rectangle rctBottom;
     @FXML
     private Rectangle rctTop;
+    @FXML
+    private ToggleButton btnFullscreen;
 
 
     /**
@@ -123,6 +129,11 @@ public class MoviePlayerViewController implements Initializable {
     
     public void playMovie(Movie movie)
     {
+        DoubleProperty mvw = mdvPlayer.fitWidthProperty();
+        DoubleProperty mvh = mdvPlayer.fitHeightProperty();
+        mvw.bind(Bindings.selectDouble(mdvPlayer.sceneProperty(), "width"));
+        mvh.bind(Bindings.selectDouble(mdvPlayer.sceneProperty(), "height"));
+        mdvPlayer.setPreserveRatio(true);
         movieToPlay = movie;
         File file = new File(movie.getPath());
         Media mediaFile = new Media(file.toURI().toString());
@@ -296,6 +307,7 @@ public class MoviePlayerViewController implements Initializable {
         sldVolume.setVisible(true);
         btnMute.setVisible(true);
         btnPlay.setVisible(true);
+        btnFullscreen.setVisible(true);
         lblMovieCurrentTime.setVisible(true);
         lblMovieEndTime.setVisible(true);
         lblTitle.setVisible(true);
@@ -313,6 +325,7 @@ public class MoviePlayerViewController implements Initializable {
             sldVolume.setVisible(false);
             btnMute.setVisible(false);
             btnPlay.setVisible(false);
+            btnFullscreen.setVisible(false);
             lblMovieCurrentTime.setVisible(false);
             lblMovieEndTime.setVisible(false);
             lblTitle.setVisible(false);
@@ -325,6 +338,10 @@ public class MoviePlayerViewController implements Initializable {
     @FXML
     private void clickOnMediaView(MouseEvent event) 
     {
+        if(event.getButton().equals(MouseButton.PRIMARY) && event.getClickCount() == 2)
+        {
+            btnFullscreen.fire();
+        }
         if(mediaPlayer.getStatus().equals(MediaPlayer.Status.PLAYING))
         {
             mediaPlayer.pause();
@@ -333,6 +350,7 @@ public class MoviePlayerViewController implements Initializable {
             sldVolume.setVisible(true);
             btnMute.setVisible(true);
             btnPlay.setVisible(true);
+            btnFullscreen.setVisible(true);
             lblMovieCurrentTime.setVisible(true);
             lblMovieEndTime.setVisible(true);
             lblTitle.setVisible(true);
@@ -348,6 +366,7 @@ public class MoviePlayerViewController implements Initializable {
             sldVolume.setVisible(false);
             btnMute.setVisible(false);
             btnPlay.setVisible(false);
+            btnFullscreen.setVisible(false);
             lblMovieCurrentTime.setVisible(false);
             lblMovieEndTime.setVisible(false);
             lblTitle.setVisible(false);
@@ -369,6 +388,20 @@ public class MoviePlayerViewController implements Initializable {
         Stage stage = (Stage)((Node)((EventObject) event).getSource()).getScene().getWindow();
         xOffset = stage.getX() - event.getScreenX();
         yOffset = stage.getY() - event.getScreenY();
+    }
+
+    @FXML
+    private void clickFullscreen(ActionEvent event) {
+        Stage stage = (Stage)((Node)((EventObject) event).getSource()).getScene().getWindow();
+        if (stage.isFullScreen())
+        {
+            stage.setFullScreen(false);
+        }
+        else
+        {
+            stage.setFullScreen(true);
+        }
+
     }
 
     

@@ -1,15 +1,8 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package privatemoviecollection.gui.controller;
 
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.EventObject;
 import java.util.List;
 import java.util.Optional;
@@ -24,10 +17,8 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
-import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TableColumn;
@@ -35,7 +26,6 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.ContextMenuEvent;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
@@ -109,11 +99,10 @@ public class MainViewController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         disableElements();
         loadData();
-        cmbCategories.setItems(categoriesModel.getCategories());
-        createRatingCombo();        
+        createRatingComboBox();        
     }    
     
-    private void createRatingCombo()
+    private void createRatingComboBox()
     {
         ObservableList<String> ratings = FXCollections.observableArrayList();
         ratings.add("-");
@@ -134,12 +123,16 @@ public class MainViewController implements Initializable {
     
     private void loadData()
     {
+        //sets table view with movies
         colTitle.setCellValueFactory(new PropertyValueFactory("title"));
         colCategories.setCellValueFactory(new PropertyValueFactory("categoriesInString"));
         colTime.setCellValueFactory(new PropertyValueFactory("timeInString"));
         colRating.setCellValueFactory(new PropertyValueFactory("ratingInString"));
         colImage.setCellValueFactory(new PropertyValueFactory("image"));
         tblMovies.setItems(mainModel.getMovies());
+        
+        //sets combobox with categories
+        cmbCategories.setItems(categoriesModel.getCategories());
         
     }
     
@@ -201,9 +194,8 @@ public class MainViewController implements Initializable {
                 Stage currentStage = (Stage)((Node)((EventObject) event).getSource()).getScene().getWindow();
                 try
                 {
-                    File file = new File(selectedMovie.getPath());
-                    Media mediaFile = new Media(file.toURI().toString());
-                    MediaPlayer mediaPlayer = new MediaPlayer(mediaFile);   
+                    tryToCreateMediaPlayer(selectedMovie);
+                    
                     mainModel.updateMovieLastView(selectedMovie);
                     WindowDecorator.fadeOutStage(currentStage);
                     FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/privatemoviecollection/gui/view/ChoosePlayerView.fxml"));
@@ -232,6 +224,13 @@ public class MainViewController implements Initializable {
         }
     }
 
+    private void tryToCreateMediaPlayer(Movie selectedMovie) throws MediaException
+    {
+        File file = new File(selectedMovie.getPath());
+        Media mediaFile = new Media(file.toURI().toString());
+        MediaPlayer mediaPlayer = new MediaPlayer(mediaFile); 
+    }
+    
     @FXML
     private void clickRemoveMovie(ActionEvent event) {
         Movie selectedMovie = tblMovies.getSelectionModel().getSelectedItem();
@@ -257,17 +256,14 @@ public class MainViewController implements Initializable {
         if(!lstSelectedCategories.getItems().contains(selectedCategory))
         {
             lstSelectedCategories.getItems().add(selectedCategory);
-            tblMovies.setItems(getFilteredMovies());
-            tblMovies.getSelectionModel().clearSelection();
-            btnEditMovie.setDisable(true);
-            btnRemoveMovie.setDisable(true);
+            filterMovies();
         }
     }
 
     @FXML
     private void inputSearchMovies(KeyEvent event) 
     {
-        tblMovies.setItems(getFilteredMovies());
+        filterMovies();
     }
     
     public ObservableList<Movie> getFilteredMovies()
@@ -293,7 +289,39 @@ public class MainViewController implements Initializable {
     @FXML
     private void clickSearchByRating(ActionEvent event) 
     {
+        filterMovies();
+    }
+    
+    @FXML
+    private void clickCategory(MouseEvent event) 
+    {
+        MouseButton button = event.getButton();
+        if(button==MouseButton.SECONDARY)
+        {
+            if (lstSelectedCategories.getItems() != null)
+            {
+                lstSelectedCategories.getItems().remove(lstSelectedCategories.getSelectionModel().getSelectedItem());
+                lstSelectedCategories.getSelectionModel().clearSelection();
+                filterMovies();
+            }
+        }
+        else if(button==MouseButton.PRIMARY)
+        {
+            lstSelectedCategories.getSelectionModel().clearSelection();
+        }
+    }
+    
+    private void filterMovies()
+    {
         tblMovies.setItems(getFilteredMovies());
+        clearMoviesTableSelection();
+    }
+    
+    private void clearMoviesTableSelection()
+    {
+        tblMovies.getSelectionModel().clearSelection();
+        btnEditMovie.setDisable(true);
+        btnRemoveMovie.setDisable(true);
     }
 
     @FXML
@@ -319,28 +347,6 @@ public class MainViewController implements Initializable {
         Stage stage = (Stage)((Node)((EventObject) event).getSource()).getScene().getWindow();
         xOffset = stage.getX() - event.getScreenX();
         yOffset = stage.getY() - event.getScreenY();
-    }
-
-    @FXML
-    private void clickCategory(MouseEvent event) 
-    {
-        MouseButton button = event.getButton();
-        if(button==MouseButton.SECONDARY)
-        {
-            if (lstSelectedCategories.getItems() != null)
-            {
-                lstSelectedCategories.getItems().remove(lstSelectedCategories.getSelectionModel().getSelectedItem());
-                lstSelectedCategories.getSelectionModel().clearSelection();
-                tblMovies.setItems(getFilteredMovies());
-                tblMovies.getSelectionModel().clearSelection();
-                btnEditMovie.setDisable(true);
-                btnRemoveMovie.setDisable(true);
-            }
-        }
-        else if(button==MouseButton.PRIMARY)
-        {
-            lstSelectedCategories.getSelectionModel().clearSelection();
-        }
     }
     
 }
