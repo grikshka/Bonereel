@@ -18,7 +18,7 @@ import privatemoviecollection.gui.util.WindowDecorator;
  *
  * @author Acer
  */
-public class PrivateMovieCollection extends Application {
+public class Bonereel extends Application {
     
     @Override
     public void start(Stage stage) throws Exception {
