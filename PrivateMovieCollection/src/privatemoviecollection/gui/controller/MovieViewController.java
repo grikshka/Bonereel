@@ -25,6 +25,8 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.stage.FileChooser;
@@ -66,6 +68,8 @@ public class MovieViewController implements Initializable {
     private Button btnSave;
     @FXML
     private Button btnCancel;
+    @FXML
+    private TextField txtImage;
 
     public MovieViewController()
     {
@@ -98,6 +102,8 @@ public class MovieViewController implements Initializable {
         btnSave.setDisable(true);
         txtTime.setDisable(true);
         txtFile.setDisable(true);
+        txtImage.setDisable(true);
+
     }
     
     private void createRatingCombo()
@@ -124,6 +130,7 @@ public class MovieViewController implements Initializable {
         cmbRating.getSelectionModel().select(editingMovie.getRatingInString());
         txtFile.setText(editingMovie.getPath());
         txtTime.setText(TimeConverter.convertToString(editingMovie.getTime()));
+        txtImage.setText(editingMovie.getImagePath());
         txtTitle.setFocusTraversable(false);
     }
 
@@ -150,6 +157,20 @@ public class MovieViewController implements Initializable {
         fileChooser.getExtensionFilters().add(mpeg4Filter);
         fileChooser.getExtensionFilters().add(mp4Filter);       
         return fileChooser;
+    }
+    
+    private FileChooser createImageChooser()
+    {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Select an image");
+        FileChooser.ExtensionFilter generalFilter = new FileChooser.ExtensionFilter("All Image Files", "*.png", "*.jpg", "*.jpeg");
+        FileChooser.ExtensionFilter pngFilter = new FileChooser.ExtensionFilter("PNG (*.png)", "*.png");
+        FileChooser.ExtensionFilter jpegFilter = new FileChooser.ExtensionFilter("JPEG (*.jpeg, *.jpg)","*.jpg", "*.jpeg");
+        fileChooser.getExtensionFilters().add(generalFilter);
+        fileChooser.getExtensionFilters().add(pngFilter);
+        fileChooser.getExtensionFilters().add(jpegFilter);  
+        return fileChooser;
+
     }
     
     public void setTimeField(File selectedFile)
@@ -182,7 +203,7 @@ public class MovieViewController implements Initializable {
     
     public void checkInputs()
     {
-        if(txtTitle.getText().isEmpty() || txtFile.getText().isEmpty())
+        if(txtTitle.getText().isEmpty() || txtFile.getText().isEmpty() || txtImage.getText().isEmpty())
         {
             btnSave.setDisable(true);
         }
@@ -211,12 +232,13 @@ public class MovieViewController implements Initializable {
         String moviePath = txtFile.getText();
         int time = TimeConverter.convertToInt(txtTime.getText());
         Integer movieRating = parseRating(cmbRating.getSelectionModel().getSelectedItem());
+        String imagePath = txtImage.getText();
         Stage stage = (Stage)((Node)((EventObject) event).getSource()).getScene().getWindow();
         if(editing)
         {
             try
             {
-                mainModel.updateMovie(editingMovie, movieTitle, movieCategories, moviePath, time, movieRating);
+                mainModel.updateMovie(editingMovie, movieTitle, movieCategories, moviePath, time, movieRating, imagePath);
             }
             catch(ModelException e)
             {
@@ -227,7 +249,7 @@ public class MovieViewController implements Initializable {
         {
             try
             {
-                mainModel.createMovie(movieTitle, movieCategories, moviePath, time, movieRating);
+                mainModel.createMovie(movieTitle, movieCategories, moviePath, time, movieRating, imagePath);
             }
             catch(ModelException e)
             {
@@ -264,6 +286,35 @@ public class MovieViewController implements Initializable {
     private void clickClose(ActionEvent event) {
         Stage stage = (Stage)((Node)((EventObject) event).getSource()).getScene().getWindow();
         stage.close();
+    }
+
+    @FXML
+    private void clickChooseImagePath(ActionEvent event) 
+    {
+         FileChooser fileChooser = createImageChooser();
+        File selectedFile = fileChooser.showOpenDialog(null);
+        if(selectedFile != null)
+        {
+            txtImage.setText(selectedFile.getPath());
+        }
+        checkInputs();
+    }
+
+    @FXML
+    private void clickOnCategories(MouseEvent event) {
+        MouseButton button = event.getButton();
+        if(button==MouseButton.SECONDARY)
+        {
+            if (lstSelectedCategories.getItems() != null)
+            {
+                lstSelectedCategories.getItems().remove(lstSelectedCategories.getSelectionModel().getSelectedItem());
+                lstSelectedCategories.getSelectionModel().clearSelection();
+            }
+        }
+        else if(button==MouseButton.PRIMARY)
+        {
+            lstSelectedCategories.getSelectionModel().clearSelection();
+        }
     }
     
 }
