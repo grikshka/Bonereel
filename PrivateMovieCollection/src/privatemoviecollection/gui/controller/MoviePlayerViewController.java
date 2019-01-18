@@ -26,7 +26,6 @@ import javafx.scene.control.ToggleButton;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.StackPane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
@@ -87,6 +86,7 @@ public class MoviePlayerViewController implements Initializable {
         createVolumeSliderListener();
         createTimeSliderListener();
         setPlayButton();
+        setMediaView();
     }   
     
     private void createTimeSliderListener()
@@ -129,22 +129,36 @@ public class MoviePlayerViewController implements Initializable {
     
     public void playMovie(Movie movie)
     {
+        movieToPlay = movie;
+        setMediaPlayer(movie);
+        setMediaElements(movie);
+        mediaPlayer.play();
+    }
+    
+    private void setMediaView()
+    {
         DoubleProperty mvw = mdvPlayer.fitWidthProperty();
         DoubleProperty mvh = mdvPlayer.fitHeightProperty();
         mvw.bind(Bindings.selectDouble(mdvPlayer.sceneProperty(), "width"));
         mvh.bind(Bindings.selectDouble(mdvPlayer.sceneProperty(), "height"));
         mdvPlayer.setPreserveRatio(true);
-        movieToPlay = movie;
+    }
+    
+    private void setMediaPlayer(Movie movie)
+    {
         File file = new File(movie.getPath());
         Media mediaFile = new Media(file.toURI().toString());
         mediaPlayer = new MediaPlayer(mediaFile);
+        mediaPlayer.setVolume(sldVolume.getValue());
+    }
+    
+    private void setMediaElements(Movie movie)
+    {
         setTimeListener();
         sldTime.setMax(movie.getTime());
         lblTitle.setText(movie.getTitle());
         lblMovieEndTime.setText(movie.getTimeInString());
         mdvPlayer.setMediaPlayer(mediaPlayer);
-        mediaPlayer.setVolume(sldVolume.getValue());
-        mediaPlayer.play();
     }
     
     private void setTimeListener()
@@ -303,17 +317,7 @@ public class MoviePlayerViewController implements Initializable {
 
     @FXML
     private void hoverOnHud(MouseEvent event) {
-        sldTime.setVisible(true);
-        sldVolume.setVisible(true);
-        btnMute.setVisible(true);
-        btnPlay.setVisible(true);
-        btnFullscreen.setVisible(true);
-        lblMovieCurrentTime.setVisible(true);
-        lblMovieEndTime.setVisible(true);
-        lblTitle.setVisible(true);
-        lblSlash.setVisible(true);
-        rctTop.setVisible(true);
-        rctBottom.setVisible(true);
+        showPlayerElements();
 
     }
 
@@ -321,17 +325,7 @@ public class MoviePlayerViewController implements Initializable {
     private void hoverOffHud(MouseEvent event) {
         if(!mediaPlayer.getStatus().equals(MediaPlayer.Status.PAUSED))
         {
-            sldTime.setVisible(false);
-            sldVolume.setVisible(false);
-            btnMute.setVisible(false);
-            btnPlay.setVisible(false);
-            btnFullscreen.setVisible(false);
-            lblMovieCurrentTime.setVisible(false);
-            lblMovieEndTime.setVisible(false);
-            lblTitle.setVisible(false);
-            lblSlash.setVisible(false);
-            rctTop.setVisible(false);
-            rctBottom.setVisible(false);
+            hidePlayerElements();
         }
     }
 
@@ -346,34 +340,44 @@ public class MoviePlayerViewController implements Initializable {
         {
             mediaPlayer.pause();
             switchPlayButton(false);
-            sldTime.setVisible(true);
-            sldVolume.setVisible(true);
-            btnMute.setVisible(true);
-            btnPlay.setVisible(true);
-            btnFullscreen.setVisible(true);
-            lblMovieCurrentTime.setVisible(true);
-            lblMovieEndTime.setVisible(true);
-            lblTitle.setVisible(true);
-            lblSlash.setVisible(true);
-            rctTop.setVisible(true);
-            rctBottom.setVisible(true);
+            showPlayerElements();
         }
         else
         {
             mediaPlayer.play();
             switchPlayButton(false);
-            sldTime.setVisible(false);
-            sldVolume.setVisible(false);
-            btnMute.setVisible(false);
-            btnPlay.setVisible(false);
-            btnFullscreen.setVisible(false);
-            lblMovieCurrentTime.setVisible(false);
-            lblMovieEndTime.setVisible(false);
-            lblTitle.setVisible(false);
-            lblSlash.setVisible(false);
-            rctTop.setVisible(false);
-            rctBottom.setVisible(false);
+            hidePlayerElements();
         }
+    }
+    
+    private void showPlayerElements()
+    {
+        sldTime.setVisible(true);
+        sldVolume.setVisible(true);
+        btnMute.setVisible(true);
+        btnPlay.setVisible(true);
+        btnFullscreen.setVisible(true);
+        lblMovieCurrentTime.setVisible(true);
+        lblMovieEndTime.setVisible(true);
+        lblTitle.setVisible(true);
+        lblSlash.setVisible(true);
+        rctTop.setVisible(true);
+        rctBottom.setVisible(true);
+    }
+    
+    private void hidePlayerElements()
+    {
+        sldTime.setVisible(false);
+        sldVolume.setVisible(false);
+        btnMute.setVisible(false);
+        btnPlay.setVisible(false);
+        btnFullscreen.setVisible(false);
+        lblMovieCurrentTime.setVisible(false);
+        lblMovieEndTime.setVisible(false);
+        lblTitle.setVisible(false);
+        lblSlash.setVisible(false);
+        rctTop.setVisible(false);
+        rctBottom.setVisible(false);
     }
 
     @FXML
