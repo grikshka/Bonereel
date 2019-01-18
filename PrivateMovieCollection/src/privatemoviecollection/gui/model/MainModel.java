@@ -62,12 +62,12 @@ public class MainModel {
         return movies;
     }
 
-    public void createMovie(String title, List<Category> categories, String path, int time, Integer rating) throws ModelException
+    public void createMovie(String title, List<Category> categories, String path, int time, Integer rating, String pathToImage) throws ModelException
     {
         try
         {
             LocalDate currentDate = LocalDate.now();
-            Movie createdMovie = bllManager.createMovie(loggedInUser, title, categories, path, time, rating, currentDate);
+            Movie createdMovie = bllManager.createMovie(loggedInUser, title, categories, path, time, rating, pathToImage, currentDate);
             movies.add(createdMovie);
         }
         catch(BllException e)
@@ -76,11 +76,11 @@ public class MainModel {
         }
     }
     
-    public void updateMovie(Movie movie, String title, List<Category> categories, String path, int time, Integer rating) throws ModelException
+    public void updateMovie(Movie movie, String title, List<Category> categories, String path, int time, Integer rating, String pathToImage) throws ModelException
     {
         try
         {
-            Movie updatedMovie = bllManager.updateMovie(movie, title, categories, path, time, rating);
+            Movie updatedMovie = bllManager.updateMovie(movie, title, categories, path, time, rating, pathToImage);
             updateListOfMovies(updatedMovie);
         }
         catch(BllException e)
