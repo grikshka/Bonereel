@@ -16,14 +16,10 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
-import javafx.scene.control.RadioButton;
-import javafx.scene.control.ToggleGroup;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import privatemoviecollection.be.Movie;
-import privatemoviecollection.gui.util.WindowDecorator;
 
 /**
  * FXML Controller class

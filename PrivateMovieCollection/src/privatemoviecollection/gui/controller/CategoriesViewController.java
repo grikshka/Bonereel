@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package privatemoviecollection.gui.controller;
 
 import java.io.IOException;
@@ -17,7 +12,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ListView;
@@ -26,7 +20,6 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import privatemoviecollection.be.Category;
-import privatemoviecollection.be.Movie;
 import privatemoviecollection.gui.exceptions.ModelException;
 import privatemoviecollection.gui.model.CategoriesModel;
 import privatemoviecollection.gui.util.WarningDisplayer;
