@@ -19,11 +19,11 @@ import privatemoviecollection.dal.exceptions.DalException;
  */
 public interface IDalFacade {
     
-    Movie createMovie(User user, String title, List<Category> categories, String path, int time, Integer rating, LocalDate lastView) throws DalException;
+    Movie createMovie(User user, String title, List<Category> categories, String path, int time, Integer rating, String pathToImage, LocalDate lastView) throws DalException;
     
     List<Movie> getAllMovies(User user) throws DalException;
     
-    Movie updateMovie(Movie movie, String title, List<Category> categories, String path, int time, Integer rating) throws DalException;
+    Movie updateMovie(Movie movie, String title, List<Category> categories, String path, int time, Integer rating, String pathToImage) throws DalException;
     
     void updateMovieLastView(Movie movie, LocalDate lastView) throws DalException;
     

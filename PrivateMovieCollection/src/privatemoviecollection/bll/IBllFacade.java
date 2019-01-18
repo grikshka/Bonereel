@@ -18,11 +18,11 @@ import privatemoviecollection.bll.exceptions.BllException;
  */
 public interface IBllFacade {
     
-    Movie createMovie(User user, String title, List<Category> categories, String path, int time, Integer rating, LocalDate lastView) throws BllException;
+    Movie createMovie(User user, String title, List<Category> categories, String path, int time, Integer rating, String pathToImage, LocalDate lastView) throws BllException;
     
     List<Movie> getAllMovies(User user) throws BllException;
     
-    Movie updateMovie(Movie movie, String title, List<Category> categories, String path, int time, Integer rating) throws BllException;
+    Movie updateMovie(Movie movie, String title, List<Category> categories, String path, int time, Integer rating, String pathToImage) throws BllException;
     
     void updateMovieLastView(Movie movie, LocalDate lastView) throws BllException;
     

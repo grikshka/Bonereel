@@ -38,16 +38,15 @@ public class DalController implements IDalFacade{
     }
 
     @Override
-    public Movie createMovie(User user, String title, List<Category> categories, String path, int time, Integer rating, LocalDate lastView) throws DalException
+    public Movie createMovie(User user, String title, List<Category> categories, String path, int time, Integer rating, String pathToImage, LocalDate lastView) throws DalException
     {
         Movie createdMovie = null;
         try
         {
-            createdMovie = mDao.createMovie(user, title, categories, path, time, rating, lastView);
+            createdMovie = mDao.createMovie(user, title, categories, path, time, rating, pathToImage, lastView);
         }
         catch(SQLServerException e)
         {
-            e.printStackTrace();
             throw new DalException("Cannot connect to server. Check your internet connection.");
         }
         catch(SQLException e)
@@ -78,12 +77,12 @@ public class DalController implements IDalFacade{
     }
     
     @Override
-    public Movie updateMovie(Movie movie, String title, List<Category> categories, String path, int time, Integer rating) throws DalException
+    public Movie updateMovie(Movie movie, String title, List<Category> categories, String path, int time, Integer rating, String pathToImage) throws DalException
     {
         Movie updatedMovie = null;
         try
         {
-            updatedMovie = mDao.updateMovie(movie, title, categories, path, time, rating);
+            updatedMovie = mDao.updateMovie(movie, title, categories, path, time, rating, pathToImage);
         }
         catch(SQLServerException e)
         {

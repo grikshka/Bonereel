@@ -29,11 +29,11 @@ public class BllManager implements IBllFacade{
     }
 
     @Override
-    public Movie createMovie(User user, String title, List<Category> categories, String path, int time, Integer rating, LocalDate lastView) throws BllException
+    public Movie createMovie(User user, String title, List<Category> categories, String path, int time, Integer rating, String pathToImage, LocalDate lastView) throws BllException
     {
         try
         {
-            return dalController.createMovie(user, title, categories, path, time, rating, lastView);
+            return dalController.createMovie(user, title, categories, path, time, rating, pathToImage, lastView);
         }
         catch(DalException e)
         {
@@ -55,11 +55,11 @@ public class BllManager implements IBllFacade{
     }
     
     @Override
-    public Movie updateMovie(Movie movie, String title, List<Category> categories, String path, int time, Integer rating) throws BllException
+    public Movie updateMovie(Movie movie, String title, List<Category> categories, String path, int time, Integer rating, String pathToImage) throws BllException
     {
         try
         {
-            return dalController.updateMovie(movie, title, categories, path, time, rating);
+            return dalController.updateMovie(movie, title, categories, path, time, rating, pathToImage);
         }
         catch(DalException e)
         {
