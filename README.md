@@ -1,9 +1,7 @@
 # Private Movie Collection
 
-Exam project for the first semester at Business Academy Southwest. Goal is to create JavaFX application that can play media stored
-on secondary memory.
-
-Time for the completion: 2 weeks.
+Goal of the project was to create JavaFX application that can play media stored
+on secondary memory. Repository contains PDF file with full description and documentation fo the application.
 
 Requirments:
 
@@ -20,5 +18,7 @@ Special requirements:
 - Only files ending with .mp4 or mpeg4 can be added
 - When starting, the application should warn user to remember to delete movies, that has a personal rating under 6 and has not been opened from the application in more than 2 years. 
 - The program should to the best of ability, only register one movie once. No two movies should be the same title.
+
+
 
 
