@@ -1,4 +1,4 @@
-# Private Movie Collection
+# Bonereel
 
 Goal of the project was to create JavaFX application that can play media stored
 on secondary memory. Repository contains PDF file with full description and documentation fo the application.
